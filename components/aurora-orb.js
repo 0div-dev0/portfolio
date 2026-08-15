@@ -19,6 +19,8 @@ export default function AuroraOrb({
   opacity = 0.6,
   floatDuration = "16s",
   floatDelay = "0s",
+  blinkDuration = "5s",
+  blinkDelay = "0s",
   wrapperRef,
   orbRef,
 }) {
@@ -37,14 +39,21 @@ export default function AuroraOrb({
         style={{ animationDuration: floatDuration, animationDelay: floatDelay }}
       >
         <div
-          ref={orbRef}
-          className="aurora-orb pointer-events-auto h-full w-full"
-          style={{
-            background: gradient,
-            "--hue-shift": `${hueShift}deg`,
-            "--orb-opacity": opacity,
-          }}
-        />
+          className="aurora-blink h-full w-full"
+          style={{ animationDuration: blinkDuration, animationDelay: blinkDelay }}
+        >
+          <div
+            ref={orbRef}
+            className="aurora-orb pointer-events-none relative h-full w-full"
+            style={{
+              background: gradient,
+              "--hue-shift": `${hueShift}deg`,
+              "--orb-opacity": opacity,
+            }}
+          >
+            <div className="aurora-hitbox pointer-events-auto cursor-none absolute inset-[10%] rounded-full" />
+          </div>
+        </div>
       </div>
     </div>
   );

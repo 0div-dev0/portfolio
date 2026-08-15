@@ -18,7 +18,7 @@ import AuroraOrb from "./aurora-orb";
  */
 
 // How much of the cursor's offset from centre each orb follows.
-const FOLLOW_FACTOR = 0.05;
+const FOLLOW_FACTOR = 0.15;
 
 const ORBS = [
   {
@@ -27,6 +27,7 @@ const ORBS = [
     opacity: 0.65,
     trail: 4.5,
     floatDuration: "18s",
+    blinkDelay: "0s",
   },
   {
     className: "-right-32 -top-24 h-[32rem] w-[32rem]",
@@ -36,6 +37,7 @@ const ORBS = [
     trail: 3.6,
     floatDuration: "21s",
     floatDelay: "-4s",
+    blinkDelay: "-1s",
   },
   {
     className: "-left-24 top-1/3 h-[28rem] w-[28rem]",
@@ -45,6 +47,7 @@ const ORBS = [
     trail: 2.9,
     floatDuration: "24s",
     floatDelay: "-8s",
+    blinkDelay: "-2s",
   },
   {
     className: "right-[-6rem] top-1/2 h-[30rem] w-[30rem]",
@@ -54,6 +57,7 @@ const ORBS = [
     trail: 2.2,
     floatDuration: "20s",
     floatDelay: "-12s",
+    blinkDelay: "-3s",
   },
   {
     className: "-bottom-48 left-1/4 h-[26rem] w-[26rem]",
@@ -63,19 +67,31 @@ const ORBS = [
     trail: 1.6,
     floatDuration: "26s",
     floatDelay: "-6s",
+    blinkDelay: "-4s",
   },
 ];
+
+const MIN_DISTANCE = 120;
+const MIN_DISTANCE_SQ = 120 * 120;
+const DRIFT_SPEED = 16;
+const DIRECTION_CHANGE_INTERVAL = 3000;
 
 export default function Aurora() {
   const containerRef = useRef(null);
   const followRefs = useRef([]);
   const orbRefs = useRef([]);
   const positionsRef = useRef(ORBS.map(() => ({ x: 0, y: 0 })));
+  const targetAnglesRef = useRef(ORBS.map(() => 0));
+  const lastDirectionChangeRef = useRef(0);
   const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
+    // Initialize random drift directions and last direction change time
+    targetAnglesRef.current = ORBS.map(() => Math.random() * Math.PI * 2);
+    lastDirectionChangeRef.current = Date.now();
 
     const positions = positionsRef.current;
     const followEls = followRefs.current;
@@ -87,14 +103,26 @@ export default function Aurora() {
     // pointer, so exactly one light is ever marked.
     const hoverCleanups = orbEls.map((orb) => {
       if (!orb) return () => {};
-      const onEnter = () => orb.classList.add("is-hovered");
-      const onLeave = () => orb.classList.remove("is-hovered");
-      orb.addEventListener("pointerenter", onEnter);
-      orb.addEventListener("pointerleave", onLeave);
+      const hitbox = orb.querySelector(".aurora-hitbox") || orb;
+      const onEnter = () => {
+        orb.classList.add("is-hovered");
+        container.classList.add("has-hovered-orb");
+      };
+      const onLeave = () => {
+        orb.classList.remove("is-hovered");
+        const anyHovered = orbEls.some(
+          (el) => el && el.classList.contains("is-hovered")
+        );
+        if (!anyHovered) {
+          container.classList.remove("has-hovered-orb");
+        }
+      };
+      hitbox.addEventListener("pointerenter", onEnter);
+      hitbox.addEventListener("pointerleave", onLeave);
       return () => {
         orb.classList.remove("is-hovered");
-        orb.removeEventListener("pointerenter", onEnter);
-        orb.removeEventListener("pointerleave", onLeave);
+        hitbox.removeEventListener("pointerenter", onEnter);
+        hitbox.removeEventListener("pointerleave", onLeave);
       };
     });
 
@@ -102,6 +130,7 @@ export default function Aurora() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return () => {
         hoverCleanups.forEach((cleanup) => cleanup());
+        container.classList.remove("has-hovered-orb");
       };
     }
 
@@ -119,25 +148,73 @@ export default function Aurora() {
       if (!event.relatedTarget) {
         mouseRef.current = { x: 0, y: 0 };
         orbEls.forEach((orb) => orb && orb.classList.remove("is-hovered"));
+        container.classList.remove("has-hovered-orb");
       }
     };
 
     let frame = 0;
     let last = performance.now();
+    let physicsFrame = 0;
 
     const tick = (now) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       const { x: mx, y: my } = mouseRef.current;
 
+      // Throttle physics updates to every 2 frames to reduce CPU load
+      physicsFrame++;
+      if (physicsFrame % 2 !== 0) {
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+      physicsFrame = 0;
+
+      // Randomly change direction every so often
+      if (now - lastDirectionChangeRef.current > DIRECTION_CHANGE_INTERVAL) {
+        targetAnglesRef.current = ORBS.map(() => Math.random() * Math.PI * 2);
+        lastDirectionChangeRef.current = now;
+      }
+
       followEls.forEach((follow, i) => {
         if (!follow) return;
-        const position = positions[i];
+        const position = positionsRef.current[i];
         const trail = ORBS[i].trail;
-        // Frame-rate independent exponential smoothing; smaller trail = laggier.
         const k = 1 - Math.exp(-trail * dt);
+
+        // Cursor-following base movement
         position.x += (mx * FOLLOW_FACTOR - position.x) * k;
         position.y += (my * FOLLOW_FACTOR - position.y) * k;
+
+        // Random drift in the target direction
+        const targetAngle = targetAnglesRef.current[i];
+        position.x += Math.cos(targetAngle) * DRIFT_SPEED * dt;
+        position.y += Math.sin(targetAngle) * DRIFT_SPEED * dt;
+
+        // Collision avoidance with other orbs (using squared distance)
+        const others = positionsRef.current.filter((_, idx) => idx !== i);
+        let steerX = 0;
+        let steerY = 0;
+        others.forEach((other) => {
+          const dx = position.x - other.x;
+          const dy = position.y - other.y;
+          const distSQ = dx * dx + dy * dy;
+          if (distSQ < MIN_DISTANCE_SQ) {
+            const dist = Math.sqrt(distSQ);
+            // Push apart - normalize and scale by remaining distance
+            const force = (MIN_DISTANCE - dist) / MIN_DISTANCE;
+            steerX += (dx / dist) * force * 16;
+            steerY += (dy / dist) * force * 16;
+          }
+        });
+        position.x += steerX * dt;
+        position.y += steerY * dt;
+
+        // Keep orbs in bounds (with some padding)
+        const padding = 40;
+        const rect = container.getBoundingClientRect();
+        position.x = Math.max(-rect.width / 2 + padding, Math.min(rect.width / 2 - padding, position.x));
+        position.y = Math.max(-rect.height / 2 + padding, Math.min(rect.height / 2 - padding, position.y));
+
         follow.style.transform = `translate3d(${position.x.toFixed(2)}px, ${position.y.toFixed(
           2
         )}px, 0)`;
@@ -152,6 +229,7 @@ export default function Aurora() {
 
     return () => {
       hoverCleanups.forEach((cleanup) => cleanup());
+      container.classList.remove("has-hovered-orb");
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("mouseout", onPointerLeaveDocument);
       cancelAnimationFrame(frame);
@@ -162,7 +240,7 @@ export default function Aurora() {
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+      className="aurora-container p-20 pointer-events-none absolute inset-0 overflow-hidden"
     >
       {ORBS.map((orb, i) => (
         <AuroraOrb
