@@ -3,6 +3,7 @@ import React from "react";
 import Aurora from "./aurora";
 import Stars from "./stars";
 import CursorOrb from "./cursor-orb";
+import { ThemeToggle } from "./ui/theme-toggle";
 
 /**
  * Hero — the monochromatic landing section.
@@ -49,7 +50,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex min-h-svh flex-col overflow-hidden bg-[#050505] font-sans text-white selection:bg-white selection:text-black"
+      className="relative flex min-h-svh flex-col overflow-hidden bg-background font-sans text-foreground selection:bg-foreground selection:text-background transition-colors duration-300"
     >
       <Stars hoveredOrbColor={hoveredOrbColor} />
 
@@ -67,10 +68,10 @@ export default function Hero() {
         <h1 className="hero-reveal hero-reveal-delay-1 mt-8 max-w-4xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
           Design in black & white,
           <br />
-          <span className="italic text-zinc-400">colour returns on contact.</span>
+          <span className="italic text-muted">colour returns on contact.</span>
         </h1>
 
-        <p className="hero-reveal hero-reveal-delay-2 mt-8 max-w-xl text-lg leading-8 text-zinc-400">
+        <p className="hero-reveal hero-reveal-delay-2 mt-8 max-w-xl text-lg leading-8 text-muted">
           A minimal portfolio that reveals colour as you interact. Move your cursor
           over the lights above and watch contrast, brightness and hue bloom back
           into the aurora.
@@ -79,13 +80,13 @@ export default function Hero() {
         <div className="hero-reveal hero-reveal-delay-3 mt-12 flex flex-col gap-4 sm:flex-row">
           <a
             href="#work"
-            className="pointer-events-auto inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-medium text-black transition-all duration-300 hover:bg-zinc-200 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
+            className="pointer-events-auto inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-sm font-medium text-background transition-all duration-300 hover:opacity-90 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
           >
             View project
           </a>
           <a
             href="#contact"
-            className="pointer-events-auto inline-flex h-12 items-center justify-center rounded-full border border-zinc-700 px-8 text-sm font-medium text-white transition-all duration-300 hover:border-white hover:bg-white/5"
+            className="pointer-events-auto inline-flex h-12 items-center justify-center rounded-full border border-border px-8 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/5"
           >
             Start conversation
           </a>
@@ -93,23 +94,24 @@ export default function Hero() {
       </div>
 
       {/* Scroll hint */}
-      <div className="hero-reveal hero-reveal-delay-3 pointer-events-none relative z-10 flex flex-col items-center gap-3 pb-12 font-mono text-[10px] uppercase tracking-[0.4em] text-zinc-600">
+      <div className="hero-reveal hero-reveal-delay-3 pointer-events-none relative z-10 flex flex-col items-center gap-3 pb-12 font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
         <span className="scroll-line h-8 w-px" />
         View project
       </div>
 
       {/* Sticky top-right banner - always fixed, opacity fades with scroll */}
       <div
-        className="fixed top-5 right-5 flex items-center gap-2 px-4 py-2 rounded-full transition-opacity duration-500"
+        className="fixed top-5 right-5 flex items-center gap-2 px-4 py-2 rounded-full transition-opacity duration-500 z-50"
         style={{ opacity: opacityProgress }}
       >
-        <a href="" className="hidden sm:block text-white text-sm font-medium mr-4">Contact me</a>
-        <a href="" className="w-8 h-8 rounded-full border border-white/50 flex items-center justify-center text-white/50 transition-colors hover:text-white hover:border-white">
+        <a href="" className="hidden sm:block text-foreground text-sm font-medium mr-4">Contact me</a>
+        <a href="" className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted transition-colors hover:text-foreground hover:border-primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1-12 0"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M20 8a4 4 0 0 1-8 0"/><line x1="" y1="16" x2="" y2="16"/><circle cx="10.5" cy="10.5" r="1.5"/></svg>
         </a>
         <a href="" className="w-8 h-8 rounded-full border border-white/50 flex items-center justify-center text-white/50 transition-colors hover:text-white hover:border-white">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1-12 0"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M20 8a4 4 0 0 1-8 0"/><line x1="1" y1="1" x2="23" y2="23"/><circle cx="10.5" cy="10.5" r="1.5"/></svg>
         </a>
+        <ThemeToggle className="ml-1" />
       </div>
     </section>
   );
