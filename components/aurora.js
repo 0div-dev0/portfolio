@@ -22,7 +22,8 @@ const FOLLOW_FACTOR = 0.15;
 
 const ORBS = [
   {
-    className: "-left-40 -top-40 h-[36rem] w-[36rem]",
+    className:
+      "-left-40 -top-40 h-[36rem] w-[36rem] max-[800px]:-left-8 max-[800px]:-top-8 max-[800px]:h-[20rem] max-[800px]:w-[20rem]",
     colors: ["#6d28d9", "#a78bfa", "#312e81"],
     opacity: 0.65,
     trail: 4.5,
@@ -30,7 +31,8 @@ const ORBS = [
     blinkDelay: "0s",
   },
   {
-    className: "-right-32 -top-24 h-[32rem] w-[32rem]",
+    className:
+      "-right-32 -top-24 h-[32rem] w-[32rem] max-[800px]:-right-6 max-[800px]:-top-6 max-[800px]:h-[18rem] max-[800px]:w-[18rem]",
     colors: ["#0891b2", "#22d3ee", "#155e75"],
     hueShift: -12,
     opacity: 0.6,
@@ -40,7 +42,8 @@ const ORBS = [
     blinkDelay: "-1s",
   },
   {
-    className: "-left-24 top-1/3 h-[28rem] w-[28rem]",
+    className:
+      "-left-24 top-1/3 h-[28rem] w-[28rem] max-[800px]:-left-6 max-[800px]:top-1/4 max-[800px]:h-[15rem] max-[800px]:w-[15rem]",
     colors: ["#be185d", "#f472b6", "#831843"],
     hueShift: 14,
     opacity: 0.55,
@@ -50,7 +53,8 @@ const ORBS = [
     blinkDelay: "-2s",
   },
   {
-    className: "right-[-6rem] top-1/2 h-[30rem] w-[30rem]",
+    className:
+      "right-[-6rem] top-1/2 h-[30rem] w-[30rem] max-[800px]:right-0 max-[800px]:top-1/2 max-[800px]:h-[16rem] max-[800px]:w-[16rem]",
     colors: ["#d97706", "#fbbf24", "#78350f"],
     hueShift: -18,
     opacity: 0.55,
@@ -60,7 +64,8 @@ const ORBS = [
     blinkDelay: "-3s",
   },
   {
-    className: "-bottom-48 left-1/4 h-[26rem] w-[26rem]",
+    className:
+      "-bottom-48 left-1/4 h-[26rem] w-[26rem] max-[800px]:-bottom-12 max-[800px]:left-1/3 max-[800px]:h-[14rem] max-[800px]:w-[14rem]",
     colors: ["#059669", "#34d399", "#064e3b"],
     hueShift: 10,
     opacity: 0.5,
@@ -76,7 +81,10 @@ const MIN_DISTANCE_SQ = 120 * 120;
 const DRIFT_SPEED = 16;
 const DIRECTION_CHANGE_INTERVAL = 3000;
 
-export default function Aurora() {
+export default function Aurora({
+  setHoveredOrbColor,
+  onOrbClick,
+}) {
   const containerRef = useRef(null);
   const followRefs = useRef([]);
   const orbRefs = useRef([]);
@@ -97,39 +105,108 @@ export default function Aurora() {
     const followEls = followRefs.current;
     const orbEls = orbRefs.current;
 
+    // Detect coarse pointer (touch) — drives the tap-to-hover, tap-to-activate
+    // interaction below.
+    const isCoarse = () => window.matchMedia("(pointer: coarse)").matches;
+
+    // Track hovered orb index and color for stars integration
+    let hoveredOrbIndex = -1;
+    let hoveredOrbColor = null;
+    // On touch devices, the first tap "hovers" an orb (colours it, keeps it
+    // coloured); only the second tap on the same orb performs the real click.
+    let touchActivatedIndex = -1;
+
+    const colourOrb = (orb, i) => {
+      orb.classList.add("is-hovered");
+      container.classList.add("has-hovered-orb");
+      hoveredOrbIndex = i;
+      hoveredOrbColor = ORBS[i].colors[0];
+      setHoveredOrbColor(hoveredOrbColor);
+    };
+
+    const decolourOrb = (orb) => {
+      orb.classList.remove("is-hovered");
+      const anyHovered = orbEls.some(
+        (el) => el && el.classList.contains("is-hovered")
+      );
+      if (!anyHovered) {
+        container.classList.remove("has-hovered-orb");
+        hoveredOrbIndex = -1;
+        hoveredOrbColor = null;
+        setHoveredOrbColor(null);
+      }
+    };
+
     // Hover reveal — colour only the orb currently under the pointer.
     // Because orbs overlap, :hover alone could colour several at once;
     // pointerenter/pointerleave only fire for the topmost element at the
     // pointer, so exactly one light is ever marked.
-    const hoverCleanups = orbEls.map((orb) => {
+    const hoverCleanups = orbEls.map((orb, i) => {
       if (!orb) return () => {};
       const hitbox = orb.querySelector(".aurora-hitbox") || orb;
+
       const onEnter = () => {
-        orb.classList.add("is-hovered");
-        container.classList.add("has-hovered-orb");
+        // On touch, a re-tap of the already-activated orb is ignored here —
+        // the click handler decides whether it's the activating or real click.
+        if (isCoarse() && touchActivatedIndex !== -1) return;
+        colourOrb(orb, i);
       };
       const onLeave = () => {
-        orb.classList.remove("is-hovered");
-        const anyHovered = orbEls.some(
-          (el) => el && el.classList.contains("is-hovered")
-        );
-        if (!anyHovered) {
-          container.classList.remove("has-hovered-orb");
+        // On touch, the activated orb stays coloured between taps.
+        if (isCoarse() && touchActivatedIndex === i) return;
+        decolourOrb(orb);
+      };
+      const onClick = () => {
+        if (!isCoarse()) {
+          // Desktop — hover already coloured it; click acts immediately.
+          onOrbClick?.(i);
+          return;
+        }
+        if (touchActivatedIndex === i) {
+          // Second tap — the real click.
+          touchActivatedIndex = -1;
+          onOrbClick?.(i);
+        } else {
+          // First tap — behave like a hover: keep it coloured.
+          if (touchActivatedIndex !== -1) {
+            decolourOrb(orbEls[touchActivatedIndex]);
+          }
+          touchActivatedIndex = i;
+          colourOrb(orb, i);
         }
       };
+
       hitbox.addEventListener("pointerenter", onEnter);
       hitbox.addEventListener("pointerleave", onLeave);
+      hitbox.addEventListener("click", onClick);
       return () => {
         orb.classList.remove("is-hovered");
         hitbox.removeEventListener("pointerenter", onEnter);
         hitbox.removeEventListener("pointerleave", onLeave);
+        hitbox.removeEventListener("click", onClick);
       };
     });
+
+    // Tap empty space on touch to release the activated orb.
+    const onDocumentPointerDown = (e) => {
+      if (!isCoarse() || touchActivatedIndex === -1) return;
+      const inHitbox = orbEls.some((orb) => {
+        if (!orb) return false;
+        const hitbox = orb.querySelector(".aurora-hitbox") || orb;
+        return hitbox.contains(e.target);
+      });
+      if (!inHitbox) {
+        decolourOrb(orbEls[touchActivatedIndex]);
+        touchActivatedIndex = -1;
+      }
+    };
+    document.addEventListener("pointerdown", onDocumentPointerDown);
 
     // Keep the lights still for users who prefer reduced motion.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return () => {
         hoverCleanups.forEach((cleanup) => cleanup());
+        document.removeEventListener("pointerdown", onDocumentPointerDown);
         container.classList.remove("has-hovered-orb");
       };
     }
@@ -229,18 +306,19 @@ export default function Aurora() {
 
     return () => {
       hoverCleanups.forEach((cleanup) => cleanup());
+      document.removeEventListener("pointerdown", onDocumentPointerDown);
       container.classList.remove("has-hovered-orb");
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("mouseout", onPointerLeaveDocument);
       cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [setHoveredOrbColor, onOrbClick]);
 
   return (
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="aurora-container p-20 pointer-events-none absolute inset-0 overflow-hidden"
+      className="aurora-container p-20 pointer-events-none absolute inset-0 z-[3] overflow-hidden"
     >
       {ORBS.map((orb, i) => (
         <AuroraOrb

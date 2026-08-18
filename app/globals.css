@@ -171,3 +171,21 @@ body {
   }
 }
 
+/* Blinking keyframe for cursor orb */
+@keyframes orbBlink {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+#stars canvas {
+  pointer-events: none !important;
+}
+
+.cursor-orb {
+  border-color: currentColor;
+}

@@ -1,0 +1,4 @@
+[    1473ms] [ERROR] Error: <line> attribute x1: Unexpected end of attribute. Expected length, "". @ http://localhost:3000/:0
+[    1474ms] [ERROR] Error: <line> attribute x2: Unexpected end of attribute. Expected length, "". @ http://localhost:3000/:0
+[   26355ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2489
+[   27962ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2489
