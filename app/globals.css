@@ -38,6 +38,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-padding-top: 5rem;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -202,12 +206,20 @@ body {
   }
 }
 
+/* ---------- Scroll reveal (rise-up) ---------- */
+
+/* Elements start invisible and shifted down. GSAP ScrollTrigger animates
+   them to opacity:1 / translateY(0) as they enter the viewport. */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  will-change: opacity, transform;
+}
+
 #stars canvas {
   pointer-events: none !important;
 }
 
-
-
-button, li, a , input, svg, path,img{
+button, li, a, input, svg, path, img {
   cursor: pointer;
 }

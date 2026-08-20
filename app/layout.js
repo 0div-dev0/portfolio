@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import CursorOrb from "@/components/cursor-orb";
+import SmoothScrollProvider from "@/components/smooth-scroll-provider";
+import ScrollAnimations from "@/components/scroll-animations";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +29,11 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          {children}
-          <CursorOrb size={30} blur="10px" transitionSpeed={0.08} />
+          <SmoothScrollProvider>
+            <ScrollAnimations />
+            {children}
+            <CursorOrb size={30} blur="10px" transitionSpeed={0.08} />
+          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>
