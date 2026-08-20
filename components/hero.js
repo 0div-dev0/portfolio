@@ -1,8 +1,9 @@
 "use client"
 import React from "react";
+import { FaGithub } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa6";
 import Aurora from "./aurora";
 import Stars from "./stars";
-import CursorOrb from "./cursor-orb";
 import { ThemeToggle } from "./ui/theme-toggle";
 
 /**
@@ -56,9 +57,6 @@ export default function Hero() {
 
       <Aurora setHoveredOrbColor={setHoveredOrbColor} onOrbClick={handleOrbClick} />
 
-      {/* Cursor-following blurred transparent orb */}
-      <CursorOrb size={30} blur="10px" transitionSpeed={0.08} />
-
       {/* Content */}
       <div
         className="pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-28 text-center sm:items-start sm:px-12 sm:text-left lg:px-24"
@@ -104,12 +102,11 @@ export default function Hero() {
         className="fixed top-5 right-5 flex items-center gap-2 px-4 py-2 rounded-full transition-opacity duration-500 z-50"
         style={{ opacity: opacityProgress }}
       >
-        <a href="" className="hidden sm:block text-foreground text-sm font-medium mr-4">Contact me</a>
-        <a href="" className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted transition-colors hover:text-foreground hover:border-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1-12 0"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M20 8a4 4 0 0 1-8 0"/><line x1="" y1="16" x2="" y2="16"/><circle cx="10.5" cy="10.5" r="1.5"/></svg>
+        <a href="" aria-label="Instagram" className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white transition-colors hover:text-white hover:border-white hover:shadow-[0_0_12px_rgba(255,255,255,0.6)]">
+          <FaInstagram size={16} className="drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" />
         </a>
-        <a href="" className="w-8 h-8 rounded-full border border-white/50 flex items-center justify-center text-white/50 transition-colors hover:text-white hover:border-white">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1-12 0"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M20 8a4 4 0 0 1-8 0"/><line x1="1" y1="1" x2="23" y2="23"/><circle cx="10.5" cy="10.5" r="1.5"/></svg>
+        <a href="" aria-label="GitHub" className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white transition-colors hover:text-white hover:border-white hover:shadow-[0_0_12px_rgba(255,255,255,0.6)]">
+          <FaGithub size={16} className="drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" />
         </a>
         <ThemeToggle className="ml-1" />
       </div>

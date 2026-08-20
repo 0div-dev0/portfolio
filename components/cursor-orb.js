@@ -23,9 +23,6 @@ export function useKeyframes(keyframes) {
 
 function CursorOrb({
   size = 30,
-  blur = "10px",
-  brightness = "1.5",
-  contrast = "2.5",
   transitionSpeed = 0.03,
 } = {}) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -81,17 +78,14 @@ function CursorOrb({
   return (
     <div
       ref={orbRef}
-      className="cursor-orb absolute pointer-events-none rounded-full"
+      className="cursor-orb fixed z-[100] pointer-events-none rounded-full"
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        background: "transparent",
-        border: "1px solid currentColor",
-        backdropFilter: `blur(${blur})`,
-        WebkitBackdropFilter: `blur(${blur})`,
-        filter: `brightness(${brightness}) contrast(${contrast})`,
-        opacity: 0.9,
-        boxShadow: `0 0 20px rgba(255,255,255,0.3)`,
+        background: "rgba(255,255,255,0.08)",
+        border: "1px solid rgba(255,255,255,0.15)",
+        boxShadow: `0 0 24px rgba(255,255,255,0.12), inset 0 0 12px rgba(255,255,255,0.05)`,
+        opacity: 0.85,
         animation: "pulse-orbs 4s ease-in-out infinite",
       }}
     />

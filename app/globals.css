@@ -206,6 +206,8 @@ body {
   pointer-events: none !important;
 }
 
-.cursor-orb {
-  border-color: currentColor;
+
+
+button, li, a , input, svg, path,img{
+  cursor: pointer;
 }

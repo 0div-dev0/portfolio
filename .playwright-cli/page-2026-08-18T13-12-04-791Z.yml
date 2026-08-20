@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - link "Home" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - link "Support" [ref=e5] [cursor=pointer]:
+        - /url: "#"
+      - link "Play" [ref=e6] [cursor=pointer]:
+        - /url: "#"
+      - link "Gallery" [ref=e7] [cursor=pointer]:
+        - /url: "#"
+      - link "Contact" [ref=e8] [cursor=pointer]:
+        - /url: "#"
+    - generic:
+      - heading "Design in black & white, colour returns on contact." [level=1]: Design in black & white,colour returns on contact.
+      - paragraph: A minimal portfolio that reveals colour as you interact. Move your cursor over the lights above and watch contrast, brightness and hue bloom back into the aurora.
+      - generic:
+        - link "View project" [ref=e14] [cursor=pointer]:
+          - /url: "#work"
+        - link "Start conversation" [ref=e15] [cursor=pointer]:
+          - /url: "#contact"
+    - generic: View project
+    - generic [ref=e16]:
+      - link "Contact me" [ref=e17] [cursor=pointer]:
+        - /url: ""
+      - link [ref=e18] [cursor=pointer]:
+        - /url: ""
+      - link [ref=e25] [cursor=pointer]:
+        - /url: ""
+      - button [ref=e33] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e50] [cursor=pointer]
