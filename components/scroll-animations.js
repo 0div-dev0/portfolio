@@ -28,18 +28,18 @@ export default function ScrollAnimations() {
     const starsCanvas = document.querySelector("#stars");
 
     // The hero is 100vh, the spacer is 70vh. The about section starts
-    // entering the viewport after ~170vh of scroll. We want orbs and
-    // hero text ~95% gone by ~60vh so there's a clear dark phase
-    // before the about slides over.
+    // entering the viewport bottom after scrolling ~100vh (the hero height).
+    // We want orbs at ~15% opacity at that point, hero text mostly gone,
+    // so the page is very dark but not pitch black as the about slides in.
     const getThresholds = () => {
       const vh = window.innerHeight;
       return {
         orbStart: 0,
-        orbEnd: vh * 0.65,
+        orbEnd: vh * 1.18,     // orbs at ~15% when about enters (~100vh scroll)
         contentStart: 0,
-        contentEnd: vh * 0.55,
-        hintEnd: vh * 0.25,
-        starsEnd: vh * 0.7,
+        contentEnd: vh * 0.85,  // hero text mostly gone by ~85vh
+        hintEnd: vh * 0.4,
+        starsEnd: vh * 1.1,
       };
     };
 

@@ -67,6 +67,7 @@ export function Navbar({ className }) {
   }, []);
 
   return (
+    <>
     <nav
       className={cn(
         "fixed top-5 left-10 z-50 flex items-center gap-1 px-1 py-1 rounded-full transition-all duration-300",
@@ -113,8 +114,10 @@ export function Navbar({ className }) {
         </div>
       </LayoutGroup>
 
-      {/* Social icons + theme toggle — top right, always visible */}
-      <div className="flex items-center gap-2 ml-4">
+    </nav>
+
+    {/* Social icons + theme toggle — independent floating cluster, top right */}
+      <div className="fixed top-5 right-5 z-50 flex items-center gap-2">
         <a href="" aria-label="Instagram" className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white transition-colors hover:text-white hover:border-white hover:shadow-[0_0_12px_rgba(255,255,255,0.6)]">
           <FaInstagram size={16} className="drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" />
         </a>
@@ -123,7 +126,7 @@ export function Navbar({ className }) {
         </a>
         <ThemeToggle className="ml-1" />
       </div>
-    </nav>
+    </>
   );
 }
 
