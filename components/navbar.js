@@ -22,7 +22,7 @@ function NavItem({ label, href, isActive, onHoverStart, onHoverEnd }) {
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
       className={cn(
-        "relative z-10 flex h-9 items-center px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200",
+        "relative z-10 flex h-8 sm:h-9 items-center px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-full transition-colors duration-200 whitespace-nowrap",
         isActive ? "text-foreground" : "text-foreground/60 hover:text-foreground/90"
       )}
     >
@@ -70,7 +70,7 @@ export function Navbar({ className }) {
     <>
     <nav
       className={cn(
-        "fixed top-5 left-10 z-50 flex items-center gap-1 px-1 py-1 rounded-full transition-all duration-300",
+        "fixed top-4 left-4 sm:top-5 sm:left-10 z-50 flex items-center gap-1 px-1 py-1 rounded-full transition-all duration-300 max-w-[calc(100vw-140px)] overflow-x-auto no-scrollbar",
         isScrolled
           ? "bg-background/80 backdrop-blur-md border border-border/10 shadow-lg"
           : "bg-transparent",
@@ -117,7 +117,7 @@ export function Navbar({ className }) {
     </nav>
 
     {/* Social icons + theme toggle — independent floating cluster, top right */}
-      <div className="fixed top-5 right-5 z-50 flex items-center gap-2">
+      <div className="fixed top-4 right-4 sm:top-5 sm:right-5 z-50 flex items-center gap-2">
         <a href="" aria-label="Instagram" className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white transition-colors hover:text-white hover:border-white hover:shadow-[0_0_12px_rgba(255,255,255,0.6)]">
           <FaInstagram size={16} className="drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" />
         </a>

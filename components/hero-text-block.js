@@ -143,19 +143,20 @@ export default function HeroTextBlock({
         willChange: "opacity, transform",
       }}
     >
-      <div className="w-full sm:w-[55%] max-w-2xl pointer-events-auto">
+      <div className="w-full pointer-events-auto flex flex-col items-center sm:items-start">
         <h1
-          className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl text-foreground"
+          className="text-balance text-3xl sm:text-5xl lg:text-6xl font-semibold leading-[1.15] tracking-tight text-foreground w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl"
           aria-label={heading}
         >
           {heading}
         </h1>
 
-        <p className="mt-6 text-base leading-relaxed text-muted sm:text-lg">
+        <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-muted max-w-md sm:max-w-lg lg:max-w-xl">
           {subtext}
         </p>
       </div>
     </div>
   );
 }
+
 

@@ -50,12 +50,12 @@ export default function Hero({ className }) {
 
       {/* Content — text blocks scroll-animate, buttons stay pinned at bottom */}
       <div
-        className="hero-content-wrapper pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-28 text-center sm:items-start sm:px-12 sm:text-left lg:px-24"
+        className="hero-content-wrapper pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-between px-6 pt-24 pb-12 text-center sm:items-start sm:px-12 sm:pt-28 sm:pb-16 sm:text-left lg:px-20"
       >
         {/* Scroll-animated text blocks — parallax offset applied via cursor */}
         <div
-          className="relative w-full flex-1 flex items-center justify-center sm:justify-start"
-          style={{ transform: `translate(-${cursorPos.x * 0.02}px, -${cursorPos.y * 0.02}px)` }}
+          className="relative w-full flex-1 flex items-center justify-center sm:justify-start min-h-[280px] sm:min-h-[340px]"
+          style={{ transform: `translate(-${cursorPos.x * 0.005}px, -${cursorPos.y * 0.005}px)` }}
         >
           {/* Block 1 — original hero text (visible at scroll=0) */}
           <HeroTextBlock
@@ -82,16 +82,16 @@ export default function Hero({ className }) {
         </div>
 
         {/* Buttons — pinned at bottom, fade with hero at the end */}
-        <div className="pointer-events-auto mt-12 flex flex-col gap-4 sm:flex-row">
+        <div className="pointer-events-auto mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto items-stretch sm:items-center">
           <a
             href="#work"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-sm font-medium text-background transition-all duration-300 hover:opacity-90 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
+            className="inline-flex h-11 sm:h-12 items-center justify-center rounded-full bg-primary px-6 sm:px-8 text-sm font-medium text-background transition-all duration-300 hover:opacity-90 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
           >
             View project
           </a>
           <a
             href="#contact"
-            className="inline-flex h-12 items-center justify-center rounded-full border border-border px-8 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/5"
+            className="inline-flex h-11 sm:h-12 items-center justify-center rounded-full border border-border px-6 sm:px-8 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/5"
           >
             Start conversation
           </a>
