@@ -9,37 +9,41 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * ScrollAnimations — drives the hero → about scroll transition.
  *
- * • Individual aurora orbs shrink + fade via a direct scroll listener.
- * • Hero content fades out on scroll.
- * • All `.scroll-reveal` elements get a rise-up + fade-in driven by
- *   GSAP ScrollTrigger (scrubbed to scroll progress).
+ * Layout: Hero (100vh sticky) + Spacer (200vh) + About (100vh).
+ * About section enters viewport when scrollY ≈ 200vh.
  *
- * Thresholds are tuned so orbs and hero text are ~95% gone well before
- * the about section's solid background begins sliding over the hero.
+ * Timeline (scroll-pixel values):
+ *  • 0 → vh*2.5 : aurora orbs shrink + fade (to ~20% at about entry)
+ *  • 0 → vh*2.2 : stars fade gradually
+ *  • 0 → vh*2.0 : hero content stays opaque (text blocks animate themselves)
+ *  • vh*2.0 → vh*2.5 : hero content fades to 0
+ *  • vh*2.0 : about section enters viewport bottom (hero ~80% faded)
+ *  • 0 → vh*0.4 : scroll hint fades out
  */
 export default function ScrollAnimations() {
   const rafRef = useRef(null);
 
   useEffect(() => {
-    // ── 1. Orb shrinking + hero fade via direct scroll listener ────
     const orbs = document.querySelectorAll(".aurora-orb");
     const heroContent = document.querySelector(".hero-content-wrapper");
     const scrollHint = document.querySelector(".hero-scroll-hint");
     const starsCanvas = document.querySelector("#stars");
 
-    // The hero is 100vh, the spacer is 70vh. The about section starts
-    // entering the viewport bottom after scrolling ~100vh (the hero height).
-    // We want orbs at ~15% opacity at that point, hero text mostly gone,
-    // so the page is very dark but not pitch black as the about slides in.
     const getThresholds = () => {
       const vh = window.innerHeight;
       return {
+        // Orbs fade gradually — ~20% when about enters (scroll ≈ 200vh)
+        // At scroll 200vh with orbEnd=250vh: opacity = 1 - 200/250 = 0.2
         orbStart: 0,
-        orbEnd: vh * 1.18,     // orbs at ~15% when about enters (~100vh scroll)
-        contentStart: 0,
-        contentEnd: vh * 0.85,  // hero text mostly gone by ~85vh
+        orbEnd: vh * 2.5,
+        // Stars fade slightly faster
+        starsEnd: vh * 2.2,
+        // Hero content stays opaque during text cycling, then fades at end
+        // About enters at scroll 200vh; hero fades 200vh → 250vh
+        contentStart: vh * 2.0,
+        contentEnd: vh * 2.5,
+        // Scroll hint
         hintEnd: vh * 0.4,
-        starsEnd: vh * 1.1,
       };
     };
 
@@ -47,11 +51,7 @@ export default function ScrollAnimations() {
       const scrollY = window.scrollY || window.pageYOffset;
       const t = getThresholds();
 
-      // Individual orbs: each shrinks and fades, staggered slightly. We write
-      // the scroll values into CSS custom properties instead of `opacity` /
-      // `transform` directly so the class-based hover rules in globals.css
-      // (`.is-hovered` / `.has-hovered-orb`) can still take precedence and
-      // fade the non-hovered orbs into the background.
+      // Orbs: shrink + fade, staggered per orb
       orbs.forEach((orb, i) => {
         const staggerOffset = i * 0.06;
         const orbProgress = clamp(
@@ -63,7 +63,7 @@ export default function ScrollAnimations() {
         orb.style.setProperty("--scroll-fade", opacity);
       });
 
-      // Stars canvas: fade out
+      // Stars: fade out
       if (starsCanvas) {
         const starsProgress = clamp(
           (scrollY - t.orbStart) / (t.starsEnd - t.orbStart)
@@ -71,13 +71,12 @@ export default function ScrollAnimations() {
         starsCanvas.style.opacity = 1 - starsProgress;
       }
 
-      // Hero content: opacity 1 → 0, translateY 0 → -40px
+      // Hero content: stays opaque during text cycling, then fades at end
       if (heroContent) {
         const contentProgress = clamp(
           (scrollY - t.contentStart) / (t.contentEnd - t.contentStart)
         );
         heroContent.style.opacity = 1 - contentProgress;
-        heroContent.style.transform = `translateY(${-contentProgress * 40}px)`;
       }
 
       // Scroll hint
@@ -138,7 +137,6 @@ export default function ScrollAnimations() {
       if (starsCanvas) starsCanvas.style.opacity = "";
       if (heroContent) {
         heroContent.style.opacity = "";
-        heroContent.style.transform = "";
       }
       if (scrollHint) scrollHint.style.opacity = "";
     };

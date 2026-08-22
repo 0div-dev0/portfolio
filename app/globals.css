@@ -228,6 +228,18 @@ body {
   will-change: opacity, transform;
 }
 
+/* ---------- Hero text blocks (scroll-cycling) ---------- */
+
+/* Disable CSS entrance animation on hero h1 — JS scroll animation takes over */
+.hero-content-wrapper h1 {
+  animation: none;
+}
+
+/* Ensure the text blocks' container doesn't clip rotated children */
+.hero-content-wrapper .relative {
+  overflow: visible;
+}
+
 #stars canvas {
   pointer-events: none !important;
 }

@@ -3,19 +3,25 @@ import React from "react";
 import Aurora from "./aurora";
 import Stars from "./stars";
 import { cn } from "@/lib/utils";
+import HeroTextBlock from "./hero-text-block";
 
 /**
  * Hero — the monochromatic landing section.
  *
- * Pure black & white design language: zinc palette, white type on near-black,
- * with the Aurora behind it that blooms into colour on hover.
- * Stars layer sits between the background and the orbs.
- * Parallax text follows cursor in opposite direction.
+ * Three text blocks cycle through on scroll. Each block enters from below
+ * (rotateX + translateY) and exits upward, all scrubbed to scroll position.
+ * Block 3 holds on screen while the hero fades behind it.
+ *
+ * Scroll timeline (scroll-pixel values, spacer = 200vh):
+ *   Block 1:  [0, 850]        — enters at load, exits scrolling up
+ *   Block 2:  [1000, 1850]    — enters from below, exits scrolling up
+ *   Block 3:  [2000, 2500]    — enters from below, holds while hero fades
+ *   Hero fade: [2000, 2500]   — entire hero fades (auroras at ~20%)
+ *   About enters: scrollY ≈ 200vh
  */
 export default function Hero({ className }) {
   const [hoveredOrbColor, setHoveredOrbColor] = React.useState(null);
   const [cursorPos, setCursorPos] = React.useState({ x: 0, y: 0 });
-  // Where each orb navigates when clicked (index 0-4).
   const ORB_TARGETS = ["#work", "#contact", "#work", "#contact", "#work"];
 
   const handleOrbClick = React.useCallback((index) => {
@@ -42,38 +48,53 @@ export default function Hero({ className }) {
 
       <Aurora setHoveredOrbColor={setHoveredOrbColor} onOrbClick={handleOrbClick} />
 
-      {/* Content */}
+      {/* Content — text blocks scroll-animate, buttons stay pinned at bottom */}
       <div
         className="hero-content-wrapper pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-28 text-center sm:items-start sm:px-12 sm:text-left lg:px-24"
       >
-        <div style={{ transform: `translate(-${cursorPos.x * 0.02}px, -${cursorPos.y * 0.02}px)` }}>
+        {/* Scroll-animated text blocks — parallax offset applied via cursor */}
+        <div
+          className="relative w-full flex-1 flex items-center justify-center sm:justify-start"
+          style={{ transform: `translate(-${cursorPos.x * 0.02}px, -${cursorPos.y * 0.02}px)` }}
+        >
+          {/* Block 1 — original hero text (visible at scroll=0) */}
+          <HeroTextBlock
+            heading="Design in black & white, colour returns on contact."
+            subtext="A minimal portfolio that reveals colour as you interact. Move your cursor over the lights above and watch contrast, brightness and hue bloom back into the aurora."
+            relativeRange={[0.0, 0.38]}
+            isFirst
+          />
 
-        <h1 className="hero-reveal hero-reveal-delay-1 mt-8 max-w-4xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-          Design in black & white,
-          <br />
-          <span className="italic text-muted">colour returns on contact.</span>
-        </h1>
+          {/* Block 2 — enters from below */}
+          <HeroTextBlock
+            heading="Crafting interfaces that breathe with intention."
+            subtext="Every pixel carries a purpose. From subtle micro-interactions to bold compositional choices, each decision is a dialogue between form and function."
+            relativeRange={[0.30, 0.72]}
+          />
 
-        <p className="hero-reveal hero-reveal-delay-2 mt-8 max-w-xl text-lg leading-8 text-muted">
-          A minimal portfolio that reveals colour as you interact. Move your cursor
-          over the lights above and watch contrast, brightness and hue bloom back
-          into the aurora.
-        </p>
+          {/* Block 3 — enters from below, holds while hero fades behind it */}
+          <HeroTextBlock
+            heading="Where precision meets creative exploration."
+            subtext="This portfolio is both a playground and a showcase — an evolving space where ideas are tested, refined, and brought to life through code."
+            relativeRange={[0.65, 1.00]}
+            isLast
+          />
+        </div>
 
-        <div className="hero-reveal hero-reveal-delay-3 mt-12 flex flex-col gap-4 sm:flex-row">
+        {/* Buttons — pinned at bottom, fade with hero at the end */}
+        <div className="pointer-events-auto mt-12 flex flex-col gap-4 sm:flex-row">
           <a
             href="#work"
-            className="pointer-events-auto inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-sm font-medium text-background transition-all duration-300 hover:opacity-90 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
+            className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-sm font-medium text-background transition-all duration-300 hover:opacity-90 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
           >
             View project
           </a>
           <a
             href="#contact"
-            className="pointer-events-auto inline-flex h-12 items-center justify-center rounded-full border border-border px-8 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/5"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-border px-8 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/5"
           >
             Start conversation
           </a>
-        </div>
         </div>
       </div>
 

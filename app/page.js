@@ -20,9 +20,10 @@ export default function Home() {
         </div>
 
         {/* Transparent spacer — provides scroll distance for the orb-shrink
-            animation. The hero is visible behind this (no background), so
-            the user watches the orbs shrink as they scroll through this zone. */}
-        <div className="hero-scroll-spacer h-[70vh] relative z-20" />
+            and text-cycling animations. The hero is visible behind this
+            (no background), so the user watches the text blocks cycle and
+            orbs shrink as they scroll through this zone. */}
+        <div className="hero-scroll-spacer h-[200vh] relative z-20" />
 
         {/* About section — slides OVER the hero with a solid background.
             Z-index 20 sits above the sticky hero (z-10). */}
