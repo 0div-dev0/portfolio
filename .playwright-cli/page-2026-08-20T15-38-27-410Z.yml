@@ -1,0 +1,44 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Home" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - link "About" [ref=e7] [cursor=pointer]:
+        - /url: "#about"
+      - link "Gallery" [ref=e9] [cursor=pointer]:
+        - /url: "#gallery"
+      - link "Play" [ref=e11] [cursor=pointer]:
+        - /url: "#play"
+      - link "Contact" [ref=e13] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=e14]:
+    - link "Instagram" [ref=e15] [cursor=pointer]:
+      - /url: ""
+    - link "GitHub" [ref=e18] [cursor=pointer]:
+      - /url: ""
+    - button [ref=e21] [cursor=pointer]
+  - generic [ref=e33]:
+    - generic [ref=e35]:
+      - generic:
+        - generic:
+          - heading "Design in black & white, colour returns on contact." [level=1]: Design in black & white,colour returns on contact.
+          - paragraph: A minimal portfolio that reveals colour as you interact. Move your cursor over the lights above and watch contrast, brightness and hue bloom back into the aurora.
+          - generic:
+            - link "View project" [ref=e41] [cursor=pointer]:
+              - /url: "#work"
+            - link "Start conversation" [ref=e42] [cursor=pointer]:
+              - /url: "#contact"
+      - generic: View project
+    - generic [ref=e44]:
+      - heading "About" [level=2] [ref=e45]
+      - paragraph [ref=e47]: Learn more about me and my work.
+  - generic [ref=e48]:
+    - heading "Gallery" [level=2] [ref=e49]
+    - paragraph [ref=e50]: A collection of my projects and experiments.
+  - generic [ref=e51]:
+    - heading "Play" [level=2] [ref=e52]
+    - paragraph [ref=e53]: Interactive demos and playful experiments.
+  - generic [ref=e54]:
+    - heading "Contact" [level=2] [ref=e55]
+    - paragraph [ref=e56]: Get in touch — I'd love to hear from you.
+  - button "Open Next.js Dev Tools" [ref=e62] [cursor=pointer]

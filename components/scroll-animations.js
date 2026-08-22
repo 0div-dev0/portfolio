@@ -47,7 +47,11 @@ export default function ScrollAnimations() {
       const scrollY = window.scrollY || window.pageYOffset;
       const t = getThresholds();
 
-      // Individual orbs: each shrinks and fades, staggered slightly
+      // Individual orbs: each shrinks and fades, staggered slightly. We write
+      // the scroll values into CSS custom properties instead of `opacity` /
+      // `transform` directly so the class-based hover rules in globals.css
+      // (`.is-hovered` / `.has-hovered-orb`) can still take precedence and
+      // fade the non-hovered orbs into the background.
       orbs.forEach((orb, i) => {
         const staggerOffset = i * 0.06;
         const orbProgress = clamp(
@@ -55,8 +59,8 @@ export default function ScrollAnimations() {
         );
         const scale = 1 - orbProgress * 0.95;
         const opacity = 1 - orbProgress;
-        orb.style.transform = `scale(${scale})`;
-        orb.style.opacity = opacity;
+        orb.style.setProperty("--scroll-scale", scale);
+        orb.style.setProperty("--scroll-fade", opacity);
       });
 
       // Stars canvas: fade out
@@ -128,8 +132,8 @@ export default function ScrollAnimations() {
       if (gsapCtx) gsapCtx.revert();
 
       orbs.forEach((orb) => {
-        orb.style.transform = "";
-        orb.style.opacity = "";
+        orb.style.removeProperty("--scroll-scale");
+        orb.style.removeProperty("--scroll-fade");
       });
       if (starsCanvas) starsCanvas.style.opacity = "";
       if (heroContent) {
