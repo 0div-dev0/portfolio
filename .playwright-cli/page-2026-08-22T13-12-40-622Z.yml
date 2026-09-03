@@ -1,0 +1,77 @@
+- generic [ref=f4e1]:
+  - navigation [ref=f4e2]:
+    - generic [ref=f4e3]:
+      - link "Home" [ref=f4e5] [cursor=pointer]:
+        - /url: /
+      - link "About" [ref=f4e7] [cursor=pointer]:
+        - /url: "#about"
+      - link "Gallery" [ref=f4e9] [cursor=pointer]:
+        - /url: /gallery
+      - link "Play" [ref=f4e11] [cursor=pointer]:
+        - /url: "#play"
+      - link "Contact" [ref=f4e13] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=f4e14]:
+    - link "Instagram" [ref=f4e15] [cursor=pointer]:
+      - /url: ""
+    - link "GitHub" [ref=f4e18] [cursor=pointer]:
+      - /url: ""
+    - button [ref=f4e21] [cursor=pointer]
+  - generic [ref=f4e33]:
+    - generic [ref=f4e34]:
+      - button "Select Aurora" [ref=f4e132] [cursor=pointer]:
+        - generic: Aurora
+      - button "Select Cyan Tide" [ref=f4e135] [cursor=pointer]:
+        - generic: Cyan Tide
+      - button "Select Rosebud" [ref=f4e137] [cursor=pointer]:
+        - generic: Rosebud
+      - button "Select Ember" [ref=f4e139] [cursor=pointer]:
+        - generic: Ember
+      - button "Select Verdant" [ref=f4e141] [cursor=pointer]:
+        - generic: Verdant
+    - generic [ref=f4e147]:
+      - generic [ref=f4e148]: Cyan Tide — Recording
+      - generic [ref=f4e154]:
+        - generic "Cyan Tide" [ref=f4e155]:
+          - generic [ref=f4e156]: C
+          - generic [ref=f4e157]: "y"
+          - generic [ref=f4e158]: a
+          - generic [ref=f4e159]: "n"
+          - generic [ref=f4e161]: T
+          - generic [ref=f4e162]: i
+          - generic [ref=f4e163]: d
+          - generic [ref=f4e164]: e
+        - generic "Depth beyond the surface" [ref=f4e165]:
+          - generic [ref=f4e166]: D
+          - generic [ref=f4e167]: e
+          - generic [ref=f4e168]: p
+          - generic [ref=f4e169]: t
+          - generic [ref=f4e170]: h
+          - generic [ref=f4e172]: b
+          - generic [ref=f4e173]: e
+          - generic [ref=f4e174]: "y"
+          - generic [ref=f4e175]: o
+          - generic [ref=f4e176]: "n"
+          - generic [ref=f4e177]: d
+          - generic [ref=f4e179]: t
+          - generic [ref=f4e180]: h
+          - generic [ref=f4e181]: e
+          - generic [ref=f4e183]: s
+          - generic [ref=f4e184]: u
+          - generic [ref=f4e185]: r
+          - generic [ref=f4e186]: f
+          - generic [ref=f4e187]: a
+          - generic [ref=f4e188]: c
+          - generic [ref=f4e189]: e
+      - paragraph [ref=f4e190]: Exploring the tension between stillness and motion — bioluminescent currents pulse beneath a calm exterior, waiting to be uncovered.
+      - generic [ref=f4e191]:
+        - generic [ref=f4e192]: Cyan Study 01
+        - generic [ref=f4e195]: Cyan Study 02
+        - generic [ref=f4e198]: Cyan Study 03
+      - generic [ref=f4e201]: Gallery — Entry 2 / 5
+    - generic [ref=f4e112]:
+      - generic [ref=f4e113]: Gallery
+      - heading "Aurora" [level=2] [ref=f4e114]
+      - paragraph [ref=f4e116]: Where light dances with intention
+  - button "Open Next.js Dev Tools" [ref=f4e128] [cursor=pointer]
+  - alert [ref=f4e143]

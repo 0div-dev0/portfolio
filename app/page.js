@@ -1,5 +1,4 @@
 import Hero from "@/components/hero";
-import Navbar from "@/components/navbar";
 
 const REMAINING_SECTIONS = [
   { id: "gallery", title: "Gallery", desc: "A collection of my projects and experiments." },
@@ -10,8 +9,6 @@ const REMAINING_SECTIONS = [
 export default function Home() {
   return (
     <>
-      <Navbar />
-
       {/* ── Hero + About scroll-overlay container ────────────────────── */}
       <div className="relative">
         {/* Hero — sticks at viewport top while user scrolls */}
@@ -19,11 +16,8 @@ export default function Home() {
           <Hero className="h-full" />
         </div>
 
-        {/* Transparent spacer — provides scroll distance for the orb-shrink
-            and text-cycling animations. The hero is visible behind this
-            (no background), so the user watches the text blocks cycle and
-            orbs shrink as they scroll through this zone. */}
-        <div className="hero-scroll-spacer h-[200vh] relative z-20" />
+        {/* Transparent spacer — provides scroll distance for hero exit animation */}
+        <div className="hero-scroll-spacer h-[80vh] relative z-20" />
 
         {/* About section — slides OVER the hero with a solid background.
             Z-index 20 sits above the sticky hero (z-10). */}

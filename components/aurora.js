@@ -83,6 +83,7 @@ const DIRECTION_CHANGE_INTERVAL = 3000;
 
 export default function Aurora({
   setHoveredOrbColor,
+  setHoveredOrbIndex,
   onOrbClick,
 }) {
   const containerRef = useRef(null);
@@ -121,7 +122,8 @@ export default function Aurora({
       container.classList.add("has-hovered-orb");
       hoveredOrbIndex = i;
       hoveredOrbColor = ORBS[i].colors[0];
-      setHoveredOrbColor(hoveredOrbColor);
+      setHoveredOrbColor?.(hoveredOrbColor);
+      setHoveredOrbIndex?.(i);
     };
 
     const decolourOrb = (orb) => {
@@ -133,7 +135,8 @@ export default function Aurora({
         container.classList.remove("has-hovered-orb");
         hoveredOrbIndex = -1;
         hoveredOrbColor = null;
-        setHoveredOrbColor(null);
+        setHoveredOrbColor?.(null);
+        setHoveredOrbIndex?.(null);
       }
     };
 

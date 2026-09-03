@@ -1,41 +1,95 @@
 "use client"
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Aurora from "./aurora";
 import Stars from "./stars";
 import { cn } from "@/lib/utils";
 import HeroTextBlock from "./hero-text-block";
 
-/**
- * Hero — the monochromatic landing section.
- *
- * Three text blocks cycle through on scroll. Each block enters from below
- * (rotateX + translateY) and exits upward, all scrubbed to scroll position.
- * Block 3 holds on screen while the hero fades behind it.
- *
- * Scroll timeline (scroll-pixel values, spacer = 200vh):
- *   Block 1:  [0, 850]        — enters at load, exits scrolling up
- *   Block 2:  [1000, 1850]    — enters from below, exits scrolling up
- *   Block 3:  [2000, 2500]    — enters from below, holds while hero fades
- *   Hero fade: [2000, 2500]   — entire hero fades (auroras at ~20%)
- *   About enters: scrollY ≈ 200vh
- */
-export default function Hero({ className }) {
-  const [hoveredOrbColor, setHoveredOrbColor] = React.useState(null);
-  const [cursorPos, setCursorPos] = React.useState({ x: 0, y: 0 });
-  const ORB_TARGETS = ["#work", "#contact", "#work", "#contact", "#work"];
+const ORB_DETAILS = [
+  {
+    name: "Violet Aurora",
+    color: "#a78bfa",
+    heading: "Violet Aurora Light — Deep Chromatic Spectrum",
+    desc: "A study in organic luminescence. Organic lights drift through shadow, revealing vivid purple hues on contact.",
+  },
+  {
+    name: "Cyan Tide",
+    color: "#22d3ee",
+    heading: "Cyan Tide Light — Bioluminescent Depth",
+    desc: "Exploring bioluminescent currents pulsing beneath a calm surface. Electric cyan light spreads across the starry background.",
+  },
+  {
+    name: "Rosebud Pink",
+    color: "#f472b6",
+    heading: "Rosebud Pink Light — Impermanence in Bloom",
+    desc: "Gentle magenta warmth emerging from deep shadow, unfolding like memory returning to a dark canvas.",
+  },
+  {
+    name: "Ember Amber",
+    color: "#fbbf24",
+    heading: "Ember Amber Light — Molten Heat & Gold",
+    desc: "Fire as a creative force. Radiant golden embers emitting warmth across high contrast dark UI elements.",
+  },
+  {
+    name: "Verdant Green",
+    color: "#34d399",
+    heading: "Verdant Green Light — Defiance & Resilience",
+    desc: "Luminous emerald canopy growth, building upward with patience and quiet structural harmony.",
+  },
+];
 
-  const handleOrbClick = React.useCallback((index) => {
-    const target = document.querySelector(ORB_TARGETS[index] || "#work");
-    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+const DEFAULT_HEADING = "Design in black & white, colour returns on contact.";
+const DEFAULT_SUBTEXT = "A minimal portfolio that reveals colour as you interact. Move your cursor over the lights above and watch contrast, brightness and hue bloom back into the aurora.";
+
+export default function Hero({ className }) {
+  const [hoveredOrbColor, setHoveredOrbColor] = useState(null);
+  const [hoveredOrbIndex, setHoveredOrbIndex] = useState(null);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+
+  const ORB_TARGETS = [
+    "/gallery?orb=0",
+    "/gallery?orb=1",
+    "/gallery?orb=2",
+    "/gallery?orb=3",
+    "/gallery?orb=4",
+  ];
+
+  const handleOrbClick = useCallback((index) => {
+    const target = ORB_TARGETS[index];
+    if (target) window.location.href = target;
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleMouseMove = (e) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  const activeOrb = hoveredOrbIndex !== null && hoveredOrbIndex >= 0 ? ORB_DETAILS[hoveredOrbIndex] : null;
+
+  const currentHeading = activeOrb ? activeOrb.heading : DEFAULT_HEADING;
+  const currentSubtext = activeOrb ? activeOrb.desc : DEFAULT_SUBTEXT;
+
+  const galleryBadge = activeOrb ? (
+    <a
+      href={`/gallery?orb=${hoveredOrbIndex}`}
+      className="inline-flex items-center gap-2 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider rounded-full border transition-all duration-300 pointer-events-auto hover:scale-105"
+      style={{
+        borderColor: `${activeOrb.color}60`,
+        color: activeOrb.color,
+        backgroundColor: `${activeOrb.color}18`,
+        boxShadow: `0 0 20px ${activeOrb.color}30`,
+      }}
+    >
+      <span
+        className="w-2 h-2 rounded-full animate-pulse"
+        style={{ backgroundColor: activeOrb.color, boxShadow: `0 0 8px ${activeOrb.color}` }}
+      />
+      Gallery &rarr;
+    </a>
+  ) : null;
 
   return (
     <section
@@ -46,42 +100,33 @@ export default function Hero({ className }) {
     >
       <Stars hoveredOrbColor={hoveredOrbColor} />
 
-      <Aurora setHoveredOrbColor={setHoveredOrbColor} onOrbClick={handleOrbClick} />
+      <Aurora
+        setHoveredOrbColor={setHoveredOrbColor}
+        setHoveredOrbIndex={setHoveredOrbIndex}
+        onOrbClick={handleOrbClick}
+      />
 
-      {/* Content — text blocks scroll-animate, buttons stay pinned at bottom */}
+      {/* Content — text block scroll-animates & typewriter updates on hover */}
       <div
         className="hero-content-wrapper pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-between px-6 pt-24 pb-12 text-center sm:items-start sm:px-12 sm:pt-28 sm:pb-16 sm:text-left lg:px-20"
       >
-        {/* Scroll-animated text blocks — parallax offset applied via cursor */}
+        {/* Text block container with subtle cursor parallax */}
         <div
           className="relative w-full flex-1 flex items-center justify-center sm:justify-start min-h-[280px] sm:min-h-[340px]"
           style={{ transform: `translate(-${cursorPos.x * 0.005}px, -${cursorPos.y * 0.005}px)` }}
         >
-          {/* Block 1 — original hero text (visible at scroll=0) */}
+          {/* Main Hero Text Block with Typewriter and dynamic Orb hover text */}
           <HeroTextBlock
-            heading="Design in black & white, colour returns on contact."
-            subtext="A minimal portfolio that reveals colour as you interact. Move your cursor over the lights above and watch contrast, brightness and hue bloom back into the aurora."
-            relativeRange={[0.0, 0.38]}
+            heading={currentHeading}
+            subtext={currentSubtext}
+            galleryBadge={galleryBadge}
+            relativeRange={[0.0, 0.4]}
             isFirst
-          />
-
-          {/* Block 2 — enters from below */}
-          <HeroTextBlock
-            heading="Crafting interfaces that breathe with intention."
-            subtext="Every pixel carries a purpose. From subtle micro-interactions to bold compositional choices, each decision is a dialogue between form and function."
-            relativeRange={[0.30, 0.72]}
-          />
-
-          {/* Block 3 — enters from below, holds while hero fades behind it */}
-          <HeroTextBlock
-            heading="Where precision meets creative exploration."
-            subtext="This portfolio is both a playground and a showcase — an evolving space where ideas are tested, refined, and brought to life through code."
-            relativeRange={[0.65, 1.00]}
-            isLast
+            useTypewriter
           />
         </div>
 
-        {/* Buttons — pinned at bottom, fade with hero at the end */}
+        {/* Buttons — pinned at bottom */}
         <div className="pointer-events-auto mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto items-stretch sm:items-center">
           <a
             href="#work"
@@ -107,3 +152,4 @@ export default function Hero({ className }) {
     </section>
   );
 }
+

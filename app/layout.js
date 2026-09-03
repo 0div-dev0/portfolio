@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/navbar";
 import CursorOrb from "@/components/cursor-orb";
 import SmoothScrollProvider from "@/components/smooth-scroll-provider";
 import ScrollAnimations from "@/components/scroll-animations";
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <SmoothScrollProvider>
             <ScrollAnimations />
+            <Navbar />
             {children}
             <CursorOrb size={30} blur="10px" transitionSpeed={0.08} />
           </SmoothScrollProvider>

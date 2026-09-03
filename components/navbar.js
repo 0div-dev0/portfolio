@@ -10,7 +10,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "About", href: "#about" },
-  { label: "Gallery", href: "#gallery" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Play", href: "#play" },
   { label: "Contact", href: "#contact" },
 ];
@@ -70,7 +70,7 @@ export function Navbar({ className }) {
     <>
     <nav
       className={cn(
-        "fixed top-4 left-4 sm:top-5 sm:left-10 z-50 flex items-center gap-1 px-1 py-1 rounded-full transition-all duration-300 max-w-[calc(100vw-140px)] overflow-x-auto no-scrollbar",
+        "fixed top-4 left-4 sm:top-5 sm:left-10 z-50 flex items-center gap-1 px-1 py-1 rounded-full transition-all duration-300 max-w-[calc(100vw-200px)] sm:max-w-[calc(100vw-140px)] overflow-x-auto no-scrollbar",
         isScrolled
           ? "bg-background/80 backdrop-blur-md border border-border/10 shadow-lg"
           : "bg-transparent",

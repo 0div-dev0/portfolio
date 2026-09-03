@@ -1,0 +1,87 @@
+- generic [active] [ref=f1e1]:
+  - navigation [ref=f1e2]:
+    - generic [ref=f1e3]:
+      - link "Home" [ref=f1e5] [cursor=pointer]:
+        - /url: /
+      - link "About" [ref=f1e7] [cursor=pointer]:
+        - /url: "#about"
+      - link "Gallery" [ref=f1e9] [cursor=pointer]:
+        - /url: /gallery
+      - link "Play" [ref=f1e11] [cursor=pointer]:
+        - /url: "#play"
+      - link "Contact" [ref=f1e13] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=f1e14]:
+    - link "Instagram" [ref=f1e15] [cursor=pointer]:
+      - /url: ""
+    - link "GitHub" [ref=f1e18] [cursor=pointer]:
+      - /url: ""
+    - button [ref=f1e21] [cursor=pointer]
+  - generic [ref=f1e33]:
+    - generic [ref=f1e34]:
+      - button "Select Aurora":
+        - generic [ref=f1e35] [cursor=pointer]
+        - generic: Aurora
+      - button "Select Cyan Tide":
+        - generic [ref=f1e36] [cursor=pointer]
+        - generic: Cyan Tide
+      - button "Select Rosebud":
+        - generic [ref=f1e37] [cursor=pointer]
+        - generic: Rosebud
+      - button "Select Ember":
+        - generic [ref=f1e38] [cursor=pointer]
+        - generic: Ember
+      - button "Select Verdant":
+        - generic [ref=f1e39] [cursor=pointer]
+        - generic: Verdant
+    - generic [ref=f1e45]:
+      - generic [ref=f1e46]: Aurora — Recording
+      - generic [ref=f1e52]:
+        - generic "Aurora" [ref=f1e53]:
+          - generic [ref=f1e54]: A
+          - generic [ref=f1e55]: u
+          - generic [ref=f1e56]: r
+          - generic [ref=f1e57]: o
+          - generic [ref=f1e58]: r
+          - generic [ref=f1e59]: a
+        - generic "Where light dances with intention" [ref=f1e60]:
+          - generic [ref=f1e61]: W
+          - generic [ref=f1e62]: h
+          - generic [ref=f1e63]: e
+          - generic [ref=f1e64]: r
+          - generic [ref=f1e65]: e
+          - generic [ref=f1e67]: l
+          - generic [ref=f1e68]: i
+          - generic [ref=f1e69]: g
+          - generic [ref=f1e70]: h
+          - generic [ref=f1e71]: t
+          - generic [ref=f1e73]: d
+          - generic [ref=f1e74]: a
+          - generic [ref=f1e75]: "n"
+          - generic [ref=f1e76]: c
+          - generic [ref=f1e77]: e
+          - generic [ref=f1e78]: s
+          - generic [ref=f1e80]: w
+          - generic [ref=f1e81]: i
+          - generic [ref=f1e82]: t
+          - generic [ref=f1e83]: h
+          - generic [ref=f1e85]: i
+          - generic [ref=f1e86]: "n"
+          - generic [ref=f1e87]: t
+          - generic [ref=f1e88]: e
+          - generic [ref=f1e89]: "n"
+          - generic [ref=f1e90]: t
+          - generic [ref=f1e91]: i
+          - generic [ref=f1e92]: o
+          - generic [ref=f1e93]: "n"
+      - paragraph [ref=f1e94]: A study in chromatic depth — five organic lights drift through a monochrome void, each carrying a hidden spectrum that reveals itself on contact.
+      - generic [ref=f1e95]:
+        - generic [ref=f1e96]: Aurora Study 01
+        - generic [ref=f1e99]: Aurora Study 02
+        - generic [ref=f1e102]: Aurora Study 03
+      - generic [ref=f1e105]: Gallery — Entry 1 / 5
+    - generic [ref=f1e112]:
+      - generic [ref=f1e113]: Gallery
+      - heading "Aurora" [level=2] [ref=f1e114]
+      - paragraph [ref=f1e116]: Where light dances with intention
+  - button "Open Next.js Dev Tools" [ref=f1e128] [cursor=pointer]

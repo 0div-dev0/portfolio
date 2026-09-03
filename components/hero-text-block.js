@@ -15,12 +15,30 @@ import { useEffect, useRef } from "react";
  *  - isFirst: if true, starts fully visible at scroll=0 without entrance animation
  *  - isLast: if true, holds steady after entering until hero fade out
  */
+import { Typewriter } from "./ui/typewriter-text";
+
+/**
+ * HeroTextBlock — a single text block with scroll-scrubbed 3D rotation & fade.
+ *
+ * Text enters from below (+translateY, +rotateX) and exits upward
+ * (-translateY, -rotateX), all driven directly by scroll position.
+ *
+ * Props:
+ *  - heading, subtext: text content
+ *  - galleryBadge: JSX element to display at the bottom-left of heading
+ *  - relativeRange: [startFactor, endFactor] relative to hero scroll distance
+ *  - isFirst: if true, starts fully visible at scroll=0 without entrance animation
+ *  - isLast: if true, holds steady after entering until hero fade out
+ *  - useTypewriter: whether to render heading and subtext via Typewriter component
+ */
 export default function HeroTextBlock({
   heading,
   subtext,
-  relativeRange = [0, 1],
+  galleryBadge = null,
+  relativeRange = [0, 0.4],
   isFirst = false,
   isLast = false,
+  useTypewriter = true,
 }) {
   const blockRef = useRef(null);
 
@@ -30,82 +48,44 @@ export default function HeroTextBlock({
 
     const update = () => {
       const scrollY = window.scrollY || window.pageYOffset;
-      const spacer = document.querySelector(".hero-scroll-spacer");
-      const totalHeroScroll = spacer
-        ? spacer.offsetHeight
-        : window.innerHeight * 2.0;
+      // Fast exit distance — text disappears rapidly within 250px of scroll
+      const exitDistancePx = 250;
 
-      const [rStart, rEnd] = relativeRange;
-      const startPx = rStart * totalHeroScroll;
-      const endPx = rEnd * totalHeroScroll;
-      const durationPx = endPx - startPx;
-
-      let opacity = 0;
+      let opacity = 1;
       let translateY = 0;
       let rotateX = 0;
 
       if (isFirst) {
-        // Block 1:
-        // Active at scroll=0. Holds opacity=1, Y=0, rotateX=0 until exit phase starts.
-        const exitStartPx = startPx + durationPx * 0.5;
-        const exitEndPx = endPx;
-
-        if (scrollY <= exitStartPx) {
+        if (scrollY <= 20) {
           opacity = 1;
           translateY = 0;
           rotateX = 0;
-        } else if (scrollY < exitEndPx) {
-          const p = (scrollY - exitStartPx) / (exitEndPx - exitStartPx);
+        } else if (scrollY < exitDistancePx) {
+          const p = (scrollY - 20) / (exitDistancePx - 20);
           opacity = 1 - p;
-          translateY = -60 * p; // Exits upward
-          rotateX = -8 * p;     // Rotates upward
+          translateY = -90 * p; // Exits upward faster
+          rotateX = -12 * p;    // Rotates upward faster
         } else {
           opacity = 0;
-        }
-      } else if (isLast) {
-        // Block 3 (Last):
-        // Enters from below in first half of range, then holds steady.
-        const enterStartPx = startPx;
-        const enterEndPx = startPx + durationPx * 0.5;
-
-        if (scrollY < enterStartPx) {
-          opacity = 0;
-        } else if (scrollY < enterEndPx) {
-          const p = (scrollY - enterStartPx) / (enterEndPx - enterStartPx);
-          opacity = p;
-          translateY = 60 * (1 - p); // Comes from below up
-          rotateX = 8 * (1 - p);      // Rotates up into place
-        } else {
-          opacity = 1;
-          translateY = 0;
-          rotateX = 0;
         }
       } else {
-        // Block 2 (Middle):
-        // Enters in first ~35% of range, holds active in middle ~30%, exits in final ~35%.
-        const enterStartPx = startPx;
-        const enterEndPx = startPx + durationPx * 0.35;
-        const exitStartPx = startPx + durationPx * 0.65;
-        const exitEndPx = endPx;
+        const spacer = document.querySelector(".hero-scroll-spacer");
+        const totalHeroScroll = spacer
+          ? spacer.offsetHeight
+          : window.innerHeight;
+        const [rStart, rEnd] = relativeRange;
+        const startPx = rStart * totalHeroScroll;
+        const endPx = rEnd * totalHeroScroll;
 
-        if (scrollY < enterStartPx) {
+        if (scrollY < startPx) {
           opacity = 0;
-        } else if (scrollY < enterEndPx) {
-          const p = (scrollY - enterStartPx) / (enterEndPx - enterStartPx);
+        } else if (scrollY < endPx) {
+          const p = (scrollY - startPx) / (endPx - startPx);
           opacity = p;
           translateY = 60 * (1 - p);
           rotateX = 8 * (1 - p);
-        } else if (scrollY <= exitStartPx) {
-          opacity = 1;
-          translateY = 0;
-          rotateX = 0;
-        } else if (scrollY < exitEndPx) {
-          const p = (scrollY - exitStartPx) / (exitEndPx - exitStartPx);
-          opacity = 1 - p;
-          translateY = -60 * p;
-          rotateX = -8 * p;
         } else {
-          opacity = 0;
+          opacity = 1;
         }
       }
 
@@ -137,7 +117,7 @@ export default function HeroTextBlock({
   return (
     <div
       ref={blockRef}
-      className="absolute inset-0 w-full h-full flex flex-col justify-center items-center text-center sm:items-start sm:text-left pointer-events-none"
+      className="absolute inset-0 w-full h-full flex flex-col justify-center items-center text-center sm:items-start sm:text-left pointer-events-none z-10"
       style={{
         visibility: isFirst ? "visible" : "hidden",
         willChange: "opacity, transform",
@@ -145,18 +125,34 @@ export default function HeroTextBlock({
     >
       <div className="w-full pointer-events-auto flex flex-col items-center sm:items-start">
         <h1
-          className="text-balance text-3xl sm:text-5xl lg:text-6xl font-semibold leading-[1.15] tracking-tight text-foreground w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl"
-          aria-label={heading}
+          className="text-balance text-3xl sm:text-5xl lg:text-6xl font-semibold leading-[1.15] tracking-tight text-foreground w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl min-h-[2.4em] sm:min-h-[2.3em]"
+          aria-label={typeof heading === "string" ? heading : undefined}
         >
-          {heading}
+          {useTypewriter && typeof heading === "string" ? (
+            <Typewriter text={heading} maxDuration={1000} />
+          ) : (
+            heading
+          )}
         </h1>
 
-        <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-muted max-w-md sm:max-w-lg lg:max-w-xl">
-          {subtext}
+        {/* Gallery badge — positioned to the bottom-left of heading */}
+        {galleryBadge && (
+          <div className="mt-3 sm:mt-4 self-center sm:self-start">
+            {galleryBadge}
+          </div>
+        )}
+
+        <p className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-muted max-w-md sm:max-w-lg lg:max-w-xl min-h-[4em]">
+          {useTypewriter && typeof subtext === "string" ? (
+            <Typewriter text={subtext} maxDuration={1000} />
+          ) : (
+            subtext
+          )}
         </p>
       </div>
     </div>
   );
 }
+
 
 

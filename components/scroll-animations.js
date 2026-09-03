@@ -32,18 +32,16 @@ export default function ScrollAnimations() {
     const getThresholds = () => {
       const vh = window.innerHeight;
       return {
-        // Orbs fade gradually — ~20% when about enters (scroll ≈ 200vh)
-        // At scroll 200vh with orbEnd=250vh: opacity = 1 - 200/250 = 0.2
+        // Orbs fade and shrink at a much faster rate on initial scroll
         orbStart: 0,
-        orbEnd: vh * 2.5,
-        // Stars fade slightly faster
-        starsEnd: vh * 2.2,
-        // Hero content stays opaque during text cycling, then fades at end
-        // About enters at scroll 200vh; hero fades 200vh → 250vh
-        contentStart: vh * 2.0,
-        contentEnd: vh * 2.5,
-        // Scroll hint
-        hintEnd: vh * 0.4,
+        orbEnd: vh * 0.5,
+        // Stars fade rapidly
+        starsEnd: vh * 0.5,
+        // Hero content disappears rapidly
+        contentStart: 0,
+        contentEnd: vh * 0.45,
+        // Scroll hint fades out immediately on scroll
+        hintEnd: vh * 0.2,
       };
     };
 
