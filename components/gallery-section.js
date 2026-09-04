@@ -12,42 +12,25 @@ const GALLERY_ITEMS = [
   { id: "extra-skills", label: "Extra skills", color: "#34d399", colorDark: "#059669" },// Dot 4: Green
 ];
 
-// ── Slower, Tactile Resistance Scroll Hook ──────────────────────────────────
+// ── Zero-Delay Direct Wheel Hook ───────────────────────────────────────────
 function useGalleryScroll(containerRef) {
   const [scrollPos, setScrollPos] = useState(0);
-  const velocityRef = useRef(0);
-  const animFrameRef = useRef(null);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    const updatePhysics = () => {
-      if (Math.abs(velocityRef.current) > 0.01) {
-        setScrollPos((prev) => prev + velocityRef.current);
-        velocityRef.current *= 0.84; // Heavy gentle friction for smooth, slow control
-        animFrameRef.current = requestAnimationFrame(updatePhysics);
-      } else {
-        velocityRef.current = 0;
-      }
-    };
-
     const handleWheel = (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      // Much slower, controlled scroll input delta
-      velocityRef.current += e.deltaY * 0.06;
-      if (!animFrameRef.current || Math.abs(velocityRef.current) > 0.02) {
-        cancelAnimationFrame(animFrameRef.current);
-        animFrameRef.current = requestAnimationFrame(updatePhysics);
-      }
+      // Instantaneous 1-to-1 scroll response — ZERO delay or lag!
+      setScrollPos((prev) => prev + e.deltaY * 0.35);
     };
 
     el.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
       el.removeEventListener("wheel", handleWheel);
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
   }, [containerRef]);
 
@@ -92,7 +75,7 @@ function CleanReplacingText({ activeStep, items, color }) {
           initial={{ opacity: 0, y: 10, rotateX: -20 }}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
           exit={{ opacity: 0, y: -10, rotateX: 20 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
           className="text-center px-4"
         >
           <p className="text-xs sm:text-sm font-mono text-zinc-300 tracking-wide">
@@ -104,7 +87,7 @@ function CleanReplacingText({ activeStep, items, color }) {
   );
 }
 
-// ── 0. Programming Screen — Dead Center Title & Description, Continuous Stripes + Faint Middle Ticker ──
+// ── 0. Programming Screen — Dead Center Title & Description ──────────────────
 function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const cards = [
@@ -124,7 +107,7 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
   const midOffset = ((-scrollPos * 0.22) % LOOP_WIDTH + LOOP_WIDTH) % LOOP_WIDTH;
   const bottomOffset = ((-scrollPos * 0.3) % LOOP_WIDTH + LOOP_WIDTH) % LOOP_WIDTH;
 
-  const activeStep = Math.floor((Math.abs(scrollPos) % (cards.length * 300)) / 300);
+  const activeStep = Math.floor((Math.abs(scrollPos) % (cards.length * 250)) / 250);
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col justify-between overflow-hidden select-none py-2 px-1">
@@ -245,7 +228,7 @@ function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
   const col1Offset = ((scrollPos * 0.3) % LOOP_HEIGHT + LOOP_HEIGHT) % LOOP_HEIGHT;
   const col3Offset = ((-scrollPos * 0.3) % LOOP_HEIGHT + LOOP_HEIGHT) % LOOP_HEIGHT;
 
-  const activeStep = Math.floor((Math.abs(scrollPos) % (items.length * 300)) / 300);
+  const activeStep = Math.floor((Math.abs(scrollPos) % (items.length * 250)) / 250);
 
   const renderColumn = (colId, offset) => (
     <div className="relative flex flex-col items-center overflow-hidden h-full z-10 w-32 sm:w-36">
@@ -304,7 +287,6 @@ function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
     { title: "Environmental Tech Trackers", desc: "Developing open-hardware sensors for community air monitoring.", impact: "Local Eco Trackers" },
   ];
 
-  // Continuous progressive Y rotation based on scrollPos (1:1 smooth tactile control)
   const rotateY = scrollPos * 0.45;
   const normalizedRotation = Math.abs(rotateY) % (projects.length * 180);
   const activeIndex = Math.floor(normalizedRotation / 180);
@@ -366,7 +348,7 @@ function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
   );
 }
 
-// ── 3. Hobbies Screen — Split Panel + Open Title & Description (NO BOX, NO BORDER) ──
+// ── 3. Hobbies Screen — Split Panel + Scrolling Replacing Text (NO BOX, NO BORDER) ──
 function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
   const hobbies = [
     { title: "Generative Art & Shaders", desc: "Algorithmic visual animations & GLSL shader experiments.", tag: "CREATIVE CODING" },
@@ -375,12 +357,12 @@ function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
     { title: "Game Physics Engines", desc: "Building retro 2D physics engines & indie game mechanics.", tag: "GAME DEV" },
   ];
 
-  const activeStep = Math.floor((Math.abs(scrollPos) % (hobbies.length * 350)) / 350);
+  const activeStep = Math.floor((Math.abs(scrollPos) % (hobbies.length * 250)) / 250);
   const currentHobby = hobbies[activeStep % hobbies.length];
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
-      {/* Clean Open Title — NO BOX, NO BORDER */}
+      {/* Clean Open Title & Scrolling Replacing Text */}
       <div className="text-center">
         <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
           HOBBIES
@@ -398,7 +380,7 @@ function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
           />
         </div>
 
-        {/* Details Panel — OPEN TEXT, NO SEPARATE CONTAINER BOX WITH BORDERS */}
+        {/* Details Panel — OPEN TEXT ONLY */}
         <div className="relative w-full md:w-[40%] h-full p-5 flex flex-col justify-center space-y-2 z-10">
           <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400">{currentHobby.tag}</span>
           <h4 className="text-base font-bold font-mono text-white">{currentHobby.title}</h4>
@@ -409,7 +391,7 @@ function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
   );
 }
 
-// ── 4. Extra Skills Screen — 3D Isometric Stack + Open Title & Description ────
+// ── 4. Extra Skills Screen — 3D Isometric Stack + Scrolling Replacing Text ────
 function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
   const skills = [
     { title: "UI/UX & Prototyping", desc: "Figma design systems, micro-interactions & accessibility." },
@@ -418,12 +400,12 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
     { title: "Performance Tuning", desc: "Lighthouse 100/100, bundle optimization & SSR." },
   ];
 
-  const activeStep = Math.floor((Math.abs(scrollPos) % (skills.length * 350)) / 350);
+  const activeStep = Math.floor((Math.abs(scrollPos) % (skills.length * 250)) / 250);
   const currentSkill = skills[activeStep % skills.length];
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
-      {/* Clean Open Title — NO BOX, NO BORDER */}
+      {/* Clean Open Title & Scrolling Replacing Text */}
       <div className="text-center">
         <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
           EXTRA SKILLS
@@ -460,7 +442,7 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
           })}
         </div>
 
-        {/* Info Text — OPEN TEXT ONLY (NO SEPARATE CONTAINER BOX WITH BORDER) */}
+        {/* Info Text — OPEN TEXT ONLY */}
         <div className="relative w-full md:w-1/2 p-4 flex flex-col justify-center space-y-2">
           <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Specialization 0{(activeStep % skills.length) + 1}</span>
           <h4 className="text-base font-bold font-mono text-white">{currentSkill.title}</h4>

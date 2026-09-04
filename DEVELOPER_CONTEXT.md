@@ -210,10 +210,9 @@ Replaces static text blocks with dynamic, reactive typewriter text. When an orb 
 
 ### Standardized Uniform Screen Dimensions & Clean Slick Typography
 - **Uniform Increased Screen Height**: Increased all 5 screen containers to `h-[380px] sm:h-[420px] md:h-[450px]`, giving ample breathing room while keeping screens equal.
-- **Slower Scroll Physics & Progressive 3D Flip**: Configured gentle scroll friction (`0.84`) and delta scaling (`0.06`). Screen 2 (Social Work) features continuous 1:1 progressive 3D card flipping (`rotateY: scrollPos * 0.45` deg).
-- **Centered Programming Overlay**: Screen 0 (Programming) title `PROGRAMMING` is positioned dead center vertically and horizontally directly in front of the faint middle background ticker.
-- **Unboxed Borderless Text**: Completely removed all container boxes, background cards, and border outlines around text across all 5 screens for a clean, open presentation.
-- **Larger Academic Columns**: Screen 1 (Academic) features expanded vertical carousel cards (`w-32 sm:w-36 h-32 sm:h-36`).
+- **Zero-Delay Direct Wheel Scroll**: Replaced RAF decay delay in `useGalleryScroll` with direct wheel delta updates (`setScrollPos((prev) => prev + e.deltaY * 0.35)`), providing 0ms latency instantaneous scroll response.
+- **Universal 3D Scrolling Text**: Integrated `CleanReplacingText` 3D perspective rotation across **ALL 5 screens** (Programming, Academic, Social Work, Hobbies, Extra skills) so descriptions update as cards scroll.
+- **DESIGN.md System**: Created `DESIGN.md` in project root incorporating `ui-ux-pro-max` guidelines, color mappings, depth hierarchy, unboxed typography rules, and pre-delivery checklist.
 
 ### Universal On-Scroll Pop-Up Effect
 - **GSAP ScrollTrigger Pop-Up**: All section containers (`.scroll-reveal`) use `fromTo` pop-up animation (`opacity: 0 → 1`, `scale: 0.95 → 1`, `y: 50px → 0`) scrubbing as elements enter the viewport.
