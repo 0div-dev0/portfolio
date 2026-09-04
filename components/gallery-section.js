@@ -63,24 +63,62 @@ function VisualGraphicCard({ index, label, subtitle }) {
   );
 }
 
-// ── Open, Slick 3D Scroll-Replacing Description Component (NO BOX, NO BORDER) ─
-function CleanReplacingText({ activeStep, items, color }) {
+// ── Hero-Style 3D Scroll Text Replacement Component ─────────────────────────
+// Uses the exact HeroTextBlock 3D formula: perspective(1000px) rotateX(15deg) translateY(40px)
+function HeroStyleScrollText({ activeStep, items, color }) {
   const activeItem = items[activeStep % items.length];
 
   return (
-    <div className="relative h-9 flex items-center justify-center overflow-hidden preserve-3d pointer-events-none mt-1">
+    <div className="relative h-10 flex items-center justify-center overflow-hidden preserve-3d pointer-events-none mt-1">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeStep}
-          initial={{ opacity: 0, y: 10, rotateX: -20 }}
+          initial={{ opacity: 0, y: 40, rotateX: 15 }}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
-          exit={{ opacity: 0, y: -10, rotateX: 20 }}
-          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          exit={{ opacity: 0, y: -50, rotateX: -15 }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           className="text-center px-4"
+          style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
         >
           <p className="text-xs sm:text-sm font-mono text-zinc-300 tracking-wide">
             {activeItem ? `${activeItem.title} — ${activeItem.desc || activeItem.subtitle || activeItem.impact}` : ""}
           </p>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ── Hero-Style 3D Scroll Text Block (label + title + desc) ───────────────────
+// Same HeroTextBlock 3D formula as HeroStyleScrollText — old text scrolls up and
+// out, new text scrolls up from below — but for the rich detail panels
+// (Hobbies / Extra skills): the tag label, title and description swap together
+// as one animated block whenever the active step changes. Items without a `tag`
+// (Extra skills) fall back to the "Specialization 0X" label.
+function HeroStyleScrollTextBlock({ activeStep, items, accentColor }) {
+  const activeItem = items[activeStep % items.length];
+  const label = activeItem.tag || `Specialization 0${(activeStep % items.length) + 1}`;
+
+  return (
+    <div className="relative w-full min-h-[96px] flex flex-col justify-center overflow-hidden preserve-3d pointer-events-none">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeStep}
+          initial={{ opacity: 0, y: 40, rotateX: 15 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          exit={{ opacity: 0, y: -50, rotateX: -15 }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col space-y-2"
+          style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
+        >
+          <span
+            className="text-[10px] font-mono uppercase tracking-widest"
+            style={{ color: accentColor }}
+          >
+            {label}
+          </span>
+          <h4 className="text-base font-bold font-mono text-white">{activeItem.title}</h4>
+          <p className="text-xs font-mono text-zinc-300 leading-relaxed">{activeItem.desc}</p>
         </motion.div>
       </AnimatePresence>
     </div>
@@ -111,12 +149,12 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col justify-between overflow-hidden select-none py-2 px-1">
-      {/* ── DEAD CENTER TITLE & DESCRIPTION OVERLAY (OPEN TEXT ONLY, NO BOX, NO BORDER) ── */}
+      {/* ── DEAD CENTER TITLE & DESCRIPTION OVERLAY (OPEN TEXT ONLY) ── */}
       <div className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center pointer-events-none px-4">
         <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-mono tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
           PROGRAMMING
         </h3>
-        <CleanReplacingText activeStep={activeStep} items={cards} color={color} />
+        <HeroStyleScrollText activeStep={activeStep} items={cards} color={color} />
       </div>
 
       {/* Top Stripe */}
@@ -208,7 +246,7 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
   );
 }
 
-// ── 1. Academic Screen — Larger Columns + Open Centered Text (NO BOX, NO BORDER) ──
+// ── 1. Academic Screen — Larger Columns + Open Centered Text ──────────────────
 function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const items = [
@@ -265,12 +303,12 @@ function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex items-stretch gap-4 overflow-hidden select-none py-3 px-1">
       {renderColumn("c1", col1Offset)}
 
-      {/* Center Section: OPEN TEXT ONLY (NO BACKGROUND BOX, NO BORDER) */}
+      {/* Center Section: OPEN TEXT ONLY */}
       <div className="relative flex-1 flex flex-col items-center justify-center text-center p-4">
         <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white mb-2">
           ACADEMIC
         </h3>
-        <CleanReplacingText activeStep={activeStep} items={items} color={color} />
+        <HeroStyleScrollText activeStep={activeStep} items={items} color={color} />
       </div>
 
       {renderColumn("c3", col3Offset)}
@@ -278,7 +316,7 @@ function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
   );
 }
 
-// ── 2. Social Work Screen — Progressively Flipping 3D Card (Continuous 1:1 Scroll) ──
+// ── 2. Social Work Screen — Progressively Flipping 3D Card ────────────────────
 function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
   const projects = [
     { title: "Community Tech Education", desc: "Teaching coding & computer literacy to underrepresented youth.", impact: "500+ Students Taught" },
@@ -294,7 +332,7 @@ function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
-      {/* Clean Open Title — NO BOX, NO BORDER */}
+      {/* Clean Open Title */}
       <div className="text-center z-20 pointer-events-none">
         <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
           SOCIAL WORK
@@ -340,7 +378,7 @@ function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
         </div>
       </div>
 
-      {/* Open Description Text Below — NO BOX, NO BORDER */}
+      {/* Open Description Text Below */}
       <div className="text-center font-mono text-xs text-zinc-400 pointer-events-none">
         {currentProject.desc}
       </div>
@@ -348,7 +386,7 @@ function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
   );
 }
 
-// ── 3. Hobbies Screen — Split Panel + Scrolling Replacing Text (NO BOX, NO BORDER) ──
+// ── 3. Hobbies Screen — Split Panel + Hero-Style 3D Scroll Text Replacement ────
 function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
   const hobbies = [
     { title: "Generative Art & Shaders", desc: "Algorithmic visual animations & GLSL shader experiments.", tag: "CREATIVE CODING" },
@@ -362,12 +400,12 @@ function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
-      {/* Clean Open Title & Scrolling Replacing Text */}
+      {/* Clean Open Title & Hero-Style 3D Scrolling Replacing Text */}
       <div className="text-center">
         <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
           HOBBIES
         </h3>
-        <CleanReplacingText activeStep={activeStep} items={hobbies} color={color} />
+        <HeroStyleScrollText activeStep={activeStep} items={hobbies} color={color} />
       </div>
 
       <div className="relative w-full max-w-3xl h-56 sm:h-64 rounded-xl border border-white/15 overflow-hidden flex flex-col md:flex-row bg-[#0e0d0a] my-auto">
@@ -380,18 +418,16 @@ function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
           />
         </div>
 
-        {/* Details Panel — OPEN TEXT ONLY */}
-        <div className="relative w-full md:w-[40%] h-full p-5 flex flex-col justify-center space-y-2 z-10">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400">{currentHobby.tag}</span>
-          <h4 className="text-base font-bold font-mono text-white">{currentHobby.title}</h4>
-          <p className="text-xs font-mono text-zinc-300 leading-relaxed">{currentHobby.desc}</p>
+        {/* Details Panel — animated with the hero-style 3D scroll block */}
+        <div className="relative w-full md:w-[40%] h-full p-5 flex flex-col justify-center z-10">
+          <HeroStyleScrollTextBlock activeStep={activeStep} items={hobbies} accentColor={color} />
         </div>
       </div>
     </div>
   );
 }
 
-// ── 4. Extra Skills Screen — 3D Isometric Stack + Scrolling Replacing Text ────
+// ── 4. Extra Skills Screen — Progressive Rise Card Stack + Hero-Style 3D Scroll Text Replacement ────
 function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
   const skills = [
     { title: "UI/UX & Prototyping", desc: "Figma design systems, micro-interactions & accessibility." },
@@ -400,38 +436,47 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
     { title: "Performance Tuning", desc: "Lighthouse 100/100, bundle optimization & SSR." },
   ];
 
-  const activeStep = Math.floor((Math.abs(scrollPos) % (skills.length * 250)) / 250);
-  const currentSkill = skills[activeStep % skills.length];
+  // Continuous focus float in [0, skills.length). Each 250px of wheel scroll
+  // advances the focus by one skill, but card offsets track the float
+  // continuously — so the stack rises 1:1 with the wheel instead of snapping
+  // between layouts. At each boundary the cards spring back (flip-back) while
+  // the step text (HeroStyleScrollText + info panel) switches to the next skill.
+  const STEP = 250;
+  const focusFloat = (Math.abs(scrollPos) % (skills.length * STEP)) / STEP;
+  const activeStep = Math.floor(focusFloat) % skills.length;
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
-      {/* Clean Open Title & Scrolling Replacing Text */}
+      {/* Clean Open Title & Hero-Style 3D Scrolling Replacing Text */}
       <div className="text-center">
         <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
           EXTRA SKILLS
         </h3>
-        <CleanReplacingText activeStep={activeStep} items={skills} color={color} />
+        <HeroStyleScrollText activeStep={activeStep} items={skills} color={color} />
       </div>
 
       <div className="relative w-full max-w-3xl flex flex-col md:flex-row items-center justify-center gap-6 my-auto px-2">
-        {/* Isometric Card Stack */}
+        {/* Progressive Rise Card Stack — positions track focusFloat (continuous),
+            spring transition turns the step-boundary wrap into a smooth flip-back */}
         <div className="relative w-full md:w-1/2 h-52 sm:h-60 flex items-center justify-center">
           {skills.map((skill, i) => {
-            const isFocused = i === (activeStep % skills.length);
-            const offset = i - (activeStep % skills.length);
+            const offset = i - focusFloat; // continuous: 0 = dead-center focus
+            const dist = Math.abs(offset);
+            const isFocused = dist < 0.5;
 
             return (
               <motion.div
                 key={i}
                 className="absolute w-56 sm:w-60 h-32 sm:h-36 rounded-xl p-3 border border-white/15 bg-[#0a120e] overflow-hidden shadow-2xl cursor-pointer"
                 animate={{
-                  scale: isFocused ? 1 : 0.88 - Math.abs(offset) * 0.05,
+                  scale: dist <= 1 ? 1 - dist * 0.17 : 0.88 - dist * 0.05,
                   y: offset * 20,
                   x: offset * 12,
                   rotateZ: offset * -4,
-                  zIndex: isFocused ? 30 : 20 - Math.abs(offset),
-                  opacity: isFocused ? 1 : 0.4,
+                  zIndex: isFocused ? 30 : 20 - Math.round(dist),
+                  opacity: Math.max(1 - dist * 0.3, 0.4),
                 }}
+                transition={{ type: "spring", stiffness: 200, damping: 26, mass: 0.9 }}
                 style={{
                   borderColor: isFocused ? color : "rgba(255,255,255,0.1)",
                 }}
@@ -442,11 +487,9 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
           })}
         </div>
 
-        {/* Info Text — OPEN TEXT ONLY */}
-        <div className="relative w-full md:w-1/2 p-4 flex flex-col justify-center space-y-2">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Specialization 0{(activeStep % skills.length) + 1}</span>
-          <h4 className="text-base font-bold font-mono text-white">{currentSkill.title}</h4>
-          <p className="text-xs font-mono text-zinc-300 leading-relaxed">{currentSkill.desc}</p>
+        {/* Info Text — animated with the hero-style 3D scroll block */}
+        <div className="relative w-full md:w-1/2 p-4 flex flex-col justify-center">
+          <HeroStyleScrollTextBlock activeStep={activeStep} items={skills} accentColor={color} />
         </div>
       </div>
     </div>

@@ -42,7 +42,8 @@ This document outlines the UI/UX design architecture, typography, color palettes
 
 ### **Unboxed Typography Principle**
 - **No Border Containers Around Text**: Titles and description texts float cleanly and openly over the canvas without artificial container boxes, heavy borders, or glowing LED shadows.
-- **3D Text Replacement (`CleanReplacingText`)**: Uses Framer Motion 3D perspective rotation (`rotateX: -20deg → 0deg → 20deg`, `opacity: 0 → 1 → 0`) to dynamically cycle descriptions in 1-to-1 sync with card scroll momentum.
+- **3D Text Replacement (`HeroStyleScrollText`)**: Uses the exact `HeroTextBlock` 3D tilt-and-slide formula (`perspective(1000px) rotateX(15deg) translateY(40px) → rotateX(0deg) translateY(0px) → rotateX(-15deg) translateY(-50px)`) to reveal new text by scrolling up from below and exit old text upward, in 1-to-1 sync with card scroll momentum across all 5 screens (including `Hobbies` and `Extra skills`).
+- **3D Detail Text Block (`HeroStyleScrollTextBlock`)**: The same 3D formula applied to the rich detail panels — the `Hobbies` details (tag/title/desc, e.g. `CREATIVE CODING`) and the `Extra skills` info (`Specialization 0X` + title/desc) — so the entire block scrolls up and reveals on each step change.
 
 ---
 
@@ -52,6 +53,7 @@ This document outlines the UI/UX design architecture, typography, color palettes
 - **Continuous Seamless Infinite Looping**: Modulo arithmetic offset calculation (`((scrollPos * factor) % LOOP_WIDTH + LOOP_WIDTH) % LOOP_WIDTH`) and quadrupled element arrays eliminate visual jumps or cutoffs.
 - **Zero-Delay Scroll Hook (`useGalleryScroll`)**: Direct wheel input handling (`e.deltaY * 0.35`) provides instantaneous 1-to-1 responsiveness without artificial latency.
 - **Progressive 1:1 3D Card Flip**: Screen 2 (Social Work) features continuous 3D card rotation (`rotateY: scrollPos * 0.45` deg) driven directly by user scroll velocity.
+- **Progressive Rise Card Stack**: Screen 4 (Extra Skills) offsets each card by a continuous scroll-driven float (`offset = i - focusFloat`, `focusFloat = (|scrollPos| % 1000) / 250`) so the stack rises 1:1 with the wheel, then springs back (`stiffness: 200`, `damping: 26`) at each 250px boundary — a smooth flip-back while the step text switches to the next skill.
 
 ---
 

@@ -1,0 +1,323 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Home" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - link "About" [ref=e7] [cursor=pointer]:
+        - /url: "#about"
+      - link "Gallery" [ref=e9] [cursor=pointer]:
+        - /url: "#gallery"
+      - link "Play" [ref=e11] [cursor=pointer]:
+        - /url: "#play"
+      - link "Contact" [ref=e13] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=e14]:
+    - link "Instagram" [ref=e15] [cursor=pointer]:
+      - /url: ""
+    - link "GitHub" [ref=e18] [cursor=pointer]:
+      - /url: ""
+    - button [ref=e21] [cursor=pointer]
+  - generic [ref=e33]:
+    - generic [ref=e35]:
+      - generic:
+        - generic [ref=e41]:
+          - heading "Design in black & white, colour returns on contact." [level=1] [ref=e42]
+          - paragraph [ref=e44]:
+            - generic [ref=e45]: A minimal portfolio that reveals colour as you interact. Move your cursor over the lights above and watch contrast, brightness and hue bloom back into the aurora.
+        - generic [ref=e46]:
+          - link "View project" [ref=e47] [cursor=pointer]:
+            - /url: "#work"
+          - link "Start conversation" [ref=e48] [cursor=pointer]:
+            - /url: "#contact"
+      - generic: View project
+    - generic [ref=e50]:
+      - heading "About" [level=2] [ref=e51]
+      - paragraph [ref=e53]: Passionate software developer and creator exploring the intersections of full-stack engineering, interactive graphic design, and artificial intelligence.
+  - generic [ref=e55]:
+    - generic [ref=e56]:
+      - button "Programming" [ref=e57] [cursor=pointer]
+      - button "Academic" [ref=e62] [cursor=pointer]
+      - button "Social Work" [ref=e66] [cursor=pointer]
+      - button "Hobbies" [ref=e70] [cursor=pointer]
+      - button "Extra skills" [ref=e74] [cursor=pointer]
+    - generic [ref=e80]:
+      - generic:
+        - heading "PROGRAMMING" [level=3]
+        - generic:
+          - generic:
+            - paragraph: React & Next.js — Fullstack Architecture
+      - generic [ref=e82]:
+        - generic [ref=e85] [cursor=pointer]:
+          - generic [ref=e86]: "01"
+          - generic [ref=e89]:
+            - paragraph [ref=e90]: React & Next.js
+            - paragraph [ref=e91]: Fullstack Architecture
+        - generic [ref=e94] [cursor=pointer]:
+          - generic [ref=e95]: "02"
+          - generic [ref=e98]:
+            - paragraph [ref=e99]: TypeScript
+            - paragraph [ref=e100]: Type-Safe Systems
+        - generic [ref=e103] [cursor=pointer]:
+          - generic [ref=e104]: "03"
+          - generic [ref=e107]:
+            - paragraph [ref=e108]: WebGL & Three.js
+            - paragraph [ref=e109]: Interactive 3D
+        - generic [ref=e112] [cursor=pointer]:
+          - generic [ref=e113]: "04"
+          - generic [ref=e116]:
+            - paragraph [ref=e117]: Node.js & APIs
+            - paragraph [ref=e118]: High-Perf Backends
+        - generic [ref=e121] [cursor=pointer]:
+          - generic [ref=e122]: "05"
+          - generic [ref=e125]:
+            - paragraph [ref=e126]: Tailwind CSS
+            - paragraph [ref=e127]: Design Systems
+        - generic [ref=e130] [cursor=pointer]:
+          - generic [ref=e131]: "06"
+          - generic [ref=e134]:
+            - paragraph [ref=e135]: Python & AI
+            - paragraph [ref=e136]: Machine Learning
+        - generic [ref=e139] [cursor=pointer]:
+          - generic [ref=e140]: "01"
+          - generic [ref=e143]:
+            - paragraph [ref=e144]: React & Next.js
+            - paragraph [ref=e145]: Fullstack Architecture
+        - generic [ref=e148] [cursor=pointer]:
+          - generic [ref=e149]: "02"
+          - generic [ref=e152]:
+            - paragraph [ref=e153]: TypeScript
+            - paragraph [ref=e154]: Type-Safe Systems
+        - generic [ref=e157] [cursor=pointer]:
+          - generic [ref=e158]: "03"
+          - generic [ref=e161]:
+            - paragraph [ref=e162]: WebGL & Three.js
+            - paragraph [ref=e163]: Interactive 3D
+        - generic [ref=e166] [cursor=pointer]:
+          - generic [ref=e167]: "04"
+          - generic [ref=e170]:
+            - paragraph [ref=e171]: Node.js & APIs
+            - paragraph [ref=e172]: High-Perf Backends
+        - generic [ref=e175] [cursor=pointer]:
+          - generic [ref=e176]: "05"
+          - generic [ref=e179]:
+            - paragraph [ref=e180]: Tailwind CSS
+            - paragraph [ref=e181]: Design Systems
+        - generic [ref=e184] [cursor=pointer]:
+          - generic [ref=e185]: "06"
+          - generic [ref=e188]:
+            - paragraph [ref=e189]: Python & AI
+            - paragraph [ref=e190]: Machine Learning
+        - generic [ref=e193] [cursor=pointer]:
+          - generic [ref=e194]: "01"
+          - generic [ref=e197]:
+            - paragraph [ref=e198]: React & Next.js
+            - paragraph [ref=e199]: Fullstack Architecture
+        - generic [ref=e202] [cursor=pointer]:
+          - generic [ref=e203]: "02"
+          - generic [ref=e206]:
+            - paragraph [ref=e207]: TypeScript
+            - paragraph [ref=e208]: Type-Safe Systems
+        - generic [ref=e211] [cursor=pointer]:
+          - generic [ref=e212]: "03"
+          - generic [ref=e215]:
+            - paragraph [ref=e216]: WebGL & Three.js
+            - paragraph [ref=e217]: Interactive 3D
+        - generic [ref=e220] [cursor=pointer]:
+          - generic [ref=e221]: "04"
+          - generic [ref=e224]:
+            - paragraph [ref=e225]: Node.js & APIs
+            - paragraph [ref=e226]: High-Perf Backends
+        - generic [ref=e229] [cursor=pointer]:
+          - generic [ref=e230]: "05"
+          - generic [ref=e233]:
+            - paragraph [ref=e234]: Tailwind CSS
+            - paragraph [ref=e235]: Design Systems
+        - generic [ref=e238] [cursor=pointer]:
+          - generic [ref=e239]: "06"
+          - generic [ref=e242]:
+            - paragraph [ref=e243]: Python & AI
+            - paragraph [ref=e244]: Machine Learning
+        - generic [ref=e247] [cursor=pointer]:
+          - generic [ref=e248]: "01"
+          - generic [ref=e251]:
+            - paragraph [ref=e252]: React & Next.js
+            - paragraph [ref=e253]: Fullstack Architecture
+        - generic [ref=e256] [cursor=pointer]:
+          - generic [ref=e257]: "02"
+          - generic [ref=e260]:
+            - paragraph [ref=e261]: TypeScript
+            - paragraph [ref=e262]: Type-Safe Systems
+        - generic [ref=e265] [cursor=pointer]:
+          - generic [ref=e266]: "03"
+          - generic [ref=e269]:
+            - paragraph [ref=e270]: WebGL & Three.js
+            - paragraph [ref=e271]: Interactive 3D
+        - generic [ref=e274] [cursor=pointer]:
+          - generic [ref=e275]: "04"
+          - generic [ref=e278]:
+            - paragraph [ref=e279]: Node.js & APIs
+            - paragraph [ref=e280]: High-Perf Backends
+        - generic [ref=e283] [cursor=pointer]:
+          - generic [ref=e284]: "05"
+          - generic [ref=e287]:
+            - paragraph [ref=e288]: Tailwind CSS
+            - paragraph [ref=e289]: Design Systems
+        - generic [ref=e292] [cursor=pointer]:
+          - generic [ref=e293]: "06"
+          - generic [ref=e296]:
+            - paragraph [ref=e297]: Python & AI
+            - paragraph [ref=e298]: Machine Learning
+      - generic:
+        - generic:
+          - generic: CORE SYSTEM 01
+          - generic: CORE SYSTEM 02
+          - generic: CORE SYSTEM 03
+          - generic: CORE SYSTEM 04
+          - generic: CORE SYSTEM 05
+          - generic: CORE SYSTEM 06
+          - generic: CORE SYSTEM 01
+          - generic: CORE SYSTEM 02
+          - generic: CORE SYSTEM 03
+          - generic: CORE SYSTEM 04
+          - generic: CORE SYSTEM 05
+          - generic: CORE SYSTEM 06
+          - generic: CORE SYSTEM 01
+          - generic: CORE SYSTEM 02
+          - generic: CORE SYSTEM 03
+          - generic: CORE SYSTEM 04
+          - generic: CORE SYSTEM 05
+          - generic: CORE SYSTEM 06
+          - generic: CORE SYSTEM 01
+          - generic: CORE SYSTEM 02
+          - generic: CORE SYSTEM 03
+          - generic: CORE SYSTEM 04
+          - generic: CORE SYSTEM 05
+          - generic: CORE SYSTEM 06
+      - generic [ref=e300]:
+        - generic [ref=e303] [cursor=pointer]:
+          - generic [ref=e304]: "04"
+          - generic [ref=e307]:
+            - paragraph [ref=e308]: Node.js & APIs
+            - paragraph [ref=e309]: High-Perf Backends
+        - generic [ref=e312] [cursor=pointer]:
+          - generic [ref=e313]: "05"
+          - generic [ref=e316]:
+            - paragraph [ref=e317]: Tailwind CSS
+            - paragraph [ref=e318]: Design Systems
+        - generic [ref=e321] [cursor=pointer]:
+          - generic [ref=e322]: "06"
+          - generic [ref=e325]:
+            - paragraph [ref=e326]: Python & AI
+            - paragraph [ref=e327]: Machine Learning
+        - generic [ref=e330] [cursor=pointer]:
+          - generic [ref=e331]: "01"
+          - generic [ref=e334]:
+            - paragraph [ref=e335]: React & Next.js
+            - paragraph [ref=e336]: Fullstack Architecture
+        - generic [ref=e339] [cursor=pointer]:
+          - generic [ref=e340]: "02"
+          - generic [ref=e343]:
+            - paragraph [ref=e344]: TypeScript
+            - paragraph [ref=e345]: Type-Safe Systems
+        - generic [ref=e348] [cursor=pointer]:
+          - generic [ref=e349]: "03"
+          - generic [ref=e352]:
+            - paragraph [ref=e353]: WebGL & Three.js
+            - paragraph [ref=e354]: Interactive 3D
+        - generic [ref=e357] [cursor=pointer]:
+          - generic [ref=e358]: "04"
+          - generic [ref=e361]:
+            - paragraph [ref=e362]: Node.js & APIs
+            - paragraph [ref=e363]: High-Perf Backends
+        - generic [ref=e366] [cursor=pointer]:
+          - generic [ref=e367]: "05"
+          - generic [ref=e370]:
+            - paragraph [ref=e371]: Tailwind CSS
+            - paragraph [ref=e372]: Design Systems
+        - generic [ref=e375] [cursor=pointer]:
+          - generic [ref=e376]: "06"
+          - generic [ref=e379]:
+            - paragraph [ref=e380]: Python & AI
+            - paragraph [ref=e381]: Machine Learning
+        - generic [ref=e384] [cursor=pointer]:
+          - generic [ref=e385]: "01"
+          - generic [ref=e388]:
+            - paragraph [ref=e389]: React & Next.js
+            - paragraph [ref=e390]: Fullstack Architecture
+        - generic [ref=e393] [cursor=pointer]:
+          - generic [ref=e394]: "02"
+          - generic [ref=e397]:
+            - paragraph [ref=e398]: TypeScript
+            - paragraph [ref=e399]: Type-Safe Systems
+        - generic [ref=e402] [cursor=pointer]:
+          - generic [ref=e403]: "03"
+          - generic [ref=e406]:
+            - paragraph [ref=e407]: WebGL & Three.js
+            - paragraph [ref=e408]: Interactive 3D
+        - generic [ref=e411] [cursor=pointer]:
+          - generic [ref=e412]: "04"
+          - generic [ref=e415]:
+            - paragraph [ref=e416]: Node.js & APIs
+            - paragraph [ref=e417]: High-Perf Backends
+        - generic [ref=e420] [cursor=pointer]:
+          - generic [ref=e421]: "05"
+          - generic [ref=e424]:
+            - paragraph [ref=e425]: Tailwind CSS
+            - paragraph [ref=e426]: Design Systems
+        - generic [ref=e429] [cursor=pointer]:
+          - generic [ref=e430]: "06"
+          - generic [ref=e433]:
+            - paragraph [ref=e434]: Python & AI
+            - paragraph [ref=e435]: Machine Learning
+        - generic [ref=e438] [cursor=pointer]:
+          - generic [ref=e439]: "01"
+          - generic [ref=e442]:
+            - paragraph [ref=e443]: React & Next.js
+            - paragraph [ref=e444]: Fullstack Architecture
+        - generic [ref=e447] [cursor=pointer]:
+          - generic [ref=e448]: "02"
+          - generic [ref=e451]:
+            - paragraph [ref=e452]: TypeScript
+            - paragraph [ref=e453]: Type-Safe Systems
+        - generic [ref=e456] [cursor=pointer]:
+          - generic [ref=e457]: "03"
+          - generic [ref=e460]:
+            - paragraph [ref=e461]: WebGL & Three.js
+            - paragraph [ref=e462]: Interactive 3D
+        - generic [ref=e465] [cursor=pointer]:
+          - generic [ref=e466]: "04"
+          - generic [ref=e469]:
+            - paragraph [ref=e470]: Node.js & APIs
+            - paragraph [ref=e471]: High-Perf Backends
+        - generic [ref=e474] [cursor=pointer]:
+          - generic [ref=e475]: "05"
+          - generic [ref=e478]:
+            - paragraph [ref=e479]: Tailwind CSS
+            - paragraph [ref=e480]: Design Systems
+        - generic [ref=e483] [cursor=pointer]:
+          - generic [ref=e484]: "06"
+          - generic [ref=e487]:
+            - paragraph [ref=e488]: Python & AI
+            - paragraph [ref=e489]: Machine Learning
+        - generic [ref=e492] [cursor=pointer]:
+          - generic [ref=e493]: "01"
+          - generic [ref=e496]:
+            - paragraph [ref=e497]: React & Next.js
+            - paragraph [ref=e498]: Fullstack Architecture
+        - generic [ref=e501] [cursor=pointer]:
+          - generic [ref=e502]: "02"
+          - generic [ref=e505]:
+            - paragraph [ref=e506]: TypeScript
+            - paragraph [ref=e507]: Type-Safe Systems
+        - generic [ref=e510] [cursor=pointer]:
+          - generic [ref=e511]: "03"
+          - generic [ref=e514]:
+            - paragraph [ref=e515]: WebGL & Three.js
+            - paragraph [ref=e516]: Interactive 3D
+  - generic [ref=e517]:
+    - heading "Play" [level=2] [ref=e518]
+    - paragraph [ref=e519]: Interactive demos and playful experiments.
+  - generic [ref=e520]:
+    - heading "Contact" [level=2] [ref=e521]
+    - paragraph [ref=e522]: Get in touch — I'd love to hear from you.
+  - button "Open Next.js Dev Tools" [ref=e528] [cursor=pointer]
