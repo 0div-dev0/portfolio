@@ -103,18 +103,23 @@ export default function ScrollAnimations() {
       gsapCtx = gsap.context(() => {
         const reveals = document.querySelectorAll(".scroll-reveal");
         reveals.forEach((el) => {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 88%",
-              end: "top 40%",
-              scrub: 1.5,
-            },
-          });
+          gsap.fromTo(
+            el,
+            { opacity: 0, y: 50, scale: 0.95 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 90%",
+                end: "top 45%",
+                scrub: 1.2,
+              },
+            }
+          );
         });
       });
 

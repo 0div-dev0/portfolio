@@ -169,18 +169,18 @@ Each orb object in `ORBS` specifies:
 ## Typewriter Hero Text System (`components/ui/typewriter-text.jsx` + `components/hero.js`)
 
 ### Purpose
-Replaces the static hero text blocks with dynamic, reactive typewriter text. When an orb is hovered, the hero text is deleted and replaced with an orb-specific heading (naming the orb color), a small "Gallery" badge to the bottom-left of the heading, and placeholder descriptive text. When unhovered, it uses the typewriter animation to delete the orb text and re-type the default hero text.
+Replaces static text blocks with dynamic, reactive typewriter text. When an orb is hovered, the hero text is deleted and replaced with a clean abstract heading, a small "Gallery" badge to the bottom-left of the heading, and concise descriptive text. When unhovered, it uses typewriter animation to delete the orb text and re-type the default hero text.
 
 ### Reactive Prop Transition & Speed Tuning
 - **Ultra-Fast Speed (Max 1s)**: `maxDuration={1000}` ensures heading and description complete typing in <= 1000ms regardless of string length (`calcSpeed = Math.max(8, Math.floor(1000 / length))`).
-- **Auto-Hiding Cursor**: The cursor cursor element is rendered **ONLY** while actively writing or deleting text (`isWriting = isDeleting || displayText.length < currentTarget.length`), and disappears completely when idle.
+- **Auto-Hiding Cursor**: The cursor element is rendered **ONLY** while actively writing or deleting text (`isWriting = isDeleting || displayText.length < currentTarget.length`), and disappears completely when idle.
 
 ### Orb Detail Mapping (`ORB_DETAILS` in `components/hero.js`)
-- **Orb 0 (Violet)**: `#a78bfa` → Heading: `"Violet Aurora Light — Deep Chromatic Spectrum"`
-- **Orb 1 (Cyan)**: `#22d3ee` → Heading: `"Cyan Tide Light — Bioluminescent Depth"`
-- **Orb 2 (Rose)**: `#f472b6` → Heading: `"Rosebud Pink Light — Impermanence in Bloom"`
-- **Orb 3 (Amber)**: `#fbbf24` → Heading: `"Ember Amber Light — Molten Heat & Gold"`
-- **Orb 4 (Verdant)**: `#34d399` → Heading: `"Verdant Green Light — Defiance & Resilience"`
+- **Orb 0 (Purple)**: `#a78bfa` → Heading: `"Organic Luminescence — Light Field Study"`
+- **Orb 1 (Cyan)**: `#22d3ee` → Heading: `"Fluid Resonance — Subsurface Dynamics"`
+- **Orb 2 (Rose)**: `#f472b6` → Heading: `"Impermanence — Forms Unfolding"`
+- **Orb 3 (Amber)**: `#fbbf24` → Heading: `"Radiance Field — Energy & Heat"`
+- **Orb 4 (Green)**: `#34d399` → Heading: `"Structural Growth — Canopy Dynamics"`
 
 ---
 
@@ -193,32 +193,27 @@ Replaces the static hero text blocks with dynamic, reactive typewriter text. Whe
 
 ---
 
-## Gallery Page System (`app/gallery/page.js` + `app/globals.css`)
+## Integrated Gallery System (`components/gallery-section.js` + `components/ui/hyper-text.jsx` + `app/page.js`)
 
-### Layout & Assembly Animation
-- **Viewport Constraints**: The monitor container is constrained to `max-h-[86vh]` with proper padding and margins, preventing overflow or touching viewport edges.
-- **Assembly Entrance (`AssemblyEntrance`)**: Replaces scanlines and red "recording" UI with a staggered assembly animation (Header slides down, Title slides right, Display scales in, Footer slides up).
-- **Clean Selector**: Left dot selector column renders interactive dots without text badges.
+### Main Page Section Integration & Navigation
+- **Section Embed**: The interactive gallery is integrated as a full `<section id="gallery">` inside `app/page.js`, replacing standalone routes with a single-page scrolling experience.
+- **Navbar Smooth Scroll**: Nav bar target updated to `#gallery`. The standalone `/gallery` route wraps `<GallerySection />` in `<Suspense>` for backward compatibility.
 
-### 5 Custom Gallery Carousels (One per Orb Dot)
+### Enlarged Left Category Selector & Topic Labels
+- The left selector features enlarged interactive dot indicators with visible category text labels:
+  1. `Programming` (`#a78bfa`)
+  2. `Academic` (`#22d3ee`)
+  3. `Social Work` (`#f472b6`)
+  4. `Hobbies` (`#fbbf24`)
+  5. `Extra skills` (`#34d399`)
+- Active item displays a glowing ring (`motion.div layoutId="activeDotRing"`) and highlighted category label with text-shadow glow.
 
-1. **Dot 0: Purple Dot (Aurora) — 3 Horizontal Marquee Stripes**:
-   - Top stripe moves left (`.animate-marquee-left`), bottom stripe moves right (`.animate-marquee-right`).
-   - Middle stripe features faint background ticker with `"DEVELOPING PORTFOLIO"` prominently centered over it.
-   - Hovering any card pauses both marquees and pops the hovered card towards the center (`translateY(32px)` top, `translateY(-32px)` bottom, `scale(1.22)`), elevating with top `z-index: 50`.
+### Standardized Uniform Screen Dimensions & Clean Slick Typography
+- **Uniform Increased Screen Height**: Increased all 5 screen containers to `h-[380px] sm:h-[420px] md:h-[450px]`, giving ample breathing room while keeping screens equal.
+- **Slower Scroll Physics & Progressive 3D Flip**: Configured gentle scroll friction (`0.84`) and delta scaling (`0.06`). Screen 2 (Social Work) features continuous 1:1 progressive 3D card flipping (`rotateY: scrollPos * 0.45` deg).
+- **Centered Programming Overlay**: Screen 0 (Programming) title `PROGRAMMING` is positioned dead center vertically and horizontally directly in front of the faint middle background ticker.
+- **Unboxed Borderless Text**: Completely removed all container boxes, background cards, and border outlines around text across all 5 screens for a clean, open presentation.
+- **Larger Academic Columns**: Screen 1 (Academic) features expanded vertical carousel cards (`w-32 sm:w-36 h-32 sm:h-36`).
 
-2. **Dot 1: Cyan Dot (Cyan Tide) — 3 Vertical Columns Carousel**:
-   - Left and right columns scroll downward (`.animate-marquee-down`), middle column scrolls upward (`.animate-marquee-up`).
-   - Mouse wheel / scroll / drag listener scrubs column motion and replaces focused study text dynamically.
-
-3. **Dot 2: Rose Dot (Rosebud) — 3D Page Flip Book**:
-   - Interactive 3D flip card presentation.
-   - Tapping or clicking any page flips the card with a 3D `rotateY(-90deg)` transition, revealing page studies sequentially.
-
-4. **Dot 3: Amber Dot (Ember) — Fading Image & Integrated Text Carousel**:
-   - Left 65% area displays a rich gradient image card, fully visible on the left and dissolving into a dark gradient mask on the right.
-   - Right 35% area renders interactive thermal metrics and spec details. User can click index buttons to cross-fade between studies.
-
-5. **Dot 4: Green Dot (Verdant) — 3D Isometric Stack & Expansion Grid**:
-   - 3 stacked emerald study cards fanning out in 3D perspective (`scale`, `rotateZ`, `translateY`).
-   - Clicking any card expands it into front focus (`z-index: 30`) while pushing previous cards into the background stack.
+### Universal On-Scroll Pop-Up Effect
+- **GSAP ScrollTrigger Pop-Up**: All section containers (`.scroll-reveal`) use `fromTo` pop-up animation (`opacity: 0 → 1`, `scale: 0.95 → 1`, `y: 50px → 0`) scrubbing as elements enter the viewport.

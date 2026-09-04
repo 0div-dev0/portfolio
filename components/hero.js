@@ -7,34 +7,34 @@ import HeroTextBlock from "./hero-text-block";
 
 const ORB_DETAILS = [
   {
-    name: "Violet Aurora",
+    name: "Spectrum 01",
     color: "#a78bfa",
-    heading: "Violet Aurora Light — Deep Chromatic Spectrum",
-    desc: "A study in organic luminescence. Organic lights drift through shadow, revealing vivid purple hues on contact.",
+    heading: "Organic Luminescence — Light Field Study",
+    desc: "A study in spatial depth. Organic lights drift through shadow, revealing rich spectrum fields on interaction.",
   },
   {
-    name: "Cyan Tide",
+    name: "Currents 02",
     color: "#22d3ee",
-    heading: "Cyan Tide Light — Bioluminescent Depth",
-    desc: "Exploring bioluminescent currents pulsing beneath a calm surface. Electric cyan light spreads across the starry background.",
+    heading: "Fluid Resonance — Subsurface Dynamics",
+    desc: "Exploring currents pulsing beneath a calm surface. Fluid paths spread across the background matrix.",
   },
   {
-    name: "Rosebud Pink",
+    name: "Motion 03",
     color: "#f472b6",
-    heading: "Rosebud Pink Light — Impermanence in Bloom",
-    desc: "Gentle magenta warmth emerging from deep shadow, unfolding like memory returning to a dark canvas.",
+    heading: "Impermanence — Forms Unfolding",
+    desc: "Quiet warmth emerging from deep shadow, unfolding like memory returning to a minimal canvas.",
   },
   {
-    name: "Ember Amber",
+    name: "Combustion 04",
     color: "#fbbf24",
-    heading: "Ember Amber Light — Molten Heat & Gold",
-    desc: "Fire as a creative force. Radiant golden embers emitting warmth across high contrast dark UI elements.",
+    heading: "Radiance Field — Energy & Heat",
+    desc: "Controlled warmth as a creative force. Radiance emitting across high-contrast dark interface elements.",
   },
   {
-    name: "Verdant Green",
+    name: "Structure 05",
     color: "#34d399",
-    heading: "Verdant Green Light — Defiance & Resilience",
-    desc: "Luminous emerald canopy growth, building upward with patience and quiet structural harmony.",
+    heading: "Structural Growth — Canopy Dynamics",
+    desc: "Resilient canopy structures building upward with patience, balance and architectural intention.",
   },
 ];
 
