@@ -1,9 +1,10 @@
 "use client"
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import Aurora from "./aurora";
 import Stars from "./stars";
 import { cn } from "@/lib/utils";
 import HeroTextBlock from "./hero-text-block";
+import ProjectsCarousel from "./projects-carousel";
 
 const ORB_DETAILS = [
   {
@@ -38,67 +39,149 @@ const ORB_DETAILS = [
   },
 ];
 
-const DEFAULT_HEADING = "Design in black & white, colour returns on contact.";
-const DEFAULT_SUBTEXT = "A minimal portfolio that reveals colour as you interact. Move your cursor over the lights above and watch contrast, brightness and hue bloom back into the aurora.";
+const DEFAULT_HEADING = "Hi, I'm Divit Jain- A passionate designer and startup founder";
+const DEFAULT_SUBTEXT =
+  "Scroll or click the orbs to take a peek at my work.";
+
+// Stable reference so HeroTextBlock's scroll effect isn't re-created per render.
+const TEXT_RANGE = [0.0, 0.4];
 
 export default function Hero({ className }) {
   const [hoveredOrbColor, setHoveredOrbColor] = useState(null);
   const [hoveredOrbIndex, setHoveredOrbIndex] = useState(null);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const textContainerRef = useRef(null);
+  const portraitRef = useRef(null);
 
-  const ORB_TARGETS = [
-    "/gallery?orb=0",
-    "/gallery?orb=1",
-    "/gallery?orb=2",
-    "/gallery?orb=3",
-    "/gallery?orb=4",
-  ];
+  const ORB_TARGETS = useMemo(
+    () => [
+      "/gallery?orb=0",
+      "/gallery?orb=1",
+      "/gallery?orb=2",
+      "/gallery?orb=3",
+      "/gallery?orb=4",
+    ],
+    []
+  );
 
-  const handleOrbClick = useCallback((index) => {
-    const target = ORB_TARGETS[index];
-    if (target) window.location.href = target;
+  const handleOrbClick = useCallback(
+    (index) => {
+      const target = ORB_TARGETS[index];
+      if (target) window.location.href = target;
+    },
+    [ORB_TARGETS]
+  );
+
+  // Self-portrait parallax: the portrait lags the page as you scroll
+  // (translateY up slower than the scroll), applied via ref so no re-render.
+  useEffect(() => {
+    const el = portraitRef.current;
+    if (!el) return;
+    let ticking = false;
+    const update = () => {
+      el.style.transform = `translateX(-50%) translateY(${
+        window.scrollY * 0.35
+      }px)`;
+    };
+    update();
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Apply the subtle cursor parallax to the text container directly via a ref,
+  // so mousemove never triggers a React re-render of the whole hero.
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
+      const el = textContainerRef.current;
+      if (!el) return;
+      el.style.transform = `translate(${e.clientX * 0.005}px, ${
+        e.clientY * 0.005
+      }px)`;
     };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () =>
+      window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const activeOrb = hoveredOrbIndex !== null && hoveredOrbIndex >= 0 ? ORB_DETAILS[hoveredOrbIndex] : null;
+  const activeOrb =
+    hoveredOrbIndex !== null && hoveredOrbIndex >= 0
+      ? ORB_DETAILS[hoveredOrbIndex]
+      : null;
 
   const currentHeading = activeOrb ? activeOrb.heading : DEFAULT_HEADING;
   const currentSubtext = activeOrb ? activeOrb.desc : DEFAULT_SUBTEXT;
 
-  const galleryBadge = activeOrb ? (
-    <a
-      href={`/gallery?orb=${hoveredOrbIndex}`}
-      className="inline-flex items-center gap-2 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider rounded-full border transition-all duration-300 pointer-events-auto hover:scale-105"
-      style={{
-        borderColor: `${activeOrb.color}60`,
-        color: activeOrb.color,
-        backgroundColor: `${activeOrb.color}18`,
-        boxShadow: `0 0 20px ${activeOrb.color}30`,
-      }}
-    >
-      <span
-        className="w-2 h-2 rounded-full animate-pulse"
-        style={{ backgroundColor: activeOrb.color, boxShadow: `0 0 8px ${activeOrb.color}` }}
-      />
-      Gallery &rarr;
-    </a>
-  ) : null;
+  const galleryBadge = useMemo(
+    () =>
+      activeOrb ? (
+        <a
+          href={`/gallery?orb=${hoveredOrbIndex}`}
+          className="inline-flex items-center gap-2 px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider rounded-full border transition-all duration-300 pointer-events-auto hover:scale-105"
+          style={{
+            borderColor: `${activeOrb.color}60`,
+            color: activeOrb.color,
+            backgroundColor: `${activeOrb.color}18`,
+            boxShadow: `0 0 20px ${activeOrb.color}30`,
+          }}
+        >
+          <span
+            className="w-2 h-2 rounded-full animate-pulse"
+            style={{ backgroundColor: activeOrb.color, boxShadow: `0 0 8px ${activeOrb.color}` }}
+          />
+          Gallery &rarr;
+        </a>
+      ) : null,
+    [activeOrb, hoveredOrbIndex]
+  );
 
   return (
     <section
       className={cn(
-        "relative flex min-h-svh flex-col overflow-hidden bg-background font-sans text-foreground selection:bg-foreground selection:text-background transition-colors duration-300",
+        "relative flex h-svh flex-col overflow-hidden bg-background font-sans text-foreground selection:bg-foreground selection:text-background transition-colors duration-300",
         className
       )}
     >
       <Stars hoveredOrbColor={hoveredOrbColor} />
+
+      {/* Self-portrait — bottom-center, behind Aurora orbs and text (z-2 vs z-10) */}
+      <div
+        ref={portraitRef}
+        className="hero-portrait pointer-events-none"
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 3,
+          width: "clamp(260px, 36vw, 520px)",
+          height: "65vh",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 25%, black 50%)",
+          maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 25%, black 50%)",
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/selfportrait.png"
+          alt="Divit Jain"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            objectPosition: "bottom center",
+            display: "block",
+            userSelect: "none",
+            draggable: "false",
+          }}
+        />
+      </div>
 
       <Aurora
         setHoveredOrbColor={setHoveredOrbColor}
@@ -108,39 +191,26 @@ export default function Hero({ className }) {
 
       {/* Content — text block scroll-animates & typewriter updates on hover */}
       <div
-        className="hero-content-wrapper pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-between px-6 pt-24 pb-12 text-center sm:items-start sm:px-12 sm:pt-28 sm:pb-16 sm:text-left lg:px-20"
+        className="hero-content-wrapper pointer-events-none relative z-10 flex flex-col items-center justify-start gap-5 px-6 pt-16 pb-12 text-center sm:items-start sm:px-12 sm:pt-20 sm:text-left lg:px-20"
       >
         {/* Text block container with subtle cursor parallax */}
         <div
-          className="relative w-full flex-1 flex items-center justify-center sm:justify-start min-h-[280px] sm:min-h-[340px]"
-          style={{ transform: `translate(-${cursorPos.x * 0.005}px, -${cursorPos.y * 0.005}px)` }}
+          ref={textContainerRef}
+          className="relative w-full min-h-[220px] sm:min-h-[280px] will-change-transform flex items-center justify-center sm:justify-start"
         >
           {/* Main Hero Text Block with Typewriter and dynamic Orb hover text */}
           <HeroTextBlock
             heading={currentHeading}
             subtext={currentSubtext}
             galleryBadge={galleryBadge}
-            relativeRange={[0.0, 0.4]}
+            relativeRange={TEXT_RANGE}
             isFirst
             useTypewriter
           />
         </div>
 
-        {/* Buttons — pinned at bottom */}
-        <div className="pointer-events-auto mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto items-stretch sm:items-center">
-          <a
-            href="#work"
-            className="inline-flex h-11 sm:h-12 items-center justify-center rounded-full bg-primary px-6 sm:px-8 text-sm font-medium text-background transition-all duration-300 hover:opacity-90 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]"
-          >
-            View project
-          </a>
-          <a
-            href="#contact"
-            className="inline-flex h-11 sm:h-12 items-center justify-center rounded-full border border-border px-6 sm:px-8 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/5"
-          >
-            Start conversation
-          </a>
-        </div>
+        {/* Recent projects — carousel with live-embedded iframe cards */}
+        <ProjectsCarousel className="mt-2" />
       </div>
 
       {/* Scroll hint */}
@@ -152,4 +222,3 @@ export default function Hero({ className }) {
     </section>
   );
 }
-

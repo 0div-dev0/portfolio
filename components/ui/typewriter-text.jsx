@@ -49,9 +49,11 @@ export function Typewriter({
   const currentTarget = activeTargetRef.current || "";
   const isWriting = isDeleting || displayText.length < currentTarget.length;
 
-  // Dynamic speeds to ensure typing finishes within maxDuration (1000ms)
-  const calcSpeed = Math.max(8, Math.floor(maxDuration / Math.max(currentTarget.length, 1)));
-  const calcDeleteSpeed = Math.max(5, Math.floor(350 / Math.max(displayText.length, 1)));
+  // Dynamic speeds so typing finishes well within maxDuration (default 1000ms).
+  // The delete phase is much faster so the full replace completes almost
+  // instantly (whole swap well under ~800ms for typical hero strings).
+  const calcSpeed = Math.max(4, Math.floor(maxDuration / Math.max(currentTarget.length, 1) / 2));
+  const calcDeleteSpeed = Math.max(2, Math.floor(220 / Math.max(displayText.length, 1)));
 
   useEffect(() => {
     const timeout = setTimeout(

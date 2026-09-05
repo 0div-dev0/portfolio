@@ -1,21 +1,27 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import AuroraOrb from "./aurora-orb";
 
 /**
  * Aurora — the hero background.
  *
  * A set of large, heavily blurred lights that start black & white. Only the
- * light currently under the cursor is coloured: `pointerenter`/`pointerleave`
- * hit-test to a single element (the topmost one at the pointer position), and
- * we toggle `.is-hovered` on exactly that orb.
+ * light currently under the cursor is coloured, and ONLY once the cursor has
+ * been *stationary* over it (it colours on the pass-over cursor, not while
+ * moving). `pointerenter` marks the orb as the hover candidate; the animation
+ * loop waits until the cursor has stopped for `STATIONARY_MS` before applying
+ * colour, and any real movement (> `MOVE_PX`) releases the colour instantly.
  *
  * The lights also trail the cursor: each orb moves by roughly 5% of the
  * cursor's offset from the hero centre, and every orb eases toward its target
  * at a different rate (`trail`), so they drift along the cursor's path one
  * behind the other instead of snapping.
  */
+
+// Hard thresholds for the "stationary cursor" hover gating.
+const STATIONARY_MS = 250;
+const MOVE_PX = 3;
 
 // How much of the cursor's offset from centre each orb follows.
 const FOLLOW_FACTOR = 0.15;
@@ -81,7 +87,7 @@ const MIN_DISTANCE_SQ = 120 * 120;
 const DRIFT_SPEED = 16;
 const DIRECTION_CHANGE_INTERVAL = 3000;
 
-export default function Aurora({
+function Aurora({
   setHoveredOrbColor,
   setHoveredOrbIndex,
   onOrbClick,
@@ -117,6 +123,15 @@ export default function Aurora({
     // coloured); only the second tap on the same orb performs the real click.
     let touchActivatedIndex = -1;
 
+    // Stationary-cursor hover gating (desktop only): an orb under the cursor
+    // is a "candidate" (pendingIndex) as soon as the pointer enters it, but
+    // colour is only applied once the cursor has stopped moving for a while.
+    let pendingIndex = -1;
+    let lastMoveAt = performance.now();
+    let lastClientX = 0;
+    let lastClientY = 0;
+    let coasting = false;
+
     const colourOrb = (orb, i) => {
       orb.classList.add("is-hovered");
       container.classList.add("has-hovered-orb");
@@ -151,12 +166,23 @@ export default function Aurora({
       const onEnter = () => {
         // On touch, a re-tap of the already-activated orb is ignored here —
         // the click handler decides whether it's the activating or real click.
-        if (isCoarse() && touchActivatedIndex !== -1) return;
-        colourOrb(orb, i);
+        if (isCoarse()) {
+          if (touchActivatedIndex !== -1) return;
+          colourOrb(orb, i);
+          return;
+        }
+        // Desktop — remember this orb as a hover candidate. Colour is applied
+        // later by the animation loop once the cursor is actually still.
+        pendingIndex = i;
       };
       const onLeave = () => {
-        // On touch, the activated orb stays coloured between taps.
-        if (isCoarse() && touchActivatedIndex === i) return;
+        if (isCoarse()) {
+          // On touch, the activated orb stays coloured between taps.
+          if (touchActivatedIndex === i) return;
+          decolourOrb(orb);
+          return;
+        }
+        if (pendingIndex === i) pendingIndex = -1;
         decolourOrb(orb);
       };
       const onClick = () => {
@@ -215,6 +241,21 @@ export default function Aurora({
     }
 
     const onPointerMove = (event) => {
+      // Track cursor stillness: only a real (>= MOVE_PX) displacement counts
+      // as "moving". Micro-jitter below the threshold keeps any current hover.
+      const now = performance.now();
+      const moved = Math.abs(event.clientX - lastClientX) + Math.abs(event.clientY - lastClientY) >= MOVE_PX;
+      lastClientX = event.clientX;
+      lastClientY = event.clientY;
+      if (moved) {
+        lastMoveAt = now;
+        coasting = false;
+        // Moving again releases the coloured orb immediately.
+        if (!isCoarse() && hoveredOrbIndex >= 0 && orbEls[hoveredOrbIndex]) {
+          decolourOrb(orbEls[hoveredOrbIndex]);
+        }
+      }
+
       const rect = container.getBoundingClientRect();
       mouseRef.current = {
         x: event.clientX - (rect.left + rect.width / 2),
@@ -248,6 +289,20 @@ export default function Aurora({
         return;
       }
       physicsFrame = 0;
+
+      // Stationary-cursor hover: once the cursor has been still long enough,
+      // colour the orb it is sitting on (if any). Only runs once per rest —
+      // `coasting` is reset the moment the cursor moves again.
+      if (
+        !isCoarse() &&
+        !coasting &&
+        now - lastMoveAt > STATIONARY_MS
+      ) {
+        coasting = true;
+        if (hoveredOrbIndex === -1 && pendingIndex >= 0 && orbEls[pendingIndex]) {
+          colourOrb(orbEls[pendingIndex], pendingIndex);
+        }
+      }
 
       // Randomly change direction every so often
       if (now - lastDirectionChangeRef.current > DIRECTION_CHANGE_INTERVAL) {
@@ -321,7 +376,7 @@ export default function Aurora({
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="aurora-container p-20 pointer-events-none absolute inset-0 z-[3] overflow-hidden"
+      className="aurora-container p-20 pointer-events-none absolute inset-0 z-[5] overflow-hidden"
     >
       {ORBS.map((orb, i) => (
         <AuroraOrb
@@ -341,3 +396,5 @@ export default function Aurora({
     </div>
   );
 }
+
+export default memo(Aurora);

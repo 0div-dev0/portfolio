@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "About", href: "#about" },
   { label: "Gallery", href: "#gallery" },
-  { label: "Play", href: "#play" },
+  { label: "Process", href: "#process" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -68,6 +68,26 @@ export function Navbar({ className }) {
 
   return (
     <>
+    {/* Brand logo — fixed, top-center of the screen, always visible.
+        Rendered bare (no circle/card) and flattened to white via a
+        brightness(0) invert(1) filter so it reads as a pure white brand mark
+        on the dark hero. */}
+    <a
+      href="/"
+      aria-label="Div Dev — home"
+      className="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 z-[60] block leading-none transition-transform duration-300 hover:scale-105"
+    >
+      <img
+        src="/divdev.svg"
+        alt="Div Dev"
+        draggable={false}
+        className="w-28 sm:w-36 lg:w-40 h-auto"
+        style={{
+          filter: "brightness(0) invert(1) drop-shadow(0 0 8px rgba(255,255,255,0.35))",
+        }}
+      />
+    </a>
+
     <nav
       className={cn(
         "fixed top-4 left-4 sm:top-5 sm:left-10 z-50 flex items-center gap-1 px-1 py-1 rounded-full transition-all duration-300 max-w-[calc(100vw-200px)] sm:max-w-[calc(100vw-140px)] overflow-x-auto no-scrollbar",

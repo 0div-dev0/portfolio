@@ -20,7 +20,7 @@ export default function Home() {
 
       {/* ── Hero Section (Contains its own Stars + Aurora Orbs) ─────── */}
       <div className="relative z-10">
-        <Hero className="min-h-screen" />
+        <Hero className="h-svh" />
       </div>
 
       {/* ── About Section (Transparent background reveals animated stripes) ── */}

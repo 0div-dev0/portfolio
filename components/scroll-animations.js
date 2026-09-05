@@ -9,16 +9,17 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * ScrollAnimations — drives the hero → about scroll transition.
  *
- * Layout: Hero (100vh sticky) + Spacer (200vh) + About (100vh).
- * About section enters viewport when scrollY ≈ 200vh.
+ * The whole hero (orbs, stars, portrait, text, hint) now vanishes extremely
+ * fast: everything is fully gone after just ~200px of scrolling, matching the
+ * requested "disappear in 200 pixels" behavior. The hero is a normal 100svh
+ * section (not sticky) so scrollY is 1:1 with pixels scrolled.
  *
  * Timeline (scroll-pixel values):
- *  • 0 → vh*2.5 : aurora orbs shrink + fade (to ~20% at about entry)
- *  • 0 → vh*2.2 : stars fade gradually
- *  • 0 → vh*2.0 : hero content stays opaque (text blocks animate themselves)
- *  • vh*2.0 → vh*2.5 : hero content fades to 0
- *  • vh*2.0 : about section enters viewport bottom (hero ~80% faded)
- *  • 0 → vh*0.4 : scroll hint fades out
+ *  • 0 → 200      : aurora orbs shrink + fade to 0
+ *  • 0 → 200      : stars fade to 0
+ *  • 0 → 200      : hero content (text + carousel) fades to 0
+ *  • 0 → 180      : hero text block scrolls up + fades (hero-text-block)
+ *  • 0 → 90       : scroll hint fades out
  */
 export default function ScrollAnimations() {
   const rafRef = useRef(null);
@@ -28,20 +29,19 @@ export default function ScrollAnimations() {
     const heroContent = document.querySelector(".hero-content-wrapper");
     const scrollHint = document.querySelector(".hero-scroll-hint");
     const starsCanvas = document.querySelector("#stars");
+    const heroPortrait = document.querySelector(".hero-portrait");
 
     const getThresholds = () => {
-      const vh = window.innerHeight;
+      // Extremely fast exit: the entire hero is gone after ~200px.
       return {
-        // Orbs fade and shrink at a much faster rate on initial scroll
         orbStart: 0,
-        orbEnd: vh * 0.5,
-        // Stars fade rapidly
-        starsEnd: vh * 0.5,
-        // Hero content disappears rapidly
+        orbEnd: 200,
+        starsEnd: 200,
+        // Hero text + carousel fade out as soon as scrolling starts
         contentStart: 0,
-        contentEnd: vh * 0.45,
-        // Scroll hint fades out immediately on scroll
-        hintEnd: vh * 0.2,
+        contentEnd: 200,
+        // Scroll hint fades immediately
+        hintEnd: 90,
       };
     };
 
@@ -61,9 +61,16 @@ export default function ScrollAnimations() {
         orb.style.setProperty("--scroll-fade", opacity);
       });
 
-      // Stars: stay permanently visible
+      // Stars: fade out with orbs
       if (starsCanvas) {
-        starsCanvas.style.opacity = 1;
+        const starsProgress = clamp(scrollY / t.starsEnd);
+        starsCanvas.style.opacity = 1 - starsProgress;
+      }
+
+      // Portrait: fades in sync with orbs (slightly faster)
+      if (heroPortrait) {
+        const portraitProgress = clamp(scrollY / (t.orbEnd * 0.9));
+        heroPortrait.style.opacity = 1 - portraitProgress;
       }
 
       // Hero content: stays opaque during text cycling, then fades at end
@@ -135,6 +142,7 @@ export default function ScrollAnimations() {
         orb.style.removeProperty("--scroll-fade");
       });
       if (starsCanvas) starsCanvas.style.opacity = "";
+      if (heroPortrait) heroPortrait.style.opacity = "";
       if (heroContent) {
         heroContent.style.opacity = "";
       }

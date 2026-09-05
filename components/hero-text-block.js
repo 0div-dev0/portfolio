@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 
 /**
  * HeroTextBlock — a single text block with scroll-scrubbed 3D rotation & fade.
@@ -31,9 +31,10 @@ import { Typewriter } from "./ui/typewriter-text";
  *  - isLast: if true, holds steady after entering until hero fade out
  *  - useTypewriter: whether to render heading and subtext via Typewriter component
  */
-export default function HeroTextBlock({
+function HeroTextBlock({
   heading,
   subtext,
+  hint = null,
   galleryBadge = null,
   relativeRange = [0, 0.4],
   isFirst = false,
@@ -48,23 +49,29 @@ export default function HeroTextBlock({
 
     const update = () => {
       const scrollY = window.scrollY || window.pageYOffset;
-      // Fast exit distance — text disappears rapidly within 250px of scroll
-      const exitDistancePx = 250;
 
       let opacity = 1;
       let translateY = 0;
       let rotateX = 0;
 
       if (isFirst) {
+        // Holds fully visible for the first ~30px, then exits fast (scroll-up +
+        // fade) so the whole hero is gone within ~180px of scrolling.
+        const exitStartPx = 30;
+        const exitEndPx = 180;
         if (scrollY <= 20) {
           opacity = 1;
           translateY = 0;
           rotateX = 0;
-        } else if (scrollY < exitDistancePx) {
-          const p = (scrollY - 20) / (exitDistancePx - 20);
+        } else if (scrollY < exitStartPx) {
+          opacity = 1;
+          translateY = 0;
+          rotateX = 0;
+        } else if (scrollY < exitEndPx) {
+          const p = (scrollY - exitStartPx) / (exitEndPx - exitStartPx);
           opacity = 1 - p;
-          translateY = -90 * p; // Exits upward faster
-          rotateX = -12 * p;    // Rotates upward faster
+          translateY = -90 * p; // Exits upward
+          rotateX = -12 * p;    // Rotates upward
         } else {
           opacity = 0;
         }
@@ -142,17 +149,25 @@ export default function HeroTextBlock({
           </div>
         )}
 
-        <p className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-muted max-w-md sm:max-w-lg lg:max-w-xl min-h-[4em]">
+        <p className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed font-sans text-zinc-300 max-w-md sm:max-w-lg lg:max-w-xl min-h-[4em]">
           {useTypewriter && typeof subtext === "string" ? (
             <Typewriter text={subtext} maxDuration={1000} />
           ) : (
             subtext
           )}
         </p>
+
+        {hint && (
+          <p className="hero-reveal hero-reveal-delay-2 mt-3 text-xs sm:text-sm leading-relaxed text-muted max-w-md sm:max-w-lg">
+            {hint}
+          </p>
+        )}
       </div>
     </div>
   );
 }
+
+export default memo(HeroTextBlock);
 
 
 

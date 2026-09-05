@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 function clamp(value, minimum, maximum) {
   return Math.min(maximum, Math.max(minimum, value));
@@ -10,7 +10,7 @@ function scaleCount(base, density, minimum = 1) {
   return Math.max(minimum, Math.round(base * density));
 }
 
-export default function ConstellationField({
+function ConstellationField({
   variant = "defense-lines",
   speed = 1,
   size = 1,
@@ -25,7 +25,6 @@ export default function ConstellationField({
   style = {},
 }) {
   const canvasRef = useRef(null);
-  const rafRef = useRef(null);
   const [isLight, setIsLight] = useState(false);
 
   // Monitor DOM root for light/dark theme class changes
@@ -58,9 +57,11 @@ export default function ConstellationField({
 
     let width, height;
     let particles = [];
+    let frameId = null;
+    let frameCount = 0;
 
     function initCanvas() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = Math.max(1, Math.floor(width * dpr));
@@ -88,6 +89,14 @@ export default function ConstellationField({
     }
 
     function animateCanvas() {
+      // Throttle to ~30fps — the drift is slow, so skipping every other frame
+      // halves the CPU cost with no visible difference.
+      frameCount++;
+      if (frameCount % 2 === 1) {
+        frameId = requestAnimationFrame(animateCanvas);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
       const centerX = width / 2;
       const centerY = height / 2;
@@ -144,17 +153,55 @@ export default function ConstellationField({
         }
       });
 
-      rafRef.current = requestAnimationFrame(animateCanvas);
+      frameId = requestAnimationFrame(animateCanvas);
     }
 
-    initCanvas();
-    rafRef.current = requestAnimationFrame(animateCanvas);
+    const stop = () => {
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      }
+    };
 
-    window.addEventListener("resize", initCanvas);
+    const start = () => {
+      if (!frameId) startLoop();
+    };
+
+    function startLoop() {
+      frameId = requestAnimationFrame(animateCanvas);
+    }
+
+    // Freeze the canvas entirely when the tab is hidden.
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        start();
+      }
+    };
+
+    // Debounce resizes — initCanvas rebuilds all particles, so only run it
+    // once the user settles on the new viewport size.
+    let resizeTimer = null;
+    const onResize = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        initCanvas();
+        frameCount = 0;
+      }, 150);
+    };
+
+    initCanvas();
+    startLoop();
+
+    window.addEventListener("resize", onResize);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("resize", initCanvas);
+      stop();
+      if (resizeTimer) clearTimeout(resizeTimer);
+      window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [variant, isLight, speed, size, length, density, strokeWidth, opacity, hue, saturation, brightness]);
 
@@ -181,3 +228,5 @@ export default function ConstellationField({
     />
   );
 }
+
+export default memo(ConstellationField);

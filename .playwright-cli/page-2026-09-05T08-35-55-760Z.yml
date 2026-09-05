@@ -1,0 +1,483 @@
+- generic [active] [ref=e1]:
+  - link "Div Dev — home" [ref=e2] [cursor=pointer]:
+    - /url: /
+    - img "Div Dev" [ref=e3]
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - link "About" [ref=e9] [cursor=pointer]:
+        - /url: "#about"
+      - link "Gallery" [ref=e11] [cursor=pointer]:
+        - /url: "#gallery"
+      - link "Process" [ref=e13] [cursor=pointer]:
+        - /url: "#process"
+      - link "Contact" [ref=e15] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=e16]:
+    - link "Instagram" [ref=e17] [cursor=pointer]:
+      - /url: ""
+    - link "GitHub" [ref=e20] [cursor=pointer]:
+      - /url: ""
+    - button [ref=e23] [cursor=pointer]
+  - generic [ref=e35]:
+    - generic [ref=e37]:
+      - generic:
+        - img "Divit Jain"
+      - generic:
+        - generic [ref=e43]:
+          - heading "Hi, I'm Divit Jain- A passionate designer and startup founder" [level=1] [ref=e44]
+          - paragraph [ref=e46]:
+            - generic [ref=e47]: Scroll or click the orbs to take a peek at my work.
+        - generic [ref=e49]:
+          - generic [ref=e50]: Projects
+          - generic [ref=e53]:
+            - article [ref=e54]:
+              - generic [ref=e55]:
+                - iframe [ref=e56]:
+                  - generic [ref=f1e1]:
+                    - banner [ref=f1e2]:
+                      - img "logo" [ref=f1e3] [cursor=pointer]
+                      - generic [ref=f1e4]:
+                        - navigation [ref=f1e5]:
+                          - list [ref=f1e6]:
+                            - listitem [ref=f1e7]:
+                              - link "Home" [ref=f1e8] [cursor=pointer]:
+                                - /url: "#hero"
+                            - listitem [ref=f1e9]:
+                              - link "About us" [ref=f1e10] [cursor=pointer]:
+                                - /url: "#abtus-show"
+                            - listitem [ref=f1e11]:
+                              - link "Process" [ref=f1e12] [cursor=pointer]:
+                                - /url: "#process-show"
+                        - navigation [ref=f1e13]:
+                          - list [ref=f1e14]:
+                            - listitem [ref=f1e15]:
+                              - link "Progress" [ref=f1e16] [cursor=pointer]:
+                                - /url: "#progress-show"
+                            - listitem [ref=f1e17]:
+                              - link "Review" [ref=f1e18] [cursor=pointer]:
+                                - /url: https://docs.google.com/forms/d/e/1FAIpQLSfCdJeT0pZk3VLQHmo9qPvqlrNWUfncTpVj9Zw_snOFxReFxg/viewform?usp=dialog
+                            - listitem [ref=f1e19]:
+                              - link "Contacts" [ref=f1e20] [cursor=pointer]:
+                                - /url: "#footer-show"
+                      - link [ref=f1e22] [cursor=pointer]:
+                        - /url: https://www.instagram.com/reppel.in/
+                        - img "instagram" [ref=f1e23]
+                    - main [ref=f1e24]:
+                      - generic [ref=f1e27]:
+                        - heading "Innovative Eco-Friendly Technology by EcoSmart" [level=1] [ref=f1e28]
+                        - generic [ref=f1e29]: Save Trees
+                        - heading "Welcome! We make the most out of your waste." [level=2] [ref=f1e30]
+                      - generic [ref=f1e33]:
+                        - heading "About us" [level=2] [ref=f1e34]
+                        - heading "Finding the ideal paper recycling solutions" [level=3] [ref=f1e35]
+                        - paragraph [ref=f1e37]: Ecosmart is a passionate group of Oakridge Bachupally students who aim to create a reliable, efficient and innovative homemade paper recycling service; not only to save trees, but also you.
+                        - generic [ref=f1e39]: "Together, let's collaborate and raise awareness about modern recycling troubles, so you, yourself, can contribute to the change. Scroll to see our efforts and recycle paper for yourself. You can visit us here! :"
+                      - generic [ref=f1e40]:
+                        - heading "Our process" [level=2] [ref=f1e41]
+                        - generic [ref=f1e42]:
+                          - paragraph [ref=f1e43]: Take a look at our specially curated process that maximizes efficiency. It is necessary to take the best measures in recycliing paper, so we can create a better world and improve local communities, for futures that we never got ourselves.
+                          - generic [ref=f1e44]:
+                            - generic [ref=f1e45]: ⌄ click the blocks ⌄
+                            - generic [ref=f1e46]:
+                              - generic [ref=f1e47] [cursor=pointer]:
+                                - generic [ref=f1e48]: "01"
+                                - text: Collect and Tear
+                              - generic: Gather waste paper and tear it into small pieces. Any paper works - newspapers, magazines, or scrap paper.
+                            - generic [ref=f1e49]:
+                              - generic [ref=f1e50] [cursor=pointer]:
+                                - generic [ref=f1e51]: "02"
+                                - text: Soak Paper
+                              - generic: Submerge torn paper pieces in water for several hours or overnight to soften the fibers.
+                            - generic [ref=f1e52]:
+                              - generic [ref=f1e53] [cursor=pointer]:
+                                - generic [ref=f1e54]: "03"
+                                - text: Blend pulp
+                              - generic: Blend the soaked paper with water until it forms a smooth, consistent pulp mixture.
+                            - generic [ref=f1e55]:
+                              - generic [ref=f1e56] [cursor=pointer]:
+                                - generic [ref=f1e57]: "04"
+                                - text: Form sheets
+                              - generic: Use a frame and mesh screen to scoop pulp from water, creating an even layer of paper.
+                            - generic [ref=f1e58]:
+                              - generic [ref=f1e59] [cursor=pointer]:
+                                - generic [ref=f1e60]: "05"
+                                - text: Press & Dry
+                              - generic: Press water out using absorbent cloths and boards, then allow sheets to dry completely.
+                            - generic [ref=f1e61]:
+                              - generic [ref=f1e62] [cursor=pointer]:
+                                - generic [ref=f1e63]: "06"
+                                - text: Finished product
+                              - generic: Reveal beautiful, handmade recycled paper ready for crafts, art, or everyday use.
+                      - generic [ref=f1e64]:
+                        - heading "Progress" [level=2] [ref=f1e65]
+                        - generic [ref=f1e66]:
+                          - heading "Recycle paper. Save energy, water and trees." [level=2] [ref=f1e67]
+                          - generic [ref=f1e68]:
+                            - text: EcoSmart by Reppel has indulged in it's own efforts to recycle paper. Our center in Bachupally works continously to make the best quality recycled paper with eco-friendly, homemade techniques.
+                            - paragraph [ref=f1e69]: A single sheet of recycled paper saves about 2 kiloJoules of energy and 10 litres of water.
+                          - generic [ref=f1e70]:
+                            - generic [ref=f1e80]:
+                              - generic [ref=f1e81]: "0"
+                              - generic [ref=f1e83]: Sheets of paper recycled
+                            - generic [ref=f1e89]:
+                              - generic [ref=f1e90]: "0"
+                              - generic [ref=f1e92]: kJ of energy saved
+                            - generic [ref=f1e100]:
+                              - generic [ref=f1e101]: "0"
+                              - generic [ref=f1e103]: People joined for the cause
+                            - generic [ref=f1e109]:
+                              - generic [ref=f1e110]: "0"
+                              - generic [ref=f1e112]: Litres of water conserved
+                    - contentinfo [ref=f1e113]:
+                      - generic [ref=f1e114]:
+                        - paragraph [ref=f1e116]: Interested? The best you can do is follow our process and save paper for yourself!
+                        - generic [ref=f1e117]:
+                          - heading "Quick Links" [level=3] [ref=f1e118]
+                          - list [ref=f1e119]:
+                            - listitem [ref=f1e120]:
+                              - link "Home" [ref=f1e121] [cursor=pointer]:
+                                - /url: "#hero"
+                            - listitem [ref=f1e122]:
+                              - link "About us" [ref=f1e123] [cursor=pointer]:
+                                - /url: "#abtus-show"
+                            - listitem [ref=f1e124]:
+                              - link "Process" [ref=f1e125] [cursor=pointer]:
+                                - /url: "#process-show"
+                            - listitem [ref=f1e126]:
+                              - link "Progress" [ref=f1e127] [cursor=pointer]:
+                                - /url: "#progress-show"
+                            - listitem [ref=f1e128]:
+                              - link "Review" [ref=f1e129] [cursor=pointer]:
+                                - /url: https://docs.google.com/forms/d/e/1FAIpQLSfCdJeT0pZk3VLQHmo9qPvqlrNWUfncTpVj9Zw_snOFxReFxg/viewform?usp=dialog
+                            - listitem [ref=f1e130]:
+                              - link "Contacts" [ref=f1e131] [cursor=pointer]:
+                                - /url: "#footer-show"
+                        - generic [ref=f1e132]:
+                          - heading "Contact" [level=3] [ref=f1e133]
+                          - link [ref=f1e134] [cursor=pointer]:
+                            - /url: https://www.instagram.com/reppel.in/
+                      - img "logo" [ref=f1e135] [cursor=pointer]
+                - link "Reppel Live site" [ref=e57] [cursor=pointer]:
+                  - /url: https://reppel.netlify.app
+                  - generic [ref=e58]: Reppel
+                  - generic [ref=e59]: Live site
+            - article [ref=e62]:
+              - generic [ref=e63]:
+                - iframe [ref=e64]:
+                  - generic [ref=f2e3]:
+                    - strong [ref=f2e4]: storifyjournal.ercel.app
+                    - text: ’s server IP address could not be found.
+                - link "Storify Journal Live site" [ref=e65] [cursor=pointer]:
+                  - /url: https://storifyjournal.ercel.app
+                  - generic [ref=e66]: Storify Journal
+                  - generic [ref=e67]: Live site
+            - article [ref=e70]:
+              - generic [ref=e73]:
+                - generic [ref=e74]: Coming soon
+                - generic [ref=e75]: Imminent Project
+            - article [ref=e76]:
+              - generic [ref=e79]:
+                - generic [ref=e80]: Coming soon
+                - generic [ref=e81]: Side Quest
+            - article [ref=e82]:
+              - generic [ref=e85]:
+                - generic [ref=e86]: Coming soon
+                - generic [ref=e87]: Late Night Build
+          - generic [ref=e88]:
+            - button "Previous projects" [ref=e89] [cursor=pointer]
+            - button "Next projects" [ref=e92] [cursor=pointer]
+      - generic: View project
+    - generic [ref=e95]:
+      - heading "About" [level=2] [ref=e96]
+      - paragraph [ref=e98]: Passionate software developer and creator exploring the intersections of full-stack engineering, interactive graphic design, and artificial intelligence.
+    - generic [ref=e101]:
+      - generic [ref=e102]:
+        - button "Programming" [ref=e103] [cursor=pointer]
+        - button "Academic" [ref=e108] [cursor=pointer]
+        - button "Social Work" [ref=e112] [cursor=pointer]
+        - button "Hobbies" [ref=e116] [cursor=pointer]
+        - button "Extra skills" [ref=e120] [cursor=pointer]
+      - generic [ref=e126]:
+        - generic:
+          - heading "PROGRAMMING" [level=3]
+          - generic:
+            - generic:
+              - paragraph: React & Next.js — Fullstack Architecture
+        - generic [ref=e128]:
+          - generic [ref=e131] [cursor=pointer]:
+            - generic [ref=e132]: "01"
+            - generic [ref=e135]:
+              - paragraph [ref=e136]: React & Next.js
+              - paragraph [ref=e137]: Fullstack Architecture
+          - generic [ref=e140] [cursor=pointer]:
+            - generic [ref=e141]: "02"
+            - generic [ref=e144]:
+              - paragraph [ref=e145]: TypeScript
+              - paragraph [ref=e146]: Type-Safe Systems
+          - generic [ref=e149] [cursor=pointer]:
+            - generic [ref=e150]: "03"
+            - generic [ref=e153]:
+              - paragraph [ref=e154]: WebGL & Three.js
+              - paragraph [ref=e155]: Interactive 3D
+          - generic [ref=e158] [cursor=pointer]:
+            - generic [ref=e159]: "04"
+            - generic [ref=e162]:
+              - paragraph [ref=e163]: Node.js & APIs
+              - paragraph [ref=e164]: High-Perf Backends
+          - generic [ref=e167] [cursor=pointer]:
+            - generic [ref=e168]: "05"
+            - generic [ref=e171]:
+              - paragraph [ref=e172]: Tailwind CSS
+              - paragraph [ref=e173]: Design Systems
+          - generic [ref=e176] [cursor=pointer]:
+            - generic [ref=e177]: "06"
+            - generic [ref=e180]:
+              - paragraph [ref=e181]: Python & AI
+              - paragraph [ref=e182]: Machine Learning
+          - generic [ref=e185] [cursor=pointer]:
+            - generic [ref=e186]: "01"
+            - generic [ref=e189]:
+              - paragraph [ref=e190]: React & Next.js
+              - paragraph [ref=e191]: Fullstack Architecture
+          - generic [ref=e194] [cursor=pointer]:
+            - generic [ref=e195]: "02"
+            - generic [ref=e198]:
+              - paragraph [ref=e199]: TypeScript
+              - paragraph [ref=e200]: Type-Safe Systems
+          - generic [ref=e203] [cursor=pointer]:
+            - generic [ref=e204]: "03"
+            - generic [ref=e207]:
+              - paragraph [ref=e208]: WebGL & Three.js
+              - paragraph [ref=e209]: Interactive 3D
+          - generic [ref=e212] [cursor=pointer]:
+            - generic [ref=e213]: "04"
+            - generic [ref=e216]:
+              - paragraph [ref=e217]: Node.js & APIs
+              - paragraph [ref=e218]: High-Perf Backends
+          - generic [ref=e221] [cursor=pointer]:
+            - generic [ref=e222]: "05"
+            - generic [ref=e225]:
+              - paragraph [ref=e226]: Tailwind CSS
+              - paragraph [ref=e227]: Design Systems
+          - generic [ref=e230] [cursor=pointer]:
+            - generic [ref=e231]: "06"
+            - generic [ref=e234]:
+              - paragraph [ref=e235]: Python & AI
+              - paragraph [ref=e236]: Machine Learning
+          - generic [ref=e239] [cursor=pointer]:
+            - generic [ref=e240]: "01"
+            - generic [ref=e243]:
+              - paragraph [ref=e244]: React & Next.js
+              - paragraph [ref=e245]: Fullstack Architecture
+          - generic [ref=e248] [cursor=pointer]:
+            - generic [ref=e249]: "02"
+            - generic [ref=e252]:
+              - paragraph [ref=e253]: TypeScript
+              - paragraph [ref=e254]: Type-Safe Systems
+          - generic [ref=e257] [cursor=pointer]:
+            - generic [ref=e258]: "03"
+            - generic [ref=e261]:
+              - paragraph [ref=e262]: WebGL & Three.js
+              - paragraph [ref=e263]: Interactive 3D
+          - generic [ref=e266] [cursor=pointer]:
+            - generic [ref=e267]: "04"
+            - generic [ref=e270]:
+              - paragraph [ref=e271]: Node.js & APIs
+              - paragraph [ref=e272]: High-Perf Backends
+          - generic [ref=e275] [cursor=pointer]:
+            - generic [ref=e276]: "05"
+            - generic [ref=e279]:
+              - paragraph [ref=e280]: Tailwind CSS
+              - paragraph [ref=e281]: Design Systems
+          - generic [ref=e284] [cursor=pointer]:
+            - generic [ref=e285]: "06"
+            - generic [ref=e288]:
+              - paragraph [ref=e289]: Python & AI
+              - paragraph [ref=e290]: Machine Learning
+          - generic [ref=e293] [cursor=pointer]:
+            - generic [ref=e294]: "01"
+            - generic [ref=e297]:
+              - paragraph [ref=e298]: React & Next.js
+              - paragraph [ref=e299]: Fullstack Architecture
+          - generic [ref=e302] [cursor=pointer]:
+            - generic [ref=e303]: "02"
+            - generic [ref=e306]:
+              - paragraph [ref=e307]: TypeScript
+              - paragraph [ref=e308]: Type-Safe Systems
+          - generic [ref=e311] [cursor=pointer]:
+            - generic [ref=e312]: "03"
+            - generic [ref=e315]:
+              - paragraph [ref=e316]: WebGL & Three.js
+              - paragraph [ref=e317]: Interactive 3D
+          - generic [ref=e320] [cursor=pointer]:
+            - generic [ref=e321]: "04"
+            - generic [ref=e324]:
+              - paragraph [ref=e325]: Node.js & APIs
+              - paragraph [ref=e326]: High-Perf Backends
+          - generic [ref=e329] [cursor=pointer]:
+            - generic [ref=e330]: "05"
+            - generic [ref=e333]:
+              - paragraph [ref=e334]: Tailwind CSS
+              - paragraph [ref=e335]: Design Systems
+          - generic [ref=e338] [cursor=pointer]:
+            - generic [ref=e339]: "06"
+            - generic [ref=e342]:
+              - paragraph [ref=e343]: Python & AI
+              - paragraph [ref=e344]: Machine Learning
+        - generic:
+          - generic:
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+        - generic [ref=e346]:
+          - generic [ref=e349] [cursor=pointer]:
+            - generic [ref=e350]: "04"
+            - generic [ref=e353]:
+              - paragraph [ref=e354]: Node.js & APIs
+              - paragraph [ref=e355]: High-Perf Backends
+          - generic [ref=e358] [cursor=pointer]:
+            - generic [ref=e359]: "05"
+            - generic [ref=e362]:
+              - paragraph [ref=e363]: Tailwind CSS
+              - paragraph [ref=e364]: Design Systems
+          - generic [ref=e367] [cursor=pointer]:
+            - generic [ref=e368]: "06"
+            - generic [ref=e371]:
+              - paragraph [ref=e372]: Python & AI
+              - paragraph [ref=e373]: Machine Learning
+          - generic [ref=e376] [cursor=pointer]:
+            - generic [ref=e377]: "01"
+            - generic [ref=e380]:
+              - paragraph [ref=e381]: React & Next.js
+              - paragraph [ref=e382]: Fullstack Architecture
+          - generic [ref=e385] [cursor=pointer]:
+            - generic [ref=e386]: "02"
+            - generic [ref=e389]:
+              - paragraph [ref=e390]: TypeScript
+              - paragraph [ref=e391]: Type-Safe Systems
+          - generic [ref=e394] [cursor=pointer]:
+            - generic [ref=e395]: "03"
+            - generic [ref=e398]:
+              - paragraph [ref=e399]: WebGL & Three.js
+              - paragraph [ref=e400]: Interactive 3D
+          - generic [ref=e403] [cursor=pointer]:
+            - generic [ref=e404]: "04"
+            - generic [ref=e407]:
+              - paragraph [ref=e408]: Node.js & APIs
+              - paragraph [ref=e409]: High-Perf Backends
+          - generic [ref=e412] [cursor=pointer]:
+            - generic [ref=e413]: "05"
+            - generic [ref=e416]:
+              - paragraph [ref=e417]: Tailwind CSS
+              - paragraph [ref=e418]: Design Systems
+          - generic [ref=e421] [cursor=pointer]:
+            - generic [ref=e422]: "06"
+            - generic [ref=e425]:
+              - paragraph [ref=e426]: Python & AI
+              - paragraph [ref=e427]: Machine Learning
+          - generic [ref=e430] [cursor=pointer]:
+            - generic [ref=e431]: "01"
+            - generic [ref=e434]:
+              - paragraph [ref=e435]: React & Next.js
+              - paragraph [ref=e436]: Fullstack Architecture
+          - generic [ref=e439] [cursor=pointer]:
+            - generic [ref=e440]: "02"
+            - generic [ref=e443]:
+              - paragraph [ref=e444]: TypeScript
+              - paragraph [ref=e445]: Type-Safe Systems
+          - generic [ref=e448] [cursor=pointer]:
+            - generic [ref=e449]: "03"
+            - generic [ref=e452]:
+              - paragraph [ref=e453]: WebGL & Three.js
+              - paragraph [ref=e454]: Interactive 3D
+          - generic [ref=e457] [cursor=pointer]:
+            - generic [ref=e458]: "04"
+            - generic [ref=e461]:
+              - paragraph [ref=e462]: Node.js & APIs
+              - paragraph [ref=e463]: High-Perf Backends
+          - generic [ref=e466] [cursor=pointer]:
+            - generic [ref=e467]: "05"
+            - generic [ref=e470]:
+              - paragraph [ref=e471]: Tailwind CSS
+              - paragraph [ref=e472]: Design Systems
+          - generic [ref=e475] [cursor=pointer]:
+            - generic [ref=e476]: "06"
+            - generic [ref=e479]:
+              - paragraph [ref=e480]: Python & AI
+              - paragraph [ref=e481]: Machine Learning
+          - generic [ref=e484] [cursor=pointer]:
+            - generic [ref=e485]: "01"
+            - generic [ref=e488]:
+              - paragraph [ref=e489]: React & Next.js
+              - paragraph [ref=e490]: Fullstack Architecture
+          - generic [ref=e493] [cursor=pointer]:
+            - generic [ref=e494]: "02"
+            - generic [ref=e497]:
+              - paragraph [ref=e498]: TypeScript
+              - paragraph [ref=e499]: Type-Safe Systems
+          - generic [ref=e502] [cursor=pointer]:
+            - generic [ref=e503]: "03"
+            - generic [ref=e506]:
+              - paragraph [ref=e507]: WebGL & Three.js
+              - paragraph [ref=e508]: Interactive 3D
+          - generic [ref=e511] [cursor=pointer]:
+            - generic [ref=e512]: "04"
+            - generic [ref=e515]:
+              - paragraph [ref=e516]: Node.js & APIs
+              - paragraph [ref=e517]: High-Perf Backends
+          - generic [ref=e520] [cursor=pointer]:
+            - generic [ref=e521]: "05"
+            - generic [ref=e524]:
+              - paragraph [ref=e525]: Tailwind CSS
+              - paragraph [ref=e526]: Design Systems
+          - generic [ref=e529] [cursor=pointer]:
+            - generic [ref=e530]: "06"
+            - generic [ref=e533]:
+              - paragraph [ref=e534]: Python & AI
+              - paragraph [ref=e535]: Machine Learning
+          - generic [ref=e538] [cursor=pointer]:
+            - generic [ref=e539]: "01"
+            - generic [ref=e542]:
+              - paragraph [ref=e543]: React & Next.js
+              - paragraph [ref=e544]: Fullstack Architecture
+          - generic [ref=e547] [cursor=pointer]:
+            - generic [ref=e548]: "02"
+            - generic [ref=e551]:
+              - paragraph [ref=e552]: TypeScript
+              - paragraph [ref=e553]: Type-Safe Systems
+          - generic [ref=e556] [cursor=pointer]:
+            - generic [ref=e557]: "03"
+            - generic [ref=e560]:
+              - paragraph [ref=e561]: WebGL & Three.js
+              - paragraph [ref=e562]: Interactive 3D
+    - generic [ref=e563]:
+      - generic [ref=e564]:
+        - heading "Play" [level=2] [ref=e565]
+        - paragraph [ref=e566]: Interactive demos and playful experiments.
+      - generic [ref=e567]:
+        - heading "Contact" [level=2] [ref=e568]
+        - paragraph [ref=e569]: Get in touch — I'd love to hear from you.
+  - button "Open Next.js Dev Tools" [ref=e575] [cursor=pointer]

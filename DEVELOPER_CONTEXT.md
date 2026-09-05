@@ -14,8 +14,11 @@ Renders a field of stars in the background with optional shooting stars and dyna
 
 | Constant | Value | Description |
 |---|---|---|
-| `STAR_COUNT` | 25 | Number of static stars |
+| `STAR_COUNT` | 35 | Number of static stars |
 | `SHOOTING_STAR_INTERVAL` | 6000ms | Frequency of shooting star generation |
+
+### Stationary stars (no drift, no connecting lines)
+Per the design, hero stars are **static**: `move: { enable: false }` and `links: { enable: false }` in the tsParticles options. Lines are never drawn between stars, and stars never move — only the occasional CSS-driven shooting star animates. The component is exported via `React.memo` so it only re-renders when `hoveredOrbColor` changes.
 
 ### Star Colors (`STAR_COLORS`)
 White-based palette for subtle variation:
@@ -121,6 +124,14 @@ Renders 5 large, colorful blurred lights (orbs) that trail the cursor and reveal
 5. On hover: `.is-hovered` added to orb, `.has-hovered-orb` added to container
 6. On leave: classes removed, color reverts to monochrome
 
+### Stationary-cursor hover gating
+Orbs only colour when the cursor is **still** over them, never while moving:
+- `pointerenter` just records the orb as a hover *candidate* (`pendingIndex`).
+- A `pointermove` displacement `>= MOVE_PX` (3px) resets a movement clock and instantly releases any current hover; micro-jitter below the threshold is ignored.
+- The animation tick waits until the cursor has been still for `STATIONARY_MS` (250ms) before applying `colourOrb` to the pending orb (`coasting` flag ensures the check runs once per rest).
+- Touch devices keep the previous two-tap behaviour (first tap colours, second tap navigates).
+- The component is exported via `React.memo`; its props are the stable `useState` setters and a stable `useCallback` click handler, so hero re-renders (e.g. typing in the contact box) don't re-render Aurora.
+
 ---
 
 ## Component Hierarchy & Stacking Order
@@ -137,7 +148,7 @@ Page (app/page.js)
     │   ├── Stars (stars.js)           z-[2]  — background star field & shooting stars
     │   ├── Aurora (aurora.js)         z-[3]  — colored floating orbs & interactive hitboxes
     │   │   └── AuroraOrb (aurora-orb.js)
-    │   └── Hero content               z-[10] — text, buttons, scroll hint
+    │   └── Hero content               z-[10] — text, Gmail contact form, scroll hint
     │
     ├── About / Play / Contact  transparent  — constellation shows through
     └── Gallery (gallery-section.js)  transparent bg  — constellation shows through
@@ -154,7 +165,8 @@ Renders a persistent, single fixed full-viewport Canvas 2D "defense lines" anima
 - A single `<canvas>` is rendered with `className="defense-lines-bg"` inside `app/page.js` as the first element.
 - `globals.css` styles `.defense-lines-bg` as `position: fixed; inset: 0; z-index: 0; pointer-events: none`.
 - In the effect, small vertical line "particles" rain upward across the canvas. Each line is a fading vertical gradient, brighter toward its midpoint and brightest near the center of the viewport (a radial proximity weighting makes the middle glow hotter). Lines are repositioned to the bottom once they exit the top.
-- Hi-DPI aware: canvas backing store is sized with `devicePixelRatio` (capped at 2), and a `ctx.setTransform(dpr,0,0,dpr,0,0)` handles the scaling. Resize re-initializes the particle pool.
+- Hi-DPI aware: canvas backing store is sized with `devicePixelRatio` (capped at **1.5**), and a `ctx.setTransform(dpr,0,0,dpr,0,0)` handles the scaling.
+- **Performance optimizations**: the animation loop is throttled to **~30fps** (every other RAF frame — the drift is slow enough that this is invisible), the loop **freezes entirely when the tab is hidden** (`document.visibilitychange`), resizes are **debounced (150ms)** since `initCanvas` rebuilds the whole particle pool, and the component is exported via `React.memo` (its props are static literals in `page.js`).
 
 ### Props
 | Prop | Default | Description |
@@ -205,11 +217,12 @@ Each orb object in `ORBS` specifies:
 - `floatDelay` / `blinkDelay` — Staggered animation delays
 
 ### Hover Color Flow
-1. User moves cursor over `.aurora-hitbox` of an orb
+1. User moves cursor over an orb and stops — colour is applied only after the cursor is stationary (see "Stationary-cursor hover gating")
 2. `.is-hovered` class toggled on orb, `.has-hovered-orb` on container
-3. `setHoveredOrbColor(ORBS[i].colors[0])` called
+3. `setHoveredOrbColor(ORBS[i].colors[0])` and `setHoveredOrbIndex(i)` called
 4. `Stars` component receives `hoveredOrbColor`, maps accent color via `ORB_COLORS`, and updates tsParticles options
-5. Hovered orb transitions from monochrome to vivid color via CSS rules in `globals.css`
+5. Hero text switches (typewriter) to the orb's `ORB_DETAILS` heading/description
+6. Hovered orb transitions from monochrome to vivid color via CSS rules in `globals.css`
 
 ### Orb Color Restoration
 1. Cursor leaves orb area
@@ -226,7 +239,8 @@ Each orb object in `ORBS` specifies:
 Replaces static text blocks with dynamic, reactive typewriter text. When an orb is hovered, the hero text is deleted and replaced with a clean abstract heading, a small "Gallery" badge to the bottom-left of the heading, and concise descriptive text. When unhovered, it uses typewriter animation to delete the orb text and re-type the default hero text.
 
 ### Reactive Prop Transition & Speed Tuning
-- **Ultra-Fast Speed (Max 1s)**: `maxDuration={1000}` ensures heading and description complete typing in <= 1000ms regardless of string length (`calcSpeed = Math.max(8, Math.floor(1000 / length))`).
+- **Ultra-Fast Speed (Max 1s)**: `maxDuration={1000}` ensures heading and description complete typing in well under a second: typing runs at `calcSpeed = Math.max(4, floor(maxDuration / length / 2))` (≈500ms for a typical heading) and deletion is fixed at `220ms` total (`calcDeleteSpeed = Math.max(2, floor(220 / length))`). A full replace therefore lands around ~700-800ms.
+- **Smooth (not instant) text swap**: when the hovered orb changes, the component deletes the active text and re-types the new text rather than snapping — kept fast enough to feel snappy.
 - **Auto-Hiding Cursor**: The cursor element is rendered **ONLY** while actively writing or deleting text (`isWriting = isDeleting || displayText.length < currentTarget.length`), and disappears completely when idle.
 
 ### Orb Detail Mapping (`ORB_DETAILS` in `components/hero.js`)
@@ -238,12 +252,51 @@ Replaces static text blocks with dynamic, reactive typewriter text. When an orb 
 
 ---
 
-## Accelerated Hero Scroll Transition (`components/hero-text-block.js` + `components/scroll-animations.js` + `app/page.js`)
+## Hero Scroll Fade Transition (`components/hero-text-block.js` + `components/scroll-animations.js` + `app/page.js`)
 
 ### Timeline & Scroll Parameters
-- **Hero Text Exit**: As soon as scroll starts, the main text block translates upward (`translateY = -90px * progress`) and fades out rapidly within ~250px of vertical scroll.
-- **Orb Shrink & Fade**: Background orbs shrink and fade rapidly (`orbEnd = vh * 0.5`), completely disappearing before reaching the About section.
-- **Scroll Spacer**: Height reduced to `80vh` (`hero-scroll-spacer`), resulting in a tight, fast transition curve into the About section.
+The hero is a normal (non-sticky) section of **exactly `h-svh` (1 viewport)**; About sits directly below it. The whole hero (orbs, stars, portrait, text, carousel, hint) disappears **extremely fast — fully gone after ~200px of scrolling**:
+
+- **Orb Shrink & Fade / Stars Fade**: `orbFade / starsFade = 1 - scrollY / 200`.
+- **Hero Content Fade** (`.hero-content-wrapper`: text block + projects carousel): fades `0 → 200px`.
+- **Hero Text Exit**: `HeroTextBlock` (`isFirst`) holds visible briefly (≤20px), then scrolls up + fades between `30 → 180px` (`translateY -90`, `rotateX -12`, opacity → 0).
+- **Self-portrait fade**: `.hero-portrait` opacity → 0 by ~180px.
+- **Scroll Hint**: fades out within 90px.
+
+## Brand Logo (`components/navbar.js` + `public/divdev.svg`)
+
+- The `divdev.svg` mark is **fixed, top-center** (bare `<a>` link to `/`, no circle/card wrapper), sized `w-28 → w-40` responsive, white-flattened via CSS `filter: brightness(0) invert(1) drop-shadow(...)`.
+- The SVG asset originally embedded its art with `preserveAspectRatio="none"` (2160×720 PNG stretched into a 2048×1152 frame) → the logo rendered vertically distorted. The frame was corrected to `viewBox="0 0 2172 724"` with `xMidYMid meet` so the mark renders at its native ~3:1 wide ratio, undistorted.
+
+## Hero Projects Carousel (`components/projects-carousel.js`)
+
+- Replaces the old hero contact box ("Send via Gmail" textarea). It renders directly below the hero text block (wrapper `gap-5`, left-aligned on desktop).
+- The whole carousel sits inside a **thick outlined box** (`border-[3px]` + inset `outline-[3px]`) with a **"PROJECTS" pill label sitting on the top border** (centered).
+- Cards: iframes of recent projects (`https://reppel.netlify.app`, `https://storifyjournal.ercel.app`) + styled "Coming soon" placeholders. Each iframe card keeps a **persistent overlay** (gradient + title + "open live site" link) so it looks intentional even when the embedded site blocks iframing (X-Frame-Options/CSP), and always links out.
+- Sizing: cards `w-64 → sm:w-80`, `aspect-[16/10]`; box `max-w-[17.5rem] → sm:max-w-[22rem]`.
+- **Infinite loop**: cards are rendered twice (2×). Arrow navigation wraps at the ends (`scrollTo` with modulo-style wrap: right past the last card jumps back to the first seamless duplicate, left from the first jumps to the last). Native swipe also works (`snap-x`).
+- Carousel fades out with the rest of the hero content on scroll (0 → 200px).
+
+## Hero Self-Portrait Parallax (`components/hero.js` + `public/selfportrait.png`)
+
+- `<img>` portrait absolutely positioned bottom-center (masked fade-top), `z-3`.
+- **Parallax**: a ref-based scroll handler translates it `translateX(-50%) translateY(scrollY * 0.35)` — the portrait "lags" the page while scrolling — via rAF throttle, no React re-renders. Its opacity still fades with the hero (see above).
+- Mouse parallax on the text container is separate (ref + direct style on `mousemove`).
+
+## Hero Content & Orb Default Copy (`components/hero.js`)
+
+### Default copy
+- Heading: `Hi, I'm Divit Jain- A passionate designer and startup founder`
+- Description: `Scroll or click the orbs to take a peek at my work.`
+- (These two defaults are shown whenever no orb is hovered; hovering an orb swaps to that orb's `heading`/`desc` from `ORB_DETAILS`.)
+
+### Notes
+- The former "Send via Gmail" contact box (Gmail compose `view=cm` draft + textarea) has been **removed from the hero** and replaced by the Projects Carousel (see above). A dedicated contact/footer section was scoped but **reverted per request** — `#contact` still falls back to the generic placeholder section in `app/page.js`. If a contact section returns, reuse the Gmail-compose approach (`https://mail.google.com/mail/?view=cm&fs=1&to=jaindivit001@gmail.com&su=<subject>&body=<message>`).
+
+### Performance
+- `Hero`, `Aurora`, `Stars`, `HeroTextBlock` and `ConstellationField` are all exported through `React.memo`.
+- The cursor parallax on the text block is applied via a **ref + direct style write on `mousemove`** — no React state is touched, so moving the mouse never re-renders the hero. (Previously a `cursorPos` state caused a full hero re-render on every move.)
+- `relativeRange={TEXT_RANGE}` and the `galleryBadge` are stable references (`useMemo`/module const) so the memoized children don't re-render.
 
 ---
 

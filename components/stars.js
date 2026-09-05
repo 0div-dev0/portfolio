@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { memo, useEffect, useState, useMemo } from "react";
 import { Particles, ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 
@@ -54,7 +54,7 @@ const initParticles = async (engine) => {
   await loadSlim(engine);
 };
 
-export default function Stars({ hoveredOrbColor = null }) {
+function Stars({ hoveredOrbColor = null }) {
   const [shootingStars, setShootingStars] = useState([]);
   const [isLight, setIsLight] = useState(false);
 
@@ -125,19 +125,10 @@ export default function Stars({ hoveredOrbColor = null }) {
         },
         shape: { type: "circle" },
         move: {
-          enable: true,
-          speed: 0.3,
-          direction: "none",
-          random: true,
-          straight: false,
-          outModes: "bounce",
+          enable: false,
         },
         links: {
-          enable: true,
-          distance: 130,
-          color: isLight ? "#18181b" : "#ffffff",
-          opacity: isLight ? 0.15 : 0.2,
-          width: 1,
+          enable: false,
         },
       },
       interactivity: {
@@ -235,3 +226,5 @@ export default function Stars({ hoveredOrbColor = null }) {
     </ParticlesProvider>
   );
 }
+
+export default memo(Stars);
