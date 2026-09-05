@@ -1,0 +1,636 @@
+- generic [active] [ref=f25e1]:
+  - link "Div Dev — home" [ref=f25e2] [cursor=pointer]:
+    - /url: /
+    - img "Div Dev" [ref=f25e3]
+  - navigation [ref=f25e4]:
+    - generic [ref=f25e5]:
+      - link "Home" [ref=f25e7] [cursor=pointer]:
+        - /url: /
+      - link "About" [ref=f25e9] [cursor=pointer]:
+        - /url: "#about"
+      - link "Gallery" [ref=f25e11] [cursor=pointer]:
+        - /url: "#gallery"
+      - link "Process" [ref=f25e13] [cursor=pointer]:
+        - /url: "#process"
+      - link "Contact" [ref=f25e15] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=f25e16]:
+    - link "Instagram" [ref=f25e17] [cursor=pointer]:
+      - /url: ""
+    - link "GitHub" [ref=f25e20] [cursor=pointer]:
+      - /url: ""
+    - button [ref=f25e23] [cursor=pointer]
+  - generic [ref=f25e35]:
+    - generic [ref=f25e37]:
+      - generic:
+        - img "Divit Jain"
+      - generic:
+        - generic [ref=f25e43]:
+          - heading "Hi, I'm Divit Jain- A passionate designer and startup founder" [level=1] [ref=f25e44]
+          - paragraph [ref=f25e46]:
+            - generic [ref=f25e47]: Scroll or click the orbs to take a peek at my work.
+        - generic [ref=f25e49]:
+          - generic [ref=f25e50]: Projects
+          - generic [ref=f25e53]:
+            - article [ref=f25e54]:
+              - generic [ref=f25e55]:
+                - iframe [ref=f25e56]:
+                  - generic [ref=f26e1]:
+                    - banner [ref=f26e2]:
+                      - img "logo" [ref=f26e3] [cursor=pointer]
+                      - generic [ref=f26e4]:
+                        - navigation [ref=f26e5]:
+                          - list [ref=f26e6]:
+                            - listitem [ref=f26e7]:
+                              - link "Home" [ref=f26e8] [cursor=pointer]:
+                                - /url: "#hero"
+                            - listitem [ref=f26e9]:
+                              - link "About us" [ref=f26e10] [cursor=pointer]:
+                                - /url: "#abtus-show"
+                            - listitem [ref=f26e11]:
+                              - link "Process" [ref=f26e12] [cursor=pointer]:
+                                - /url: "#process-show"
+                        - navigation [ref=f26e13]:
+                          - list [ref=f26e14]:
+                            - listitem [ref=f26e15]:
+                              - link "Progress" [ref=f26e16] [cursor=pointer]:
+                                - /url: "#progress-show"
+                            - listitem [ref=f26e17]:
+                              - link "Review" [ref=f26e18] [cursor=pointer]:
+                                - /url: https://docs.google.com/forms/d/e/1FAIpQLSfCdJeT0pZk3VLQHmo9qPvqlrNWUfncTpVj9Zw_snOFxReFxg/viewform?usp=dialog
+                            - listitem [ref=f26e19]:
+                              - link "Contacts" [ref=f26e20] [cursor=pointer]:
+                                - /url: "#footer-show"
+                      - link [ref=f26e22] [cursor=pointer]:
+                        - /url: https://www.instagram.com/reppel.in/
+                        - img "instagram" [ref=f26e23]
+                    - main [ref=f26e24]:
+                      - generic [ref=f26e27]:
+                        - heading "Innovative Eco-Friendly Technology by EcoSmart" [level=1] [ref=f26e28]
+                        - generic [ref=f26e29]: Save Trees
+                        - heading "Welcome! We make the most out of your waste." [level=2] [ref=f26e30]
+                      - generic [ref=f26e33]:
+                        - heading "About us" [level=2] [ref=f26e34]
+                        - heading "Finding the ideal paper recycling solutions" [level=3] [ref=f26e35]
+                        - paragraph [ref=f26e37]: Ecosmart is a passionate group of Oakridge Bachupally students who aim to create a reliable, efficient and innovative homemade paper recycling service; not only to save trees, but also you.
+                        - generic [ref=f26e39]: "Together, let's collaborate and raise awareness about modern recycling troubles, so you, yourself, can contribute to the change. Scroll to see our efforts and recycle paper for yourself. You can visit us here! :"
+                      - generic [ref=f26e40]:
+                        - heading "Our process" [level=2] [ref=f26e41]
+                        - generic [ref=f26e42]:
+                          - paragraph [ref=f26e43]: Take a look at our specially curated process that maximizes efficiency. It is necessary to take the best measures in recycliing paper, so we can create a better world and improve local communities, for futures that we never got ourselves.
+                          - generic [ref=f26e44]:
+                            - generic [ref=f26e45]: ⌄ click the blocks ⌄
+                            - generic [ref=f26e46]:
+                              - generic [ref=f26e47] [cursor=pointer]:
+                                - generic [ref=f26e48]: "01"
+                                - text: Collect and Tear
+                              - generic: Gather waste paper and tear it into small pieces. Any paper works - newspapers, magazines, or scrap paper.
+                            - generic [ref=f26e49]:
+                              - generic [ref=f26e50] [cursor=pointer]:
+                                - generic [ref=f26e51]: "02"
+                                - text: Soak Paper
+                              - generic: Submerge torn paper pieces in water for several hours or overnight to soften the fibers.
+                            - generic [ref=f26e52]:
+                              - generic [ref=f26e53] [cursor=pointer]:
+                                - generic [ref=f26e54]: "03"
+                                - text: Blend pulp
+                              - generic: Blend the soaked paper with water until it forms a smooth, consistent pulp mixture.
+                            - generic [ref=f26e55]:
+                              - generic [ref=f26e56] [cursor=pointer]:
+                                - generic [ref=f26e57]: "04"
+                                - text: Form sheets
+                              - generic: Use a frame and mesh screen to scoop pulp from water, creating an even layer of paper.
+                            - generic [ref=f26e58]:
+                              - generic [ref=f26e59] [cursor=pointer]:
+                                - generic [ref=f26e60]: "05"
+                                - text: Press & Dry
+                              - generic: Press water out using absorbent cloths and boards, then allow sheets to dry completely.
+                            - generic [ref=f26e61]:
+                              - generic [ref=f26e62] [cursor=pointer]:
+                                - generic [ref=f26e63]: "06"
+                                - text: Finished product
+                              - generic: Reveal beautiful, handmade recycled paper ready for crafts, art, or everyday use.
+                      - generic [ref=f26e64]:
+                        - heading "Progress" [level=2] [ref=f26e65]
+                        - generic [ref=f26e66]:
+                          - heading "Recycle paper. Save energy, water and trees." [level=2] [ref=f26e67]
+                          - generic [ref=f26e68]:
+                            - text: EcoSmart by Reppel has indulged in it's own efforts to recycle paper. Our center in Bachupally works continously to make the best quality recycled paper with eco-friendly, homemade techniques.
+                            - paragraph [ref=f26e69]: A single sheet of recycled paper saves about 2 kiloJoules of energy and 10 litres of water.
+                          - generic [ref=f26e70]:
+                            - generic [ref=f26e80]:
+                              - generic [ref=f26e81]: "0"
+                              - generic [ref=f26e83]: Sheets of paper recycled
+                            - generic [ref=f26e89]:
+                              - generic [ref=f26e90]: "0"
+                              - generic [ref=f26e92]: kJ of energy saved
+                            - generic [ref=f26e100]:
+                              - generic [ref=f26e101]: "0"
+                              - generic [ref=f26e103]: People joined for the cause
+                            - generic [ref=f26e109]:
+                              - generic [ref=f26e110]: "0"
+                              - generic [ref=f26e112]: Litres of water conserved
+                    - contentinfo [ref=f26e113]:
+                      - generic [ref=f26e114]:
+                        - paragraph [ref=f26e116]: Interested? The best you can do is follow our process and save paper for yourself!
+                        - generic [ref=f26e117]:
+                          - heading "Quick Links" [level=3] [ref=f26e118]
+                          - list [ref=f26e119]:
+                            - listitem [ref=f26e120]:
+                              - link "Home" [ref=f26e121] [cursor=pointer]:
+                                - /url: "#hero"
+                            - listitem [ref=f26e122]:
+                              - link "About us" [ref=f26e123] [cursor=pointer]:
+                                - /url: "#abtus-show"
+                            - listitem [ref=f26e124]:
+                              - link "Process" [ref=f26e125] [cursor=pointer]:
+                                - /url: "#process-show"
+                            - listitem [ref=f26e126]:
+                              - link "Progress" [ref=f26e127] [cursor=pointer]:
+                                - /url: "#progress-show"
+                            - listitem [ref=f26e128]:
+                              - link "Review" [ref=f26e129] [cursor=pointer]:
+                                - /url: https://docs.google.com/forms/d/e/1FAIpQLSfCdJeT0pZk3VLQHmo9qPvqlrNWUfncTpVj9Zw_snOFxReFxg/viewform?usp=dialog
+                            - listitem [ref=f26e130]:
+                              - link "Contacts" [ref=f26e131] [cursor=pointer]:
+                                - /url: "#footer-show"
+                        - generic [ref=f26e132]:
+                          - heading "Contact" [level=3] [ref=f26e133]
+                          - link [ref=f26e134] [cursor=pointer]:
+                            - /url: https://www.instagram.com/reppel.in/
+                      - img "logo" [ref=f26e135] [cursor=pointer]
+                - link "Reppel Live site" [ref=f25e57] [cursor=pointer]:
+                  - /url: https://reppel.netlify.app
+                  - generic [ref=f25e58]: Reppel
+                  - generic [ref=f25e59]: Live site
+            - article [ref=f25e62]:
+              - generic [ref=f25e63]:
+                - iframe [ref=f25e64]:
+                  - generic [ref=f27e3]:
+                    - strong [ref=f27e4]: storifyjournal.ercel.app
+                    - text: ’s server IP address could not be found.
+                - link "Storify Journal Live site" [ref=f25e65] [cursor=pointer]:
+                  - /url: https://storifyjournal.ercel.app
+                  - generic [ref=f25e66]: Storify Journal
+                  - generic [ref=f25e67]: Live site
+            - article [ref=f25e70]:
+              - generic [ref=f25e73]:
+                - generic [ref=f25e74]: Coming soon
+                - generic [ref=f25e75]: Imminent Project
+            - article [ref=f25e76]:
+              - generic [ref=f25e79]:
+                - generic [ref=f25e80]: Coming soon
+                - generic [ref=f25e81]: Side Quest
+            - article [ref=f25e82]:
+              - generic [ref=f25e85]:
+                - generic [ref=f25e86]: Coming soon
+                - generic [ref=f25e87]: Late Night Build
+            - article [ref=f25e88]:
+              - generic [ref=f25e89]:
+                - iframe [ref=f25e90]:
+                  - generic [ref=f28e1]:
+                    - banner [ref=f28e2]:
+                      - img "logo" [ref=f28e3] [cursor=pointer]
+                      - generic [ref=f28e4]:
+                        - navigation [ref=f28e5]:
+                          - list [ref=f28e6]:
+                            - listitem [ref=f28e7]:
+                              - link "Home" [ref=f28e8] [cursor=pointer]:
+                                - /url: "#hero"
+                            - listitem [ref=f28e9]:
+                              - link "About us" [ref=f28e10] [cursor=pointer]:
+                                - /url: "#abtus-show"
+                            - listitem [ref=f28e11]:
+                              - link "Process" [ref=f28e12] [cursor=pointer]:
+                                - /url: "#process-show"
+                        - navigation [ref=f28e13]:
+                          - list [ref=f28e14]:
+                            - listitem [ref=f28e15]:
+                              - link "Progress" [ref=f28e16] [cursor=pointer]:
+                                - /url: "#progress-show"
+                            - listitem [ref=f28e17]:
+                              - link "Review" [ref=f28e18] [cursor=pointer]:
+                                - /url: https://docs.google.com/forms/d/e/1FAIpQLSfCdJeT0pZk3VLQHmo9qPvqlrNWUfncTpVj9Zw_snOFxReFxg/viewform?usp=dialog
+                            - listitem [ref=f28e19]:
+                              - link "Contacts" [ref=f28e20] [cursor=pointer]:
+                                - /url: "#footer-show"
+                      - link [ref=f28e22] [cursor=pointer]:
+                        - /url: https://www.instagram.com/reppel.in/
+                        - img "instagram" [ref=f28e23]
+                    - main [ref=f28e24]:
+                      - generic [ref=f28e27]:
+                        - heading "Innovative Eco-Friendly Technology by EcoSmart" [level=1] [ref=f28e28]
+                        - generic [ref=f28e29]: Save Trees
+                        - heading "Welcome! We make the most out of your waste." [level=2] [ref=f28e30]
+                      - generic [ref=f28e33]:
+                        - heading "About us" [level=2] [ref=f28e34]
+                        - heading "Finding the ideal paper recycling solutions" [level=3] [ref=f28e35]
+                        - paragraph [ref=f28e37]: Ecosmart is a passionate group of Oakridge Bachupally students who aim to create a reliable, efficient and innovative homemade paper recycling service; not only to save trees, but also you.
+                        - generic [ref=f28e39]: "Together, let's collaborate and raise awareness about modern recycling troubles, so you, yourself, can contribute to the change. Scroll to see our efforts and recycle paper for yourself. You can visit us here! :"
+                      - generic [ref=f28e40]:
+                        - heading "Our process" [level=2] [ref=f28e41]
+                        - generic [ref=f28e42]:
+                          - paragraph [ref=f28e43]: Take a look at our specially curated process that maximizes efficiency. It is necessary to take the best measures in recycliing paper, so we can create a better world and improve local communities, for futures that we never got ourselves.
+                          - generic [ref=f28e44]:
+                            - generic [ref=f28e45]: ⌄ click the blocks ⌄
+                            - generic [ref=f28e46]:
+                              - generic [ref=f28e47] [cursor=pointer]:
+                                - generic [ref=f28e48]: "01"
+                                - text: Collect and Tear
+                              - generic: Gather waste paper and tear it into small pieces. Any paper works - newspapers, magazines, or scrap paper.
+                            - generic [ref=f28e49]:
+                              - generic [ref=f28e50] [cursor=pointer]:
+                                - generic [ref=f28e51]: "02"
+                                - text: Soak Paper
+                              - generic: Submerge torn paper pieces in water for several hours or overnight to soften the fibers.
+                            - generic [ref=f28e52]:
+                              - generic [ref=f28e53] [cursor=pointer]:
+                                - generic [ref=f28e54]: "03"
+                                - text: Blend pulp
+                              - generic: Blend the soaked paper with water until it forms a smooth, consistent pulp mixture.
+                            - generic [ref=f28e55]:
+                              - generic [ref=f28e56] [cursor=pointer]:
+                                - generic [ref=f28e57]: "04"
+                                - text: Form sheets
+                              - generic: Use a frame and mesh screen to scoop pulp from water, creating an even layer of paper.
+                            - generic [ref=f28e58]:
+                              - generic [ref=f28e59] [cursor=pointer]:
+                                - generic [ref=f28e60]: "05"
+                                - text: Press & Dry
+                              - generic: Press water out using absorbent cloths and boards, then allow sheets to dry completely.
+                            - generic [ref=f28e61]:
+                              - generic [ref=f28e62] [cursor=pointer]:
+                                - generic [ref=f28e63]: "06"
+                                - text: Finished product
+                              - generic: Reveal beautiful, handmade recycled paper ready for crafts, art, or everyday use.
+                      - generic [ref=f28e64]:
+                        - heading "Progress" [level=2] [ref=f28e65]
+                        - generic [ref=f28e66]:
+                          - heading "Recycle paper. Save energy, water and trees." [level=2] [ref=f28e67]
+                          - generic [ref=f28e68]:
+                            - text: EcoSmart by Reppel has indulged in it's own efforts to recycle paper. Our center in Bachupally works continously to make the best quality recycled paper with eco-friendly, homemade techniques.
+                            - paragraph [ref=f28e69]: A single sheet of recycled paper saves about 2 kiloJoules of energy and 10 litres of water.
+                          - generic [ref=f28e70]:
+                            - generic [ref=f28e80]:
+                              - generic [ref=f28e81]: "0"
+                              - generic [ref=f28e83]: Sheets of paper recycled
+                            - generic [ref=f28e89]:
+                              - generic [ref=f28e90]: "0"
+                              - generic [ref=f28e92]: kJ of energy saved
+                            - generic [ref=f28e100]:
+                              - generic [ref=f28e101]: "0"
+                              - generic [ref=f28e103]: People joined for the cause
+                            - generic [ref=f28e109]:
+                              - generic [ref=f28e110]: "0"
+                              - generic [ref=f28e112]: Litres of water conserved
+                    - contentinfo [ref=f28e113]:
+                      - generic [ref=f28e114]:
+                        - paragraph [ref=f28e116]: Interested? The best you can do is follow our process and save paper for yourself!
+                        - generic [ref=f28e117]:
+                          - heading "Quick Links" [level=3] [ref=f28e118]
+                          - list [ref=f28e119]:
+                            - listitem [ref=f28e120]:
+                              - link "Home" [ref=f28e121] [cursor=pointer]:
+                                - /url: "#hero"
+                            - listitem [ref=f28e122]:
+                              - link "About us" [ref=f28e123] [cursor=pointer]:
+                                - /url: "#abtus-show"
+                            - listitem [ref=f28e124]:
+                              - link "Process" [ref=f28e125] [cursor=pointer]:
+                                - /url: "#process-show"
+                            - listitem [ref=f28e126]:
+                              - link "Progress" [ref=f28e127] [cursor=pointer]:
+                                - /url: "#progress-show"
+                            - listitem [ref=f28e128]:
+                              - link "Review" [ref=f28e129] [cursor=pointer]:
+                                - /url: https://docs.google.com/forms/d/e/1FAIpQLSfCdJeT0pZk3VLQHmo9qPvqlrNWUfncTpVj9Zw_snOFxReFxg/viewform?usp=dialog
+                            - listitem [ref=f28e130]:
+                              - link "Contacts" [ref=f28e131] [cursor=pointer]:
+                                - /url: "#footer-show"
+                        - generic [ref=f28e132]:
+                          - heading "Contact" [level=3] [ref=f28e133]
+                          - link [ref=f28e134] [cursor=pointer]:
+                            - /url: https://www.instagram.com/reppel.in/
+                      - img "logo" [ref=f28e135] [cursor=pointer]
+                - link "Reppel Live site" [ref=f25e91] [cursor=pointer]:
+                  - /url: https://reppel.netlify.app
+                  - generic [ref=f25e92]: Reppel
+                  - generic [ref=f25e93]: Live site
+            - article [ref=f25e96]:
+              - generic [ref=f25e97]:
+                - iframe [ref=f25e98]:
+                  - generic [ref=f29e3]:
+                    - strong [ref=f29e4]: storifyjournal.ercel.app
+                    - text: ’s server IP address could not be found.
+                - link "Storify Journal Live site" [ref=f25e99] [cursor=pointer]:
+                  - /url: https://storifyjournal.ercel.app
+                  - generic [ref=f25e100]: Storify Journal
+                  - generic [ref=f25e101]: Live site
+            - article [ref=f25e104]:
+              - generic [ref=f25e107]:
+                - generic [ref=f25e108]: Coming soon
+                - generic [ref=f25e109]: Imminent Project
+            - article [ref=f25e110]:
+              - generic [ref=f25e113]:
+                - generic [ref=f25e114]: Coming soon
+                - generic [ref=f25e115]: Side Quest
+            - article [ref=f25e116]:
+              - generic [ref=f25e119]:
+                - generic [ref=f25e120]: Coming soon
+                - generic [ref=f25e121]: Late Night Build
+          - generic [ref=f25e122]:
+            - button "Previous projects" [ref=f25e123] [cursor=pointer]
+            - button "Next projects" [ref=f25e126] [cursor=pointer]
+      - generic: View project
+    - generic [ref=f25e129]:
+      - heading "About" [level=2] [ref=f25e130]
+      - paragraph [ref=f25e132]: Passionate software developer and creator exploring the intersections of full-stack engineering, interactive graphic design, and artificial intelligence.
+    - generic [ref=f25e135]:
+      - generic [ref=f25e136]:
+        - button "Programming" [ref=f25e137] [cursor=pointer]
+        - button "Academic" [ref=f25e142] [cursor=pointer]
+        - button "Social Work" [ref=f25e146] [cursor=pointer]
+        - button "Hobbies" [ref=f25e150] [cursor=pointer]
+        - button "Extra skills" [ref=f25e154] [cursor=pointer]
+      - generic [ref=f25e160]:
+        - generic:
+          - heading "PROGRAMMING" [level=3]
+          - generic:
+            - generic:
+              - paragraph: React & Next.js — Fullstack Architecture
+        - generic [ref=f25e162]:
+          - generic [ref=f25e165] [cursor=pointer]:
+            - generic [ref=f25e166]: "01"
+            - generic [ref=f25e169]:
+              - paragraph [ref=f25e170]: React & Next.js
+              - paragraph [ref=f25e171]: Fullstack Architecture
+          - generic [ref=f25e174] [cursor=pointer]:
+            - generic [ref=f25e175]: "02"
+            - generic [ref=f25e178]:
+              - paragraph [ref=f25e179]: TypeScript
+              - paragraph [ref=f25e180]: Type-Safe Systems
+          - generic [ref=f25e183] [cursor=pointer]:
+            - generic [ref=f25e184]: "03"
+            - generic [ref=f25e187]:
+              - paragraph [ref=f25e188]: WebGL & Three.js
+              - paragraph [ref=f25e189]: Interactive 3D
+          - generic [ref=f25e192] [cursor=pointer]:
+            - generic [ref=f25e193]: "04"
+            - generic [ref=f25e196]:
+              - paragraph [ref=f25e197]: Node.js & APIs
+              - paragraph [ref=f25e198]: High-Perf Backends
+          - generic [ref=f25e201] [cursor=pointer]:
+            - generic [ref=f25e202]: "05"
+            - generic [ref=f25e205]:
+              - paragraph [ref=f25e206]: Tailwind CSS
+              - paragraph [ref=f25e207]: Design Systems
+          - generic [ref=f25e210] [cursor=pointer]:
+            - generic [ref=f25e211]: "06"
+            - generic [ref=f25e214]:
+              - paragraph [ref=f25e215]: Python & AI
+              - paragraph [ref=f25e216]: Machine Learning
+          - generic [ref=f25e219] [cursor=pointer]:
+            - generic [ref=f25e220]: "01"
+            - generic [ref=f25e223]:
+              - paragraph [ref=f25e224]: React & Next.js
+              - paragraph [ref=f25e225]: Fullstack Architecture
+          - generic [ref=f25e228] [cursor=pointer]:
+            - generic [ref=f25e229]: "02"
+            - generic [ref=f25e232]:
+              - paragraph [ref=f25e233]: TypeScript
+              - paragraph [ref=f25e234]: Type-Safe Systems
+          - generic [ref=f25e237] [cursor=pointer]:
+            - generic [ref=f25e238]: "03"
+            - generic [ref=f25e241]:
+              - paragraph [ref=f25e242]: WebGL & Three.js
+              - paragraph [ref=f25e243]: Interactive 3D
+          - generic [ref=f25e246] [cursor=pointer]:
+            - generic [ref=f25e247]: "04"
+            - generic [ref=f25e250]:
+              - paragraph [ref=f25e251]: Node.js & APIs
+              - paragraph [ref=f25e252]: High-Perf Backends
+          - generic [ref=f25e255] [cursor=pointer]:
+            - generic [ref=f25e256]: "05"
+            - generic [ref=f25e259]:
+              - paragraph [ref=f25e260]: Tailwind CSS
+              - paragraph [ref=f25e261]: Design Systems
+          - generic [ref=f25e264] [cursor=pointer]:
+            - generic [ref=f25e265]: "06"
+            - generic [ref=f25e268]:
+              - paragraph [ref=f25e269]: Python & AI
+              - paragraph [ref=f25e270]: Machine Learning
+          - generic [ref=f25e273] [cursor=pointer]:
+            - generic [ref=f25e274]: "01"
+            - generic [ref=f25e277]:
+              - paragraph [ref=f25e278]: React & Next.js
+              - paragraph [ref=f25e279]: Fullstack Architecture
+          - generic [ref=f25e282] [cursor=pointer]:
+            - generic [ref=f25e283]: "02"
+            - generic [ref=f25e286]:
+              - paragraph [ref=f25e287]: TypeScript
+              - paragraph [ref=f25e288]: Type-Safe Systems
+          - generic [ref=f25e291] [cursor=pointer]:
+            - generic [ref=f25e292]: "03"
+            - generic [ref=f25e295]:
+              - paragraph [ref=f25e296]: WebGL & Three.js
+              - paragraph [ref=f25e297]: Interactive 3D
+          - generic [ref=f25e300] [cursor=pointer]:
+            - generic [ref=f25e301]: "04"
+            - generic [ref=f25e304]:
+              - paragraph [ref=f25e305]: Node.js & APIs
+              - paragraph [ref=f25e306]: High-Perf Backends
+          - generic [ref=f25e309] [cursor=pointer]:
+            - generic [ref=f25e310]: "05"
+            - generic [ref=f25e313]:
+              - paragraph [ref=f25e314]: Tailwind CSS
+              - paragraph [ref=f25e315]: Design Systems
+          - generic [ref=f25e318] [cursor=pointer]:
+            - generic [ref=f25e319]: "06"
+            - generic [ref=f25e322]:
+              - paragraph [ref=f25e323]: Python & AI
+              - paragraph [ref=f25e324]: Machine Learning
+          - generic [ref=f25e327] [cursor=pointer]:
+            - generic [ref=f25e328]: "01"
+            - generic [ref=f25e331]:
+              - paragraph [ref=f25e332]: React & Next.js
+              - paragraph [ref=f25e333]: Fullstack Architecture
+          - generic [ref=f25e336] [cursor=pointer]:
+            - generic [ref=f25e337]: "02"
+            - generic [ref=f25e340]:
+              - paragraph [ref=f25e341]: TypeScript
+              - paragraph [ref=f25e342]: Type-Safe Systems
+          - generic [ref=f25e345] [cursor=pointer]:
+            - generic [ref=f25e346]: "03"
+            - generic [ref=f25e349]:
+              - paragraph [ref=f25e350]: WebGL & Three.js
+              - paragraph [ref=f25e351]: Interactive 3D
+          - generic [ref=f25e354] [cursor=pointer]:
+            - generic [ref=f25e355]: "04"
+            - generic [ref=f25e358]:
+              - paragraph [ref=f25e359]: Node.js & APIs
+              - paragraph [ref=f25e360]: High-Perf Backends
+          - generic [ref=f25e363] [cursor=pointer]:
+            - generic [ref=f25e364]: "05"
+            - generic [ref=f25e367]:
+              - paragraph [ref=f25e368]: Tailwind CSS
+              - paragraph [ref=f25e369]: Design Systems
+          - generic [ref=f25e372] [cursor=pointer]:
+            - generic [ref=f25e373]: "06"
+            - generic [ref=f25e376]:
+              - paragraph [ref=f25e377]: Python & AI
+              - paragraph [ref=f25e378]: Machine Learning
+        - generic:
+          - generic:
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+            - generic: CORE SYSTEM 01
+            - generic: CORE SYSTEM 02
+            - generic: CORE SYSTEM 03
+            - generic: CORE SYSTEM 04
+            - generic: CORE SYSTEM 05
+            - generic: CORE SYSTEM 06
+        - generic [ref=f25e380]:
+          - generic [ref=f25e383] [cursor=pointer]:
+            - generic [ref=f25e384]: "04"
+            - generic [ref=f25e387]:
+              - paragraph [ref=f25e388]: Node.js & APIs
+              - paragraph [ref=f25e389]: High-Perf Backends
+          - generic [ref=f25e392] [cursor=pointer]:
+            - generic [ref=f25e393]: "05"
+            - generic [ref=f25e396]:
+              - paragraph [ref=f25e397]: Tailwind CSS
+              - paragraph [ref=f25e398]: Design Systems
+          - generic [ref=f25e401] [cursor=pointer]:
+            - generic [ref=f25e402]: "06"
+            - generic [ref=f25e405]:
+              - paragraph [ref=f25e406]: Python & AI
+              - paragraph [ref=f25e407]: Machine Learning
+          - generic [ref=f25e410] [cursor=pointer]:
+            - generic [ref=f25e411]: "01"
+            - generic [ref=f25e414]:
+              - paragraph [ref=f25e415]: React & Next.js
+              - paragraph [ref=f25e416]: Fullstack Architecture
+          - generic [ref=f25e419] [cursor=pointer]:
+            - generic [ref=f25e420]: "02"
+            - generic [ref=f25e423]:
+              - paragraph [ref=f25e424]: TypeScript
+              - paragraph [ref=f25e425]: Type-Safe Systems
+          - generic [ref=f25e428] [cursor=pointer]:
+            - generic [ref=f25e429]: "03"
+            - generic [ref=f25e432]:
+              - paragraph [ref=f25e433]: WebGL & Three.js
+              - paragraph [ref=f25e434]: Interactive 3D
+          - generic [ref=f25e437] [cursor=pointer]:
+            - generic [ref=f25e438]: "04"
+            - generic [ref=f25e441]:
+              - paragraph [ref=f25e442]: Node.js & APIs
+              - paragraph [ref=f25e443]: High-Perf Backends
+          - generic [ref=f25e446] [cursor=pointer]:
+            - generic [ref=f25e447]: "05"
+            - generic [ref=f25e450]:
+              - paragraph [ref=f25e451]: Tailwind CSS
+              - paragraph [ref=f25e452]: Design Systems
+          - generic [ref=f25e455] [cursor=pointer]:
+            - generic [ref=f25e456]: "06"
+            - generic [ref=f25e459]:
+              - paragraph [ref=f25e460]: Python & AI
+              - paragraph [ref=f25e461]: Machine Learning
+          - generic [ref=f25e464] [cursor=pointer]:
+            - generic [ref=f25e465]: "01"
+            - generic [ref=f25e468]:
+              - paragraph [ref=f25e469]: React & Next.js
+              - paragraph [ref=f25e470]: Fullstack Architecture
+          - generic [ref=f25e473] [cursor=pointer]:
+            - generic [ref=f25e474]: "02"
+            - generic [ref=f25e477]:
+              - paragraph [ref=f25e478]: TypeScript
+              - paragraph [ref=f25e479]: Type-Safe Systems
+          - generic [ref=f25e482] [cursor=pointer]:
+            - generic [ref=f25e483]: "03"
+            - generic [ref=f25e486]:
+              - paragraph [ref=f25e487]: WebGL & Three.js
+              - paragraph [ref=f25e488]: Interactive 3D
+          - generic [ref=f25e491] [cursor=pointer]:
+            - generic [ref=f25e492]: "04"
+            - generic [ref=f25e495]:
+              - paragraph [ref=f25e496]: Node.js & APIs
+              - paragraph [ref=f25e497]: High-Perf Backends
+          - generic [ref=f25e500] [cursor=pointer]:
+            - generic [ref=f25e501]: "05"
+            - generic [ref=f25e504]:
+              - paragraph [ref=f25e505]: Tailwind CSS
+              - paragraph [ref=f25e506]: Design Systems
+          - generic [ref=f25e509] [cursor=pointer]:
+            - generic [ref=f25e510]: "06"
+            - generic [ref=f25e513]:
+              - paragraph [ref=f25e514]: Python & AI
+              - paragraph [ref=f25e515]: Machine Learning
+          - generic [ref=f25e518] [cursor=pointer]:
+            - generic [ref=f25e519]: "01"
+            - generic [ref=f25e522]:
+              - paragraph [ref=f25e523]: React & Next.js
+              - paragraph [ref=f25e524]: Fullstack Architecture
+          - generic [ref=f25e527] [cursor=pointer]:
+            - generic [ref=f25e528]: "02"
+            - generic [ref=f25e531]:
+              - paragraph [ref=f25e532]: TypeScript
+              - paragraph [ref=f25e533]: Type-Safe Systems
+          - generic [ref=f25e536] [cursor=pointer]:
+            - generic [ref=f25e537]: "03"
+            - generic [ref=f25e540]:
+              - paragraph [ref=f25e541]: WebGL & Three.js
+              - paragraph [ref=f25e542]: Interactive 3D
+          - generic [ref=f25e545] [cursor=pointer]:
+            - generic [ref=f25e546]: "04"
+            - generic [ref=f25e549]:
+              - paragraph [ref=f25e550]: Node.js & APIs
+              - paragraph [ref=f25e551]: High-Perf Backends
+          - generic [ref=f25e554] [cursor=pointer]:
+            - generic [ref=f25e555]: "05"
+            - generic [ref=f25e558]:
+              - paragraph [ref=f25e559]: Tailwind CSS
+              - paragraph [ref=f25e560]: Design Systems
+          - generic [ref=f25e563] [cursor=pointer]:
+            - generic [ref=f25e564]: "06"
+            - generic [ref=f25e567]:
+              - paragraph [ref=f25e568]: Python & AI
+              - paragraph [ref=f25e569]: Machine Learning
+          - generic [ref=f25e572] [cursor=pointer]:
+            - generic [ref=f25e573]: "01"
+            - generic [ref=f25e576]:
+              - paragraph [ref=f25e577]: React & Next.js
+              - paragraph [ref=f25e578]: Fullstack Architecture
+          - generic [ref=f25e581] [cursor=pointer]:
+            - generic [ref=f25e582]: "02"
+            - generic [ref=f25e585]:
+              - paragraph [ref=f25e586]: TypeScript
+              - paragraph [ref=f25e587]: Type-Safe Systems
+          - generic [ref=f25e590] [cursor=pointer]:
+            - generic [ref=f25e591]: "03"
+            - generic [ref=f25e594]:
+              - paragraph [ref=f25e595]: WebGL & Three.js
+              - paragraph [ref=f25e596]: Interactive 3D
+    - generic [ref=f25e597]:
+      - generic [ref=f25e598]:
+        - heading "Play" [level=2] [ref=f25e599]
+        - paragraph [ref=f25e600]: Interactive demos and playful experiments.
+      - generic [ref=f25e601]:
+        - heading "Contact" [level=2] [ref=f25e602]
+        - paragraph [ref=f25e603]: Get in touch — I'd love to hear from you.
+  - button "Open Next.js Dev Tools" [ref=f25e609] [cursor=pointer]

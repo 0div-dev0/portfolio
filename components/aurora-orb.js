@@ -51,7 +51,7 @@ export default function AuroraOrb({
               "--orb-opacity": opacity,
             }}
           >
-            <div className="aurora-hitbox pointer-events-auto cursor-none absolute inset-[10%] rounded-full" />
+            <div className="aurora-hitbox pointer-events-auto cursor-none absolute inset-[-15%] rounded-full" />
           </div>
         </div>
       </div>

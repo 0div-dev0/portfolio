@@ -117,19 +117,18 @@ Renders 5 large, colorful blurred lights (orbs) that trail the cursor and reveal
 | 4 | `-bottom-48 left-1/4` | `#059669`, `#34d399`, `#064e3b` | 10 | 1.6s | 26s |
 
 ### Hover Mechanism & Stacking Context
-1. Each orb contains an invisible `.aurora-hitbox` child element (`pointer-events-auto`)
-2. `pointerenter`/`pointerleave` events hit-test to the topmost orb at cursor position
-3. `.aurora-container` is styled with `z-[3]`, ensuring it sits **above** the `Stars` component (`z-[2]`) so pointer events reach orb hitboxes
-4. Global CSS rule in `globals.css` sets `#stars canvas { pointer-events: none !important; }` so canvas elements never trap hit-tests
-5. On hover: `.is-hovered` added to orb, `.has-hovered-orb` added to container
-6. On leave: classes removed, color reverts to monochrome
+1. Each orb contains an invisible `.aurora-hitbox` child element (`pointer-events-auto`) that fills the **entire orb** (`inset-0`) so it is easy to hit.
+2. `pointerenter`/`pointerleave` events hit-test to the topmost orb at cursor position.
+3. `.aurora-container` is styled with `z-[3]`, ensuring it sits **above** the `Stars` component (`z-[2]`) so pointer events reach orb hitboxes.
+4. Global CSS rule in `globals.css` sets `#stars canvas { pointer-events: none !important; }` so canvas elements never trap hit-tests.
+5. On hover: `.is-hovered` added to orb, `.has-hovered-orb` added to container.
+6. On leave: classes removed, color reverts to monochrome.
 
-### Stationary-cursor hover gating
-Orbs only colour when the cursor is **still** over them, never while moving:
-- `pointerenter` just records the orb as a hover *candidate* (`pendingIndex`).
-- A `pointermove` displacement `>= MOVE_PX` (3px) resets a movement clock and instantly releases any current hover; micro-jitter below the threshold is ignored.
-- The animation tick waits until the cursor has been still for `STATIONARY_MS` (250ms) before applying `colourOrb` to the pending orb (`coasting` flag ensures the check runs once per rest).
-- Touch devices keep the previous two-tap behaviour (first tap colours, second tap navigates).
+### Hover behaviour (simple — no stillness gating)
+There is **no stationary-cursor requirement**: orbs colour **immediately** on `pointerenter` and decolour on `pointerleave`.
+- No candidate/coasting thresholds, no pointermove hit-testing — the old `STATIONARY_MS`/`MOVE_PX` gate was removed to reduce complexity.
+- `pointermove` is only consumed by the follow/trail physics (updates `mouseRef`).
+- Touch devices keep the two-tap behaviour (first tap colours, second tap navigates).
 - The component is exported via `React.memo`; its props are the stable `useState` setters and a stable `useCallback` click handler, so hero re-renders (e.g. typing in the contact box) don't re-render Aurora.
 
 ---
