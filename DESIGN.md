@@ -42,7 +42,7 @@ This document outlines the UI/UX design architecture, typography, color palettes
 
 ### **Unboxed Typography Principle**
 - **No Border Containers Around Text**: Titles and description texts float cleanly and openly over the canvas without artificial container boxes, heavy borders, or glowing LED shadows.
-- **3D Text Replacement (`HeroStyleScrollText`)**: Uses the exact `HeroTextBlock` 3D tilt-and-slide formula (`perspective(1000px) rotateX(15deg) translateY(40px) → rotateX(0deg) translateY(0px) → rotateX(-15deg) translateY(-50px)`) to reveal new text by scrolling up from below and exit old text upward, in 1-to-1 sync with card scroll momentum across all 5 screens (including `Hobbies` and `Extra skills`).
+- **3D Text Replacement (`HeroStyleScrollText`)**: Uses the exact `HeroTextBlock` 3D tilt-and-slide formula (`perspective(1000px) rotateX(15deg) translateY(40px) → rotateX(0deg) translateY(0px) → rotateX(-15deg) translateY(-50px)`) to reveal new text by scrolling up from below and exit old text upward, in 1-to-1 sync with card scroll momentum on the `Programming` and `Academic` screens (`Hobbies` and `Extra skills` keep their titles bare — detail text lives in the animated panels below).
 - **3D Detail Text Block (`HeroStyleScrollTextBlock`)**: The same 3D formula applied to the rich detail panels — the `Hobbies` details (tag/title/desc, e.g. `CREATIVE CODING`) and the `Extra skills` info (`Specialization 0X` + title/desc) — so the entire block scrolls up and reveals on each step change.
 
 ---

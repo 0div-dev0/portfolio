@@ -126,15 +126,69 @@ Renders 5 large, colorful blurred lights (orbs) that trail the cursor and reveal
 ## Component Hierarchy & Stacking Order
 
 ```
-Hero (hero.js)
+Page (app/page.js)
 │
-├── Stars (stars.js)           z-[2]  — background star field & shooting stars
+├── ConstellationField (constellation-field.js)   z-0, fixed — page-wide animated white defense-line background
+│      shown behind ALL sections EXCEPT the hero (hero's opaque bg covers it)
 │
-├── Aurora (aurora.js)         z-[3]  — colored floating orbs & interactive hitboxes
-│   └── AuroraOrb (aurora-orb.js)
-│
-└── Hero content               z-[10] — text, buttons, scroll hint
+└── Hero + sections (z-10+)
+    │
+    ├── Hero (hero.js)          z-10, opaque bg  — stars only (no constellation)
+    │   ├── Stars (stars.js)           z-[2]  — background star field & shooting stars
+    │   ├── Aurora (aurora.js)         z-[3]  — colored floating orbs & interactive hitboxes
+    │   │   └── AuroraOrb (aurora-orb.js)
+    │   └── Hero content               z-[10] — text, buttons, scroll hint
+    │
+    ├── About / Play / Contact  transparent  — constellation shows through
+    └── Gallery (gallery-section.js)  transparent bg  — constellation shows through
 ```
+
+---
+
+## ConstellationField Component (`components/constellation-field.js`)
+
+### Purpose
+Renders a persistent, single fixed full-viewport Canvas 2D "defense lines" animation behind every page section **except** the hero. It is derived from the ThreeUI "Defense Lines" (`defense-lines`) variant, but recolored from crimson to **white** per the design. The hero keeps its opaque `bg-background` (and its own stars/aurora) on top, so the constellation is hidden in the hero and revealed in About / Gallery / Play / Contact.
+
+### How it works
+- A single `<canvas>` is rendered with `className="defense-lines-bg"` inside `app/page.js` as the first element.
+- `globals.css` styles `.defense-lines-bg` as `position: fixed; inset: 0; z-index: 0; pointer-events: none`.
+- In the effect, small vertical line "particles" rain upward across the canvas. Each line is a fading vertical gradient, brighter toward its midpoint and brightest near the center of the viewport (a radial proximity weighting makes the middle glow hotter). Lines are repositioned to the bottom once they exit the top.
+- Hi-DPI aware: canvas backing store is sized with `devicePixelRatio` (capped at 2), and a `ctx.setTransform(dpr,0,0,dpr,0,0)` handles the scaling. Resize re-initializes the particle pool.
+
+### Props
+| Prop | Default | Description |
+|---|---|---|
+| `variant` | `"defense-lines"` | Effect variant (only defense-lines is implemented here). |
+| `mode` | `"dark"` | `"dark"` → near-black bg `#050505`; `"light"` → pale bg `#f4ecec`. |
+| `speed` | `1` | Animation speed multiplier (clamped 0–3). |
+| `size` | `1` | Stroke width scaling (clamped 0.05–200). |
+| `length` | `1` | Base line length scaling (clamped 0.35–2.5). |
+| `density` | `1` | Particle count scaling (clamped 0.25–2.5). Mobile base 40, desktop base 100. |
+| `strokeWidth` | `1` | Line width (clamped 0.25–8). |
+| `opacity` | `1` | Canvas opacity (clamped 0.05–1; used at `0.5` for a subtle background). |
+| `hue` / `saturation` / `brightness` | `0`/`1`/`1` | CSS filter applied to the canvas. |
+| `className` / `style` | — | Applied to the `<canvas>`. |
+
+### Color derivation (white, not red)
+The original crimson gradient stops (`rgba(220,38,38,0)` → `rgba(255,38+brightness,38+brightness,…)` → `rgba(220,38,38,0)`) are replaced with neutral white/gray stops so the lines read as white on the dark `#050505` background:
+- `rgba(220,220,220,0)` → `rgba(255-brightness,255-brightness,255-brightness,alpha)` → `rgba(220,220,220,0)`
+- The `brightness` term (center-proximity 0–180) is subtracted from 255, so lines near center are brighter (whiter) and fade to gray toward the edges.
+
+### Usage in `app/page.js`
+```jsx
+<ConstellationField
+  variant="defense-lines"
+  mode="dark"
+  speed={1}
+  size={1}
+  length={1}
+  density={1}
+  opacity={0.5}
+  className="defense-lines-bg"
+/>
+```
+Placed as the first child of the page root so it sits at z-0 behind everything. The hero's opaque `bg-background` covers it; About, Gallery, Play and Contact keep transparent backgrounds so it shows through.
 
 ---
 
@@ -208,11 +262,13 @@ Replaces static text blocks with dynamic, reactive typewriter text. When an orb 
   5. `Extra skills` (`#34d399`)
 - Active item displays a glowing ring (`motion.div layoutId="activeDotRing"`) and highlighted category label with text-shadow glow.
 
-### Standardized Uniform Screen Dimensions & Clean Slick Typography
-- **Uniform Increased Screen Height**: Increased all 5 screen containers to `h-[380px] sm:h-[420px] md:h-[450px]`, giving ample breathing room while keeping screens equal.
-- **Hero-Style 3D Scroll Replacement (`HeroStyleScrollText`)**: Extracted the exact 3D tilt-and-slide transformation math from `HeroTextBlock` (`perspective(1000px) rotateX(15deg) translateY(40px) → rotateX(0deg) translateY(0px) → rotateX(-15deg) translateY(-50px)`) to seamlessly fade old text upward and introduce new text from below as cards scroll up and down. Applied to **all 5 screens**, including `Hobbies` (3) and `Extra skills` (4).
-- **Hero-Style 3D Scroll Detail Block (`HeroStyleScrollTextBlock`)**: Same 3D formula as `HeroStyleScrollText` but for the rich detail panels — the `Hobbies` details panel (tag/title/desc, e.g. `CREATIVE CODING`) and the `Extra skills` info panel (`Specialization 01` + title/desc) — swapping the whole label/title/desc block with the same scroll-up reveal on every `activeStep` change. Items without a `tag` fall back to the `Specialization 0X` label.
-- **Progressive Rise Card Stack (Extra Skills)**: Screen 4's isometric stack is no longer step-snapped. A continuous `focusFloat = (|scrollPos| % (skills.length * 250)) / 250` drives each card's `offset = i - focusFloat`, so cards translate up 1:1 with the wheel (`y: offset * 20`, `x: offset * 12`, `rotateZ: offset * -4`, smooth scale/opacity interpolation). At each 250px boundary the stack springs back (`type: "spring", stiffness: 200, damping: 26, mass: 0.9`) — the flip-back — while the discrete `activeStep` switches the `HeroStyleScrollText` and info panel to the next skill.
+### Background Architecture Separation & Light/Dark Theme Adaptation
+- **Hero Background**: The particle star field (`<Stars />`) and interactive colored floating lights (`<Aurora />`) live **exclusively** inside the Hero section (`components/hero.js`).
+- **Post-Hero Background (About, Gallery, Play, Contact)**: All sections after the Hero feature the persistent **animated stripes background** (`<ConstellationField />` defense lines).
+- **Light & Dark Mode Adaptation**:
+  - In Light Mode, the animated stripes canvas background turns **pure white** (`#ffffff`), and defense lines turn **dark charcoal/black** (`rgba(20, 20, 20, 0.85)`). Hero stars turn black (`#18181b`, `#09090b`).
+  - In Dark Mode, the background is dark (`#050505`), defense lines turn silver/white, and hero stars turn white.
+- **Progressive Rise Card Stack (Extra Skills)**: Screen 4's isometric stack is no longer step-snapped. A continuous `focusFloat = (|scrollPos| % (skills.length * 250)) / 250` drives each card's `offset = i - focusFloat`, so cards translate up 1:1 with the wheel (`y: offset * 20`, `x: offset * 12`, `rotateZ: offset * -4`, smooth scale/opacity interpolation). At each 250px boundary the stack springs back (`type: "spring", stiffness: 200, damping: 26, mass: 0.9`) — the flip-back — while the discrete `activeStep` switches the `HeroStyleScrollTextBlock` info panel to the next skill.
 - **Zero-Delay Direct Wheel Scroll**: Replaced RAF decay delay in `useGalleryScroll` with direct wheel delta updates (`setScrollPos((prev) => prev + e.deltaY * 0.35)`), providing 0ms latency instantaneous scroll response.
 - **DESIGN.md System**: Created `DESIGN.md` in project root incorporating `ui-ux-pro-max` guidelines, color mappings, depth hierarchy, unboxed typography rules, and pre-delivery checklist.
 

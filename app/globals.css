@@ -304,3 +304,14 @@ button, li, a, input, svg, path, img {
 .backface-hidden {
   backface-visibility: hidden;
 }
+
+/* Persistent page-wide constellation background — fixed behind all sections.
+   The hero keeps an opaque background on top, so it only shows below the hero. */
+.defense-lines-bg {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}

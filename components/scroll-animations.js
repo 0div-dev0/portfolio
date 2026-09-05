@@ -61,12 +61,9 @@ export default function ScrollAnimations() {
         orb.style.setProperty("--scroll-fade", opacity);
       });
 
-      // Stars: fade out
+      // Stars: stay permanently visible
       if (starsCanvas) {
-        const starsProgress = clamp(
-          (scrollY - t.orbStart) / (t.starsEnd - t.orbStart)
-        );
-        starsCanvas.style.opacity = 1 - starsProgress;
+        starsCanvas.style.opacity = 1;
       }
 
       // Hero content: stays opaque during text cycling, then fades at end

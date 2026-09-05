@@ -4,10 +4,10 @@ import { useEffect, useState, useMemo } from "react";
 import { Particles, ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 
-const STAR_COUNT = 25;
+const STAR_COUNT = 35;
 const SHOOTING_STAR_INTERVAL = 6000;
 
-const STAR_COLORS = [
+const DARK_STAR_COLORS = [
   "#ffffff",
   "#f0f5ff",
   "#e8f4fd",
@@ -15,6 +15,15 @@ const STAR_COLORS = [
   "#ffe4e1",
   "#e8f5e9",
   "#f7fafc",
+];
+
+const LIGHT_STAR_COLORS = [
+  "#18181b",
+  "#09090b",
+  "#27272a",
+  "#3f3f46",
+  "#52525b",
+  "#1e293b",
 ];
 
 const ORB_COLORS = {
@@ -25,15 +34,9 @@ const ORB_COLORS = {
   "#059669": "#6ee7b7", // green
 };
 
-function getRandomColor() {
-  return STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
-}
-
 function createShootingStar() {
   const startX = Math.random() * 100;
   const startY = Math.random() * 20;
-
-  // Mostly diagonal downward movement
   const distance = 20 + Math.random() * 25;
 
   return {
@@ -53,17 +56,28 @@ const initParticles = async (engine) => {
 
 export default function Stars({ hoveredOrbColor = null }) {
   const [shootingStars, setShootingStars] = useState([]);
+  const [isLight, setIsLight] = useState(false);
 
-  /*
-   * Create a shooting star every 6 seconds.
-   */
+  // Monitor DOM root class for theme changes
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsLight(document.documentElement.classList.contains("light"));
+    };
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  // Create shooting stars periodically
   useEffect(() => {
     const create = () => {
       const star = createShootingStar();
-
       setShootingStars((current) => [...current, star]);
-
-      // Remove it after its animation finishes.
       setTimeout(() => {
         setShootingStars((current) =>
           current.filter((item) => item.id !== star.id)
@@ -71,9 +85,7 @@ export default function Stars({ hoveredOrbColor = null }) {
       }, (star.duration + 0.3) * 1000);
     };
 
-    // First shooting star after 2 seconds.
     const firstTimeout = setTimeout(create, 2000);
-
     const interval = setInterval(create, SHOOTING_STAR_INTERVAL);
 
     return () => {
@@ -82,81 +94,63 @@ export default function Stars({ hoveredOrbColor = null }) {
     };
   }, []);
 
-  /*
-   * When an orb is hovered, use that orb's colour
-   * for the stars.
-   */
-  const starColor = hoveredOrbColor
-    ? ORB_COLORS[hoveredOrbColor] || hoveredOrbColor
-    : STAR_COLORS;
+  const starColor = useMemo(() => {
+    if (hoveredOrbColor) {
+      return ORB_COLORS[hoveredOrbColor] || hoveredOrbColor;
+    }
+    return isLight ? LIGHT_STAR_COLORS : DARK_STAR_COLORS;
+  }, [hoveredOrbColor, isLight]);
 
-  const options = useMemo(() => ({
-    fullScreen: {
-      enable: false,
-    },
-
-    background: {
-      color: "transparent",
-    },
-
-    particles: {
-      number: {
-        value: STAR_COUNT,
-        density: {
-          enable: false,
+  const options = useMemo(
+    () => ({
+      fullScreen: { enable: false },
+      background: { color: "transparent" },
+      particles: {
+        number: {
+          value: STAR_COUNT,
+          density: { enable: false },
         },
-      },
-
-      color: {
-        value: starColor,
-      },
-
-      opacity: {
-        value: 0.6,
-        animation: {
+        color: { value: starColor },
+        opacity: {
+          value: isLight ? 0.8 : 0.65,
+          animation: {
+            enable: true,
+            speed: 0.5,
+            minimumValue: 0.25,
+            sync: false,
+          },
+        },
+        size: {
+          value: { min: 1.5, max: 3 },
+        },
+        shape: { type: "circle" },
+        move: {
           enable: true,
-          speed: 0.5,
-          minimumValue: 0.25,
-          sync: false,
+          speed: 0.3,
+          direction: "none",
+          random: true,
+          straight: false,
+          outModes: "bounce",
+        },
+        links: {
+          enable: true,
+          distance: 130,
+          color: isLight ? "#18181b" : "#ffffff",
+          opacity: isLight ? 0.15 : 0.2,
+          width: 1,
         },
       },
-
-      size: {
-        value: {
-          min: 1,
-          max: 2,
+      interactivity: {
+        detectsOn: "canvas",
+        events: {
+          onHover: { enable: false },
+          onClick: { enable: false },
         },
       },
-
-      shape: {
-        type: "circle",
-      },
-
-      move: {
-        enable: false,
-      },
-
-      links: {
-        enable: false,
-      },
-    },
-
-    interactivity: {
-      detectsOn: "canvas",
-
-      events: {
-        onHover: {
-          enable: false,
-        },
-
-        onClick: {
-          enable: false,
-        },
-      },
-    },
-
-    detectRetina: true,
-  }), [starColor]);
+      detectRetina: true,
+    }),
+    [starColor, isLight]
+  );
 
   return (
     <ParticlesProvider init={initParticles}>
@@ -167,9 +161,7 @@ export default function Stars({ hoveredOrbColor = null }) {
           options={options}
         />
 
-        {/*
-         * Shooting stars
-         */}
+        {/* Shooting stars */}
         {shootingStars.map((star) => (
           <span
             key={star.id}
@@ -190,24 +182,16 @@ export default function Stars({ hoveredOrbColor = null }) {
             position: absolute;
             height: 1px;
             border-radius: 999px;
-
-            background: linear-gradient(
-              90deg,
-              rgba(255, 255, 255, 0),
-              rgba(255, 255, 255, 0.15) 20%,
-              rgba(255, 255, 255, 0.8) 70%,
-              rgba(255, 255, 255, 1)
-            );
-
+            background: ${isLight
+              ? "linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,1))"
+              : "linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.15) 20%, rgba(255,255,255,0.8) 70%, rgba(255,255,255,1))"};
             transform-origin: right center;
             transform: rotate(var(--angle));
-
             opacity: 0;
             animation: shooting-star var(--duration) ease-out forwards;
-
-            box-shadow:
-              0 0 4px rgba(255, 255, 255, 0.9),
-              0 0 10px rgba(255, 255, 255, 0.5);
+            box-shadow: ${isLight
+              ? "0 0 4px rgba(0,0,0,0.6), 0 0 10px rgba(0,0,0,0.3)"
+              : "0 0 4px rgba(255,255,255,0.9), 0 0 10px rgba(255,255,255,0.5)"};
           }
 
           .shooting-star::after {
@@ -218,29 +202,24 @@ export default function Stars({ hoveredOrbColor = null }) {
             width: 3px;
             height: 3px;
             border-radius: 50%;
-            background: white;
+            background: ${isLight ? "#18181b" : "white"};
             transform: translateY(-50%);
-            box-shadow:
-              0 0 5px white,
-              0 0 12px rgba(255, 255, 255, 0.9);
+            box-shadow: ${isLight
+              ? "0 0 5px #18181b, 0 0 12px rgba(0,0,0,0.6)"
+              : "0 0 5px white, 0 0 12px rgba(255,255,255,0.9)"};
           }
 
           @keyframes shooting-star {
             0% {
               opacity: 0;
-              transform: translate3d(0, 0, 0)
-                rotate(var(--angle))
-                scaleX(0.4);
+              transform: translate3d(0, 0, 0) rotate(var(--angle)) scaleX(0.4);
             }
-
             10% {
               opacity: 1;
             }
-
             70% {
               opacity: 0.9;
             }
-
             100% {
               opacity: 0;
               transform: translate3d(
@@ -248,8 +227,7 @@ export default function Stars({ hoveredOrbColor = null }) {
                   var(--distance),
                   0
                 )
-                rotate(var(--angle))
-                scaleX(1);
+                rotate(var(--angle)) scaleX(1);
             }
           }
         `}</style>

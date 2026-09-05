@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function clamp(value, minimum, maximum) {
   return Math.min(maximum, Math.max(minimum, value));
@@ -12,13 +12,12 @@ function scaleCount(base, density, minimum = 1) {
 
 export default function ConstellationField({
   variant = "defense-lines",
-  mode = "dark",
   speed = 1,
   size = 1,
   length = 1,
   density = 1,
   strokeWidth = 1,
-  opacity = 1,
+  opacity = 0.7,
   hue = 0,
   saturation = 1,
   brightness = 1,
@@ -27,6 +26,22 @@ export default function ConstellationField({
 }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
+  const [isLight, setIsLight] = useState(false);
+
+  // Monitor DOM root for light/dark theme class changes
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsLight(document.documentElement.classList.contains("light"));
+    };
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
 
   const safeOpacity = clamp(opacity, 0.05, 1);
 
@@ -40,7 +55,6 @@ export default function ConstellationField({
     const safeSize = clamp(size, 0.05, 200);
     const safeLength = clamp(length, 0.35, 2.5);
     const safeDensity = clamp(density, 0.25, 2.5);
-    const safeStrokeWidth = clamp(strokeWidth, 0.25, 8);
 
     let width, height;
     let particles = [];
@@ -60,7 +74,7 @@ export default function ConstellationField({
       const particleCount =
         window.innerWidth < 768
           ? scaleCount(40, safeDensity, 8)
-          : scaleCount(100, safeDensity, 16);
+          : scaleCount(90, safeDensity, 16);
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -98,20 +112,22 @@ export default function ConstellationField({
         ctx.beginPath();
         const grad = ctx.createLinearGradient(p.x, p.y, p.x, p.y + currentLength);
 
-        if (mode === "light") {
-          grad.addColorStop(0, "rgba(153, 27, 27, 0)");
+        if (isLight) {
+          // Deep black & dark charcoal lines in light mode
+          grad.addColorStop(0, "rgba(24, 24, 27, 0)");
           grad.addColorStop(
             0.5,
-            `rgba(185, ${20 + b * 0.55}, ${20 + b * 0.55}, ${currentOpacity})`
+            `rgba(${20 + b * 0.2}, ${20 + b * 0.2}, ${20 + b * 0.2}, ${currentOpacity * 0.85})`
           );
-          grad.addColorStop(1, "rgba(153, 27, 27, 0)");
+          grad.addColorStop(1, "rgba(24, 24, 27, 0)");
         } else {
-          grad.addColorStop(0, "rgba(220, 38, 38, 0)");
+          // Bright white & silver lines in dark mode
+          grad.addColorStop(0, "rgba(220, 220, 220, 0)");
           grad.addColorStop(
             0.5,
-            `rgba(255, ${38 + b}, ${38 + b}, ${currentOpacity})`
+            `rgba(${255 - b}, ${255 - b}, ${255 - b}, ${currentOpacity})`
           );
-          grad.addColorStop(1, "rgba(220, 38, 38, 0)");
+          grad.addColorStop(1, "rgba(220, 220, 220, 0)");
         }
 
         ctx.strokeStyle = grad;
@@ -140,22 +156,20 @@ export default function ConstellationField({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", initCanvas);
     };
-  }, [variant, mode, speed, size, length, density, strokeWidth, opacity, hue, saturation, brightness]);
+  }, [variant, isLight, speed, size, length, density, strokeWidth, opacity, hue, saturation, brightness]);
 
   const filter =
     hue === 0 && saturation === 1 && brightness === 1
       ? undefined
       : `hue-rotate(${hue}deg) saturate(${saturation}) brightness(${brightness})`;
 
-  const background = mode === "light" ? "#f4ecec" : "#120303";
+  const background = isLight ? "#ffffff" : "#050505";
 
   return (
     <canvas
       ref={canvasRef}
       className={className}
       style={{
-        position: "absolute",
-        inset: 0,
         width: "100%",
         height: "100%",
         opacity: safeOpacity,

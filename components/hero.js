@@ -2,7 +2,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Aurora from "./aurora";
 import Stars from "./stars";
-import ConstellationField from "./constellation-field";
 import { cn } from "@/lib/utils";
 import HeroTextBlock from "./hero-text-block";
 
@@ -99,18 +98,6 @@ export default function Hero({ className }) {
         className
       )}
     >
-      {/* Defense-lines constellation background — deepest layer */}
-      <ConstellationField
-        variant="defense-lines"
-        mode="dark"
-        speed={1}
-        size={1}
-        length={1}
-        density={1}
-        opacity={0.5}
-        className="absolute inset-0 z-[1]"
-      />
-
       <Stars hoveredOrbColor={hoveredOrbColor} />
 
       <Aurora

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 // ── Gallery Orb Colors & Topic Labels ───────────────────────────────────────
 const GALLERY_ITEMS = [
@@ -37,35 +38,49 @@ function useGalleryScroll(containerRef) {
   return scrollPos;
 }
 
-// ── Geometric Visual Graphic Card ───────────────────────────────────────────
-function VisualGraphicCard({ index, label, subtitle }) {
+// ── Geometric Visual Graphic Card (Theme Adaptive) ──────────────────────────
+function VisualGraphicCard({ index, label, subtitle, isLight = false }) {
   return (
-    <div className="absolute inset-0 p-3.5 flex flex-col justify-between overflow-hidden bg-[#0d0f14]/90 backdrop-blur-md rounded-xl border border-white/10 select-none">
+    <div
+      className={cn(
+        "absolute inset-0 p-3.5 flex flex-col justify-between overflow-hidden backdrop-blur-md rounded-xl border select-none transition-colors duration-300",
+        isLight
+          ? "bg-white/95 border-zinc-300 text-zinc-900 shadow-sm"
+          : "bg-[#0d0f14]/90 border-white/10 text-white"
+      )}
+    >
       <svg
-        className="absolute inset-0 w-full h-full opacity-20 pointer-events-none"
+        className="absolute inset-0 w-full h-full opacity-25 pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <line x1="0" y1="0" x2="100%" y2="100%" stroke="currentColor" strokeWidth="1" />
         <line x1="100%" y1="0" x2="0" y2="100%" stroke="currentColor" strokeWidth="0.5" />
         <circle cx="50%" cy="50%" r="35%" stroke="currentColor" strokeWidth="0.5" fill="none" />
       </svg>
-      <div className="relative z-10 flex justify-between items-center text-[9px] font-mono text-zinc-400 tracking-widest uppercase">
+      <div className="relative z-10 flex justify-between items-center text-[9px] font-mono tracking-widest uppercase opacity-70">
         <span>0{index + 1}</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
+        <span className={cn("w-1.5 h-1.5 rounded-full", isLight ? "bg-zinc-800" : "bg-zinc-400")} />
       </div>
       {(label || subtitle) && (
         <div className="relative z-10">
-          {label && <p className="text-xs font-semibold font-mono text-white tracking-wide truncate">{label}</p>}
-          {subtitle && <p className="text-[10px] font-mono text-zinc-400 mt-0.5 truncate">{subtitle}</p>}
+          {label && (
+            <p className={cn("text-xs font-semibold font-mono tracking-wide truncate", isLight ? "text-zinc-900" : "text-white")}>
+              {label}
+            </p>
+          )}
+          {subtitle && (
+            <p className={cn("text-[10px] font-mono mt-0.5 truncate", isLight ? "text-zinc-600" : "text-zinc-400")}>
+              {subtitle}
+            </p>
+          )}
         </div>
       )}
     </div>
   );
 }
 
-// ── Hero-Style 3D Scroll Text Replacement Component ─────────────────────────
-// Uses the exact HeroTextBlock 3D formula: perspective(1000px) rotateX(15deg) translateY(40px)
-function HeroStyleScrollText({ activeStep, items, color }) {
+// ── Hero-Style 3D Scroll Text Replacement Component (Theme Adaptive) ───────
+function HeroStyleScrollText({ activeStep, items, isLight = false }) {
   const activeItem = items[activeStep % items.length];
 
   return (
@@ -80,7 +95,7 @@ function HeroStyleScrollText({ activeStep, items, color }) {
           className="text-center px-4"
           style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
         >
-          <p className="text-xs sm:text-sm font-mono text-zinc-300 tracking-wide">
+          <p className={cn("text-xs sm:text-sm font-mono tracking-wide", isLight ? "text-zinc-700" : "text-zinc-300")}>
             {activeItem ? `${activeItem.title} — ${activeItem.desc || activeItem.subtitle || activeItem.impact}` : ""}
           </p>
         </motion.div>
@@ -95,7 +110,7 @@ function HeroStyleScrollText({ activeStep, items, color }) {
 // (Hobbies / Extra skills): the tag label, title and description swap together
 // as one animated block whenever the active step changes. Items without a `tag`
 // (Extra skills) fall back to the "Specialization 0X" label.
-function HeroStyleScrollTextBlock({ activeStep, items, accentColor }) {
+function HeroStyleScrollTextBlock({ activeStep, items, accentColor, isLight = false }) {
   const activeItem = items[activeStep % items.length];
   const label = activeItem.tag || `Specialization 0${(activeStep % items.length) + 1}`;
 
@@ -112,21 +127,21 @@ function HeroStyleScrollTextBlock({ activeStep, items, accentColor }) {
           style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
         >
           <span
-            className="text-[10px] font-mono uppercase tracking-widest"
+            className="text-[10px] font-mono uppercase tracking-widest font-semibold"
             style={{ color: accentColor }}
           >
             {label}
           </span>
-          <h4 className="text-base font-bold font-mono text-white">{activeItem.title}</h4>
-          <p className="text-xs font-mono text-zinc-300 leading-relaxed">{activeItem.desc}</p>
+          <h4 className={cn("text-base font-bold font-mono", isLight ? "text-zinc-900" : "text-white")}>{activeItem.title}</h4>
+          <p className={cn("text-xs font-mono leading-relaxed", isLight ? "text-zinc-700" : "text-zinc-300")}>{activeItem.desc}</p>
         </motion.div>
       </AnimatePresence>
     </div>
   );
 }
 
-// ── 0. Programming Screen — Dead Center Title & Description ──────────────────
-function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
+// ── 0. Programming Screen ────────────────────────────────────────────────────
+function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0, isLight = false }) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const cards = [
     { title: "React & Next.js", desc: "Fullstack Architecture" },
@@ -151,10 +166,10 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col justify-between overflow-hidden select-none py-2 px-1">
       {/* ── DEAD CENTER TITLE & DESCRIPTION OVERLAY (OPEN TEXT ONLY) ── */}
       <div className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center pointer-events-none px-4">
-        <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-mono tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+        <h3 className={cn("text-3xl sm:text-4xl md:text-5xl font-extrabold font-mono tracking-tight", isLight ? "text-zinc-900 drop-shadow-md" : "text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]")}>
           PROGRAMMING
         </h3>
-        <HeroStyleScrollText activeStep={activeStep} items={cards} color={color} />
+        <HeroStyleScrollText activeStep={activeStep} items={cards} isLight={isLight} />
       </div>
 
       {/* Top Stripe */}
@@ -180,12 +195,12 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
                 }}
               >
                 <div
-                  className="w-full h-22 sm:h-26 rounded-xl bg-[#0f0f13] border border-white/10 relative overflow-hidden transition-all duration-300"
+                  className={cn("w-full h-22 sm:h-26 rounded-xl border relative overflow-hidden transition-all duration-300", isLight ? "bg-white border-zinc-300" : "bg-[#0f0f13] border-white/10")}
                   style={{
-                    borderColor: isHovered ? color : "rgba(255,255,255,0.1)",
+                    borderColor: isHovered ? color : undefined,
                   }}
                 >
-                  <VisualGraphicCard index={idx % 6} label={item.title} subtitle={item.desc} />
+                  <VisualGraphicCard index={idx % 6} label={item.title} subtitle={item.desc} isLight={isLight} />
                 </div>
               </div>
             );
@@ -193,14 +208,14 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
         </div>
       </div>
 
-      {/* Middle Faint Continuous Ticker (Pure Background Show behind Title) */}
-      <div className="relative w-full max-w-full py-1 overflow-hidden flex items-center justify-center z-10 opacity-15 pointer-events-none">
+      {/* Middle Faint Continuous Ticker */}
+      <div className="relative w-full max-w-full py-1 overflow-hidden flex items-center justify-center z-10 opacity-20 pointer-events-none">
         <div
           className="flex gap-4 w-max transition-transform duration-75 ease-out"
           style={{ transform: `translateX(${-midOffset}px)` }}
         >
           {Array.from({ length: cards.length * 4 }).map((_, i) => (
-            <div key={i} className="w-40 h-14 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center text-[10px] font-mono text-zinc-400 flex-shrink-0">
+            <div key={i} className={cn("w-40 h-14 rounded-lg border flex items-center justify-center text-[10px] font-mono flex-shrink-0", isLight ? "bg-zinc-200 border-zinc-300 text-zinc-700" : "bg-zinc-900 border-white/10 text-zinc-400")}>
               CORE SYSTEM 0{(i % cards.length) + 1}
             </div>
           ))}
@@ -230,12 +245,12 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
                 }}
               >
                 <div
-                  className="w-full h-22 sm:h-26 rounded-xl bg-[#0f0f13] border border-white/10 relative overflow-hidden transition-all duration-300"
+                  className={cn("w-full h-22 sm:h-26 rounded-xl border relative overflow-hidden transition-all duration-300", isLight ? "bg-white border-zinc-300" : "bg-[#0f0f13] border-white/10")}
                   style={{
-                    borderColor: isHovered ? color : "rgba(255,255,255,0.1)",
+                    borderColor: isHovered ? color : undefined,
                   }}
                 >
-                  <VisualGraphicCard index={(idx + 3) % 6} label={item.title} subtitle={item.desc} />
+                  <VisualGraphicCard index={(idx + 3) % 6} label={item.title} subtitle={item.desc} isLight={isLight} />
                 </div>
               </div>
             );
@@ -246,8 +261,8 @@ function ProgrammingScreen({ color = "#a78bfa", scrollPos = 0 }) {
   );
 }
 
-// ── 1. Academic Screen — Larger Columns + Open Centered Text ──────────────────
-function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
+// ── 1. Academic Screen ───────────────────────────────────────────────────────
+function AcademicScreen({ color = "#22d3ee", scrollPos = 0, isLight = false }) {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const items = [
     { title: "Computer Science", desc: "Data Structures & Algorithms" },
@@ -284,14 +299,14 @@ function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
               key={cardKey}
               onMouseEnter={() => setHoveredCardId(cardKey)}
               onMouseLeave={() => setHoveredCardId(null)}
-              className="flex-shrink-0 w-32 h-32 sm:w-36 sm:h-36 rounded-xl bg-[#0d1215] border border-white/10 relative overflow-hidden transition-all duration-300 cursor-pointer"
+              className={cn("flex-shrink-0 w-32 h-32 sm:w-36 sm:h-36 rounded-xl border relative overflow-hidden transition-all duration-300 cursor-pointer", isLight ? "bg-white border-zinc-300" : "bg-[#0d1215] border-white/10")}
               style={{
-                borderColor: isHovered ? color : "rgba(255,255,255,0.1)",
+                borderColor: isHovered ? color : undefined,
                 transform: isHovered ? "scale(1.08)" : "scale(1)",
                 zIndex: isHovered ? 50 : 1,
               }}
             >
-              <VisualGraphicCard index={cardIdx} label={cardItem.title} subtitle={cardItem.desc} />
+              <VisualGraphicCard index={cardIdx} label={cardItem.title} subtitle={cardItem.desc} isLight={isLight} />
             </div>
           );
         })}
@@ -305,10 +320,10 @@ function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
 
       {/* Center Section: OPEN TEXT ONLY */}
       <div className="relative flex-1 flex flex-col items-center justify-center text-center p-4">
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white mb-2">
+        <h3 className={cn("text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight mb-2", isLight ? "text-zinc-900" : "text-white")}>
           ACADEMIC
         </h3>
-        <HeroStyleScrollText activeStep={activeStep} items={items} color={color} />
+        <HeroStyleScrollText activeStep={activeStep} items={items} isLight={isLight} />
       </div>
 
       {renderColumn("c3", col3Offset)}
@@ -316,8 +331,8 @@ function AcademicScreen({ color = "#22d3ee", scrollPos = 0 }) {
   );
 }
 
-// ── 2. Social Work Screen — Progressively Flipping 3D Card ────────────────────
-function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
+// ── 2. Social Work Screen ────────────────────────────────────────────────────
+function SocialWorkScreen({ color = "#f472b6", scrollPos = 0, isLight = false }) {
   const projects = [
     { title: "Community Tech Education", desc: "Teaching coding & computer literacy to underrepresented youth.", impact: "500+ Students Taught" },
     { title: "Open Source Accessibility", desc: "Building assistive tech tools for visually impaired developers.", impact: "10k+ Downloads" },
@@ -334,10 +349,10 @@ function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
       {/* Clean Open Title */}
       <div className="text-center z-20 pointer-events-none">
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
+        <h3 className={cn("text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight", isLight ? "text-zinc-900" : "text-white")}>
           SOCIAL WORK
         </h3>
-        <p className="text-xs sm:text-sm font-mono text-zinc-300 mt-1 transition-all duration-200">
+        <p className={cn("text-xs sm:text-sm font-mono mt-1 transition-all duration-200", isLight ? "text-zinc-700" : "text-zinc-300")}>
           {currentProject.title} — {currentProject.impact}
         </p>
       </div>
@@ -349,45 +364,46 @@ function SocialWorkScreen({ color = "#f472b6", scrollPos = 0 }) {
           style={{ transform: `rotateY(${rotateY}deg)` }}
         >
           {/* Front Face */}
-          <div className="absolute inset-0 backface-hidden rounded-2xl bg-[#140c12] border border-white/15 p-6 flex flex-col justify-between shadow-2xl">
+          <div className={cn("absolute inset-0 backface-hidden rounded-2xl border p-6 flex flex-col justify-between shadow-2xl", isLight ? "bg-white border-zinc-300" : "bg-[#140c12] border-white/15")}>
             <VisualGraphicCard
               index={activeIndex % projects.length}
               label={currentProject.title}
               subtitle={currentProject.impact}
+              isLight={isLight}
             />
           </div>
 
           {/* Back Face */}
           <div
-            className="absolute inset-0 backface-hidden rounded-2xl bg-[#180e16] border border-white/15 p-6 flex flex-col justify-between shadow-2xl"
+            className={cn("absolute inset-0 backface-hidden rounded-2xl border p-6 flex flex-col justify-between shadow-2xl", isLight ? "bg-zinc-50 border-rose-400/50" : "bg-[#180e16] border-white/15")}
             style={{ transform: "rotateY(180deg)" }}
           >
-            <div className="flex justify-between items-center text-[10px] font-mono text-rose-400 uppercase tracking-widest">
+            <div className="flex justify-between items-center text-[10px] font-mono text-rose-500 uppercase tracking-widest">
               <span>Initiative 0{(activeIndex % projects.length) + 1}</span>
-              <span className="w-2 h-2 rounded-full bg-rose-400" />
+              <span className="w-2 h-2 rounded-full bg-rose-500" />
             </div>
             <div className="space-y-2 my-auto text-left">
-              <h4 className="text-base font-bold font-mono text-white">{currentProject.title}</h4>
-              <p className="text-xs font-mono text-zinc-300 leading-relaxed">{currentProject.desc}</p>
+              <h4 className={cn("text-base font-bold font-mono", isLight ? "text-zinc-900" : "text-white")}>{currentProject.title}</h4>
+              <p className={cn("text-xs font-mono leading-relaxed", isLight ? "text-zinc-700" : "text-zinc-300")}>{currentProject.desc}</p>
             </div>
-            <div className="pt-3 border-t border-white/10 flex justify-between items-center text-xs font-mono">
-              <span className="text-zinc-400">Impact Metric:</span>
-              <span className="font-bold text-rose-400">{currentProject.impact}</span>
+            <div className={cn("pt-3 border-t flex justify-between items-center text-xs font-mono", isLight ? "border-zinc-200" : "border-white/10")}>
+              <span className={isLight ? "text-zinc-600" : "text-zinc-400"}>Impact Metric:</span>
+              <span className="font-bold text-rose-500">{currentProject.impact}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Open Description Text Below */}
-      <div className="text-center font-mono text-xs text-zinc-400 pointer-events-none">
+      <div className={cn("text-center font-mono text-xs pointer-events-none", isLight ? "text-zinc-600" : "text-zinc-400")}>
         {currentProject.desc}
       </div>
     </div>
   );
 }
 
-// ── 3. Hobbies Screen — Split Panel + Hero-Style 3D Scroll Text Replacement ────
-function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
+// ── 3. Hobbies Screen ────────────────────────────────────────────────────────
+function HobbiesScreen({ color = "#fbbf24", scrollPos = 0, isLight = false }) {
   const hobbies = [
     { title: "Generative Art & Shaders", desc: "Algorithmic visual animations & GLSL shader experiments.", tag: "CREATIVE CODING" },
     { title: "Sound Design & Synths", desc: "Ambient soundscapes and modular synth patches.", tag: "AUDIO & MUSIC" },
@@ -400,35 +416,35 @@ function HobbiesScreen({ color = "#fbbf24", scrollPos = 0 }) {
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
-      {/* Clean Open Title & Hero-Style 3D Scrolling Replacing Text */}
+      {/* Clean Open Title */}
       <div className="text-center">
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
+        <h3 className={cn("text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight", isLight ? "text-zinc-900" : "text-white")}>
           HOBBIES
         </h3>
-        <HeroStyleScrollText activeStep={activeStep} items={hobbies} color={color} />
       </div>
 
-      <div className="relative w-full max-w-3xl h-56 sm:h-64 rounded-xl border border-white/15 overflow-hidden flex flex-col md:flex-row bg-[#0e0d0a] my-auto">
+      <div className={cn("relative w-full max-w-3xl h-56 sm:h-64 rounded-xl border overflow-hidden flex flex-col md:flex-row my-auto transition-colors duration-300", isLight ? "bg-zinc-50 border-zinc-300" : "bg-[#0e0d0a] border-white/15")}>
         {/* Visual Graphic Panel */}
-        <div className="relative w-full md:w-[60%] h-36 md:h-full bg-[#14120c] border-b md:border-b-0 md:border-r border-white/10 overflow-hidden p-4 flex flex-col justify-between">
+        <div className={cn("relative w-full md:w-[60%] h-36 md:h-full border-b md:border-b-0 md:border-r overflow-hidden p-4 flex flex-col justify-between", isLight ? "bg-white border-zinc-200" : "bg-[#14120c] border-white/10")}>
           <VisualGraphicCard
             index={activeStep % hobbies.length}
             label={currentHobby.title}
             subtitle={currentHobby.tag}
+            isLight={isLight}
           />
         </div>
 
         {/* Details Panel — animated with the hero-style 3D scroll block */}
         <div className="relative w-full md:w-[40%] h-full p-5 flex flex-col justify-center z-10">
-          <HeroStyleScrollTextBlock activeStep={activeStep} items={hobbies} accentColor={color} />
+          <HeroStyleScrollTextBlock activeStep={activeStep} items={hobbies} accentColor={color} isLight={isLight} />
         </div>
       </div>
     </div>
   );
 }
 
-// ── 4. Extra Skills Screen — Progressive Rise Card Stack + Hero-Style 3D Scroll Text Replacement ────
-function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
+// ── 4. Extra Skills Screen ───────────────────────────────────────────────────
+function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0, isLight = false }) {
   const skills = [
     { title: "UI/UX & Prototyping", desc: "Figma design systems, micro-interactions & accessibility." },
     { title: "DevOps & Cloud", desc: "Docker, Kubernetes, AWS & CI/CD deployment pipelines." },
@@ -440,19 +456,18 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
   // advances the focus by one skill, but card offsets track the float
   // continuously — so the stack rises 1:1 with the wheel instead of snapping
   // between layouts. At each boundary the cards spring back (flip-back) while
-  // the step text (HeroStyleScrollText + info panel) switches to the next skill.
+  // the step text (HeroStyleScrollTextBlock info panel) switches to the next skill.
   const STEP = 250;
   const focusFloat = (Math.abs(scrollPos) % (skills.length * STEP)) / STEP;
   const activeStep = Math.floor(focusFloat) % skills.length;
 
   return (
     <div className="relative w-full max-w-full h-[380px] sm:h-[420px] md:h-[450px] flex flex-col items-center justify-between select-none py-4 px-2">
-      {/* Clean Open Title & Hero-Style 3D Scrolling Replacing Text */}
+      {/* Clean Open Title */}
       <div className="text-center">
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-white">
+        <h3 className={cn("text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight", isLight ? "text-zinc-900" : "text-white")}>
           EXTRA SKILLS
         </h3>
-        <HeroStyleScrollText activeStep={activeStep} items={skills} color={color} />
       </div>
 
       <div className="relative w-full max-w-3xl flex flex-col md:flex-row items-center justify-center gap-6 my-auto px-2">
@@ -467,7 +482,7 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
             return (
               <motion.div
                 key={i}
-                className="absolute w-56 sm:w-60 h-32 sm:h-36 rounded-xl p-3 border border-white/15 bg-[#0a120e] overflow-hidden shadow-2xl cursor-pointer"
+                className={cn("absolute w-56 sm:w-60 h-32 sm:h-36 rounded-xl p-3 border overflow-hidden shadow-2xl cursor-pointer transition-colors duration-300", isLight ? "bg-white border-zinc-300" : "bg-[#0a120e] border-white/15")}
                 animate={{
                   scale: dist <= 1 ? 1 - dist * 0.17 : 0.88 - dist * 0.05,
                   y: offset * 20,
@@ -478,10 +493,10 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
                 }}
                 transition={{ type: "spring", stiffness: 200, damping: 26, mass: 0.9 }}
                 style={{
-                  borderColor: isFocused ? color : "rgba(255,255,255,0.1)",
+                  borderColor: isFocused ? color : undefined,
                 }}
               >
-                <VisualGraphicCard index={i} label={skill.title} />
+                <VisualGraphicCard index={i} label={skill.title} isLight={isLight} />
               </motion.div>
             );
           })}
@@ -489,7 +504,7 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
 
         {/* Info Text — animated with the hero-style 3D scroll block */}
         <div className="relative w-full md:w-1/2 p-4 flex flex-col justify-center">
-          <HeroStyleScrollTextBlock activeStep={activeStep} items={skills} accentColor={color} />
+          <HeroStyleScrollTextBlock activeStep={activeStep} items={skills} accentColor={color} isLight={isLight} />
         </div>
       </div>
     </div>
@@ -499,22 +514,37 @@ function ExtraSkillsScreen({ color = "#34d399", scrollPos = 0 }) {
 // ── Main Gallery Section Component ──────────────────────────────────────────
 export default function GallerySection() {
   const [selectedOrb, setSelectedOrb] = useState(0);
+  const [isLight, setIsLight] = useState(false);
   const screenBoxRef = useRef(null);
   const scrollPos = useGalleryScroll(screenBoxRef);
   const currentItem = GALLERY_ITEMS[selectedOrb];
+
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsLight(document.documentElement.classList.contains("light"));
+    };
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
 
   const handleSelectorClick = (index) => {
     setSelectedOrb(index);
   };
 
   return (
-    <section id="gallery" className="relative w-full min-h-screen bg-[#08080a] text-foreground overflow-hidden py-16 px-4 sm:px-6 lg:px-10 flex flex-col items-center justify-center scroll-reveal">
+    <section id="gallery" className="relative w-full min-h-screen bg-transparent text-foreground overflow-hidden py-16 px-4 sm:px-6 lg:px-10 flex flex-col items-center justify-center scroll-reveal">
       {/* Background Radial Glow */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
           className="absolute inset-0 transition-colors duration-1000"
           style={{
-            background: `radial-gradient(ellipse 70% 60% at 50% 50%, ${currentItem.color}08 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse 70% 60% at 50% 50%, ${currentItem.color}10 0%, transparent 70%)`,
           }}
         />
         <div className="noise-overlay absolute inset-0 opacity-[0.03]" />
@@ -523,7 +553,7 @@ export default function GallerySection() {
       {/* Main Section Layout */}
       <div className="relative z-10 w-full max-w-6xl flex flex-col lg:flex-row items-center gap-8 lg:gap-10">
         {/* Left Side: Enlarged Category Selector with Labels */}
-        <div className="w-full lg:w-60 flex lg:flex-col items-center lg:items-start justify-center gap-3 lg:gap-5 py-2 px-2 border-b lg:border-b-0 lg:border-r border-white/10">
+        <div className={cn("w-full lg:w-60 flex lg:flex-col items-center lg:items-start justify-center gap-3 lg:gap-5 py-2 px-2 border-b lg:border-b-0 lg:border-r transition-colors duration-300", isLight ? "border-zinc-300" : "border-white/10")}>
           {GALLERY_ITEMS.map((g, i) => {
             const isActive = i === selectedOrb;
             return (
@@ -532,8 +562,8 @@ export default function GallerySection() {
                 onClick={() => handleSelectorClick(i)}
                 className="group flex items-center gap-3 py-2 px-3 rounded-xl transition-all duration-300 text-left cursor-pointer w-full"
                 style={{
-                  backgroundColor: isActive ? `${g.color}15` : "transparent",
-                  border: isActive ? `1px solid ${g.color}40` : "1px solid transparent",
+                  backgroundColor: isActive ? `${g.color}18` : "transparent",
+                  border: isActive ? `1px solid ${g.color}50` : "1px solid transparent",
                 }}
               >
                 {/* Dot Indicator */}
@@ -552,7 +582,7 @@ export default function GallerySection() {
                   <div
                     className="w-3 h-3 rounded-full transition-all duration-300"
                     style={{
-                      backgroundColor: isActive ? g.color : `${g.color}50`,
+                      backgroundColor: isActive ? g.color : `${g.color}60`,
                       scale: isActive ? 1.25 : 1,
                     }}
                   />
@@ -562,7 +592,9 @@ export default function GallerySection() {
                 <span
                   className="text-xs sm:text-sm font-mono font-semibold tracking-wide transition-colors duration-300 whitespace-nowrap"
                   style={{
-                    color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.45)",
+                    color: isActive
+                      ? isLight ? "#09090b" : "#ffffff"
+                      : isLight ? "rgba(9, 9, 11, 0.55)" : "rgba(255, 255, 255, 0.45)",
                   }}
                 >
                   {g.label}
@@ -579,18 +611,20 @@ export default function GallerySection() {
             initial={{ opacity: 0, scale: 0.98, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="relative overflow-hidden rounded-2xl bg-zinc-950/85 backdrop-blur-xl border border-white/15 p-4 sm:p-5 shadow-2xl max-w-full"
+            className={cn("relative overflow-hidden rounded-2xl border p-4 sm:p-5 max-w-full backdrop-blur-xl transition-all duration-300", isLight ? "bg-white/85 border-zinc-300 shadow-xl" : "bg-zinc-950/85 border-white/15 shadow-2xl")}
             style={{
-              borderColor: `${currentItem.color}30`,
-              boxShadow: `0 20px 50px rgba(0,0,0,0.9), 0 0 25px ${currentItem.color}15`,
+              borderColor: `${currentItem.color}40`,
+              boxShadow: isLight
+                ? `0 15px 35px rgba(0,0,0,0.08), 0 0 20px ${currentItem.color}25`
+                : `0 20px 50px rgba(0,0,0,0.9), 0 0 25px ${currentItem.color}15`,
             }}
           >
             {/* Screen Content Render */}
-            {selectedOrb === 0 && <ProgrammingScreen color={currentItem.color} scrollPos={scrollPos} />}
-            {selectedOrb === 1 && <AcademicScreen color={currentItem.color} scrollPos={scrollPos} />}
-            {selectedOrb === 2 && <SocialWorkScreen color={currentItem.color} scrollPos={scrollPos} />}
-            {selectedOrb === 3 && <HobbiesScreen color={currentItem.color} scrollPos={scrollPos} />}
-            {selectedOrb === 4 && <ExtraSkillsScreen color={currentItem.color} scrollPos={scrollPos} />}
+            {selectedOrb === 0 && <ProgrammingScreen color={currentItem.color} scrollPos={scrollPos} isLight={isLight} />}
+            {selectedOrb === 1 && <AcademicScreen color={currentItem.color} scrollPos={scrollPos} isLight={isLight} />}
+            {selectedOrb === 2 && <SocialWorkScreen color={currentItem.color} scrollPos={scrollPos} isLight={isLight} />}
+            {selectedOrb === 3 && <HobbiesScreen color={currentItem.color} scrollPos={scrollPos} isLight={isLight} />}
+            {selectedOrb === 4 && <ExtraSkillsScreen color={currentItem.color} scrollPos={scrollPos} isLight={isLight} />}
           </motion.div>
         </div>
       </div>
